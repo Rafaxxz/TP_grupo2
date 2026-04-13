@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class CategoriaJuego {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_categoria")

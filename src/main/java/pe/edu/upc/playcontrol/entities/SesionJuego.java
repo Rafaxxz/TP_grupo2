@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SesionJuego {
 
+
     @Id
     @GeneratedValue
     @Column(name = "id_sesion")

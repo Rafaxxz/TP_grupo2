@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LimiteTiempo {
 
+
     @Id
     @GeneratedValue
     @Column(name = "id_limite")

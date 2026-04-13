@@ -12,6 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Juego {
 
+
+
     @Id
     @GeneratedValue
     @Column(name = "id_juego")

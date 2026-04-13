@@ -7,3 +7,5 @@ import java.util.UUID;
 
 public interface AlertaRepository extends JpaRepository<Alerta, UUID> {
 }
+
+

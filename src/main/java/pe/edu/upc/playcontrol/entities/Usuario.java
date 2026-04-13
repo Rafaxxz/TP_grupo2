@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Usuario {
 
+
     @Id
     @GeneratedValue
     @Column(name = "id_usuario")
