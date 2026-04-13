@@ -27,8 +27,6 @@ public class Recompensa {
     @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
-    // tipo tiene CHECK (tipo IN ('avatar','tema','insignia')) en el DDL.
-    // Se mapea como String simple.
     @Column(name = "tipo", nullable = false, length = 20)
     private String tipo;
 

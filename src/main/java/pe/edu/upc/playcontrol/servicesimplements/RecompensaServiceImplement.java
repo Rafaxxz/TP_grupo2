@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class RecompensaServiceImplement implements IRecompensaService {
 
+    //1. inyectar el repositorio
     @Autowired
     private IRecompensaRepository recompensaRepository;
 
+    // 2. traer lo de la base de datos y convertirlo a un dto
     @Override
     public List<RecompensaDTO> getAll() {
         return recompensaRepository.findAll()
@@ -25,6 +27,7 @@ public class RecompensaServiceImplement implements IRecompensaService {
                 .collect(Collectors.toList());
     }
 
+    // 3. traer un dto por id
     @Override
     public RecompensaDTO getById(UUID id) {
         Recompensa recompensa = recompensaRepository.findById(id)
@@ -32,11 +35,13 @@ public class RecompensaServiceImplement implements IRecompensaService {
         return toDto(recompensa);
     }
 
+    // 4. guardar un dto
     @Override
     public RecompensaDTO save(RecompensaDTO dto) {
         return toDto(recompensaRepository.save(toEntity(dto)));
     }
 
+    // 5. actualizar un dto
     @Override
     public RecompensaDTO update(UUID id, RecompensaDTO dto) {
         Recompensa recompensa = recompensaRepository.findById(id)
@@ -49,11 +54,13 @@ public class RecompensaServiceImplement implements IRecompensaService {
         return toDto(recompensaRepository.save(recompensa));
     }
 
+    // 6. eliminar un dto por id
     @Override
     public void delete(UUID id) {
         recompensaRepository.deleteById(id);
     }
 
+    // 7. convierte la entidad a un DTO linea por linea (para el cliente)
     private RecompensaDTO toDto(Recompensa recompensa) {
         RecompensaDTO dto = new RecompensaDTO();
         dto.setIdRecompensa(recompensa.getIdRecompensa());
@@ -65,6 +72,7 @@ public class RecompensaServiceImplement implements IRecompensaService {
         return dto;
     }
 
+    // 8. convierte el DTO a una entidad (para guardar en la base de datos)
     private Recompensa toEntity(RecompensaDTO dto) {
         Recompensa recompensa = new Recompensa();
         recompensa.setNombre(dto.getNombre());

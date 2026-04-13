@@ -10,5 +10,7 @@ import java.util.UUID;
 @Repository
 public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompensa, UUID> {
 
+    // con JpaRepository se acceden a varios metodos como save, findAll, etc.
+    //aqui se hace SELECT * FROM canje_recompensa WHERE usuario_id = ?
     List<CanjeRecompensa> findByUsuarioId(UUID usuarioId);
 }

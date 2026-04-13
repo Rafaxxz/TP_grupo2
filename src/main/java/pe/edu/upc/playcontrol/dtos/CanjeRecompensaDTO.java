@@ -18,5 +18,6 @@ public class CanjeRecompensaDTO {
     private UUID usuarioId;
     private UUID recompensaId;
     private int puntosUsados;
+    //es offsetDateTime porque se guarda la zona horaria, para usuarios de otros paises
     private OffsetDateTime canjeadoEn;
 }

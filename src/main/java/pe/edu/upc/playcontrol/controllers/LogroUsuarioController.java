@@ -17,27 +17,31 @@ public class LogroUsuarioController {
     @Autowired
     private ILogroUsuarioService logroUsuarioService;
 
+    //devuelve todos los logros
     @GetMapping
     public ResponseEntity<List<LogroUsuarioDTO>> getAll() {
         return ResponseEntity.ok(logroUsuarioService.getAll());
     }
 
+    //devuelve un logro por id
     @GetMapping("/{id}")
     public ResponseEntity<LogroUsuarioDTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(logroUsuarioService.getById(id));
     }
 
-    // GET /api/logros-usuario/usuario/{usuarioId} → todos los logros desbloqueados por un usuario
+    // todos los logros desbloqueados por un usuario
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<List<LogroUsuarioDTO>> getByUsuarioId(@PathVariable UUID usuarioId) {
         return ResponseEntity.ok(logroUsuarioService.getByUsuarioId(usuarioId));
     }
 
+    //crea un nuevo logro
     @PostMapping
     public ResponseEntity<LogroUsuarioDTO> save(@RequestBody LogroUsuarioDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(logroUsuarioService.save(dto));
     }
 
+    //elimina un logro por id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         logroUsuarioService.delete(id);

@@ -16,7 +16,7 @@ public class RecompensaDTO {
     private UUID idRecompensa;
     private String nombre;
     private String descripcion;
-    private String tipo;           // valores válidos: avatar, tema, insignia
+    private String tipo;
     private int costoPuntos;
     private String recursoUrl;
 }

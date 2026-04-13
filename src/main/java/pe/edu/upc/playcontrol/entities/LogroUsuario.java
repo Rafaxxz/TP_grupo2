@@ -13,8 +13,8 @@ import java.util.UUID;
 @Table(
     name = "logro_usuario",
     uniqueConstraints = {
-        // Refleja el UNIQUE (usuario_id, logro_id) del DDL:
-        // un usuario no puede desbloquear el mismo logro dos veces.
+        // Esto le dice a la BD que la combinación usuario + logro debe ser única
+        // un usuario no puede desbloquear el mismo logro dos veces
         @UniqueConstraint(columnNames = {"usuario_id", "logro_id"})
     }
 )
@@ -29,27 +29,21 @@ public class LogroUsuario {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    // usuario_id es FK a la tabla usuario, cuya entidad (@Entity Usuario)
-    // es responsabilidad de otro integrante del grupo.
-    // Se mapea como UUID simple (sin @ManyToOne) para evitar dependencia
-    // de compilación cruzada: este código compila aunque Usuario no exista aún.
+    // usuario_id es FK a la tabla usuario
+    // Se mapea con @ManyToOne para evitar dependencia
     @Column(name = "usuario_id", nullable = false)
     private UUID usuarioId;
 
-    // logro_id sí se mapea con @ManyToOne porque Logro es nuestra entidad.
-    // FetchType.LAZY: Hibernate NO carga el Logro completo hasta que lo uses,
-    // lo que evita consultas innecesarias a la BD (mejor rendimiento).
+    // logro_id sí se mapea con @ManyToOne porque Logro es nuestra entidad
+    // FetchType.LAZY hace que no cargue el Logro completo hasta que lo uses
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logro_id")
     private Logro logro;
 
-    // TIMESTAMPTZ de PostgreSQL se mapea a OffsetDateTime en Java
-    // (incluye la zona horaria, a diferencia de LocalDateTime).
     @Column(name = "desbloqueado_en", nullable = false)
     private OffsetDateTime desbloqueadoEn;
 
-    // @PrePersist se ejecuta justo antes de que Hibernate haga el INSERT.
-    // Setea la fecha actual si no fue proporcionada, replicando DEFAULT NOW() del DDL.
+    // Setea la fecha actual si no fue proporcionada con el .now()
     @PrePersist
     public void prePersist() {
         if (desbloqueadoEn == null) {

@@ -25,8 +25,11 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     @Override
     public List<CanjeRecompensaDTO> getAll() {
         return canjeRecompensaRepository.findAll()
+                // convierte la lista para procesarla
                 .stream()
+                // convierte cada CanjeRecompensa a CanjeRecompensaDTO
                 .map(this::toDto)
+                // convierte el stream en una lista
                 .collect(Collectors.toList());
     }
 
@@ -45,15 +48,16 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
                 .collect(Collectors.toList());
     }
 
+    // aqui le asignamos los datos del dto
     @Override
     public CanjeRecompensaDTO save(CanjeRecompensaDTO dto) {
         CanjeRecompensa canje = new CanjeRecompensa();
         canje.setUsuarioId(dto.getUsuarioId());
+        // valida antes de pasarlo que la recompensa exista
         Recompensa recompensa = recompensaRepository.findById(dto.getRecompensaId())
                 .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + dto.getRecompensaId()));
         canje.setRecompensa(recompensa);
         canje.setPuntosUsados(dto.getPuntosUsados());
-        // canjeadoEn se asigna automáticamente en @PrePersist
         return toDto(canjeRecompensaRepository.save(canje));
     }
 
@@ -62,10 +66,12 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
         canjeRecompensaRepository.deleteById(id);
     }
 
+    // convierte la entidad a un DTO linea por linea
     private CanjeRecompensaDTO toDto(CanjeRecompensa canje) {
         CanjeRecompensaDTO dto = new CanjeRecompensaDTO();
         dto.setIdCanje(canje.getIdCanje());
         dto.setUsuarioId(canje.getUsuarioId());
+        // verifica que la recompensa no sea nula antes de obtener su id
         dto.setRecompensaId(canje.getRecompensa() != null ? canje.getRecompensa().getIdRecompensa() : null);
         dto.setPuntosUsados(canje.getPuntosUsados());
         dto.setCanjeadoEn(canje.getCanjeadoEn());

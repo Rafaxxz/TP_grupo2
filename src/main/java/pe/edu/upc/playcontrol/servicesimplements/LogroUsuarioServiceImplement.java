@@ -52,7 +52,6 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
         Logro logro = logroRepository.findById(dto.getLogroId())
                 .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + dto.getLogroId()));
         lu.setLogro(logro);
-        // desbloqueadoEn se asigna automáticamente en @PrePersist
         return toDto(logroUsuarioRepository.save(lu));
     }
 

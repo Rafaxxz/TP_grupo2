@@ -17,26 +17,31 @@ public class RecompensaController {
     @Autowired
     private IRecompensaService recompensaService;
 
+    //devuelve todas las recompensas
     @GetMapping
     public ResponseEntity<List<RecompensaDTO>> getAll() {
         return ResponseEntity.ok(recompensaService.getAll());
     }
 
+    // devuelve una recompensa por id
     @GetMapping("/{id}")
     public ResponseEntity<RecompensaDTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(recompensaService.getById(id));
     }
 
+    //crea una nueva recompensa
     @PostMapping
     public ResponseEntity<RecompensaDTO> save(@RequestBody RecompensaDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(recompensaService.save(dto));
     }
 
+    //actualiza una recompensa existente
     @PutMapping("/{id}")
     public ResponseEntity<RecompensaDTO> update(@PathVariable UUID id, @RequestBody RecompensaDTO dto) {
         return ResponseEntity.ok(recompensaService.update(id, dto));
     }
 
+    //elimina una recompensa por id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         recompensaService.delete(id);

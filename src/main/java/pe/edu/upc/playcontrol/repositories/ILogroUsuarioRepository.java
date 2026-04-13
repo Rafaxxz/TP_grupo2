@@ -10,6 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ILogroUsuarioRepository extends JpaRepository<LogroUsuario, UUID> {
 
-    // Spring Data genera: SELECT * FROM logro_usuario WHERE usuario_id = ?
     List<LogroUsuario> findByUsuarioId(UUID usuarioId);
 }
