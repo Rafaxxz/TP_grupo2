@@ -9,3 +9,5 @@ public interface LimiteTiempoRepository extends JpaRepository<LimiteTiempo, UUID
 }
 
 
+
+
