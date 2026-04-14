@@ -35,4 +35,11 @@ public class Usuario {
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = OffsetDateTime.now();
+        }
+    }
 }

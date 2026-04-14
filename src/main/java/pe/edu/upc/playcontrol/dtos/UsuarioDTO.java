@@ -16,7 +16,6 @@ public class UsuarioDTO {
     private String nombre;
     private String passwordHash;
     private Integer rolId;
-    private UUID padreId;
     private Integer puntosTotales;
     private Boolean estado;
     private OffsetDateTime createdAt;
