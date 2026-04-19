@@ -25,8 +25,12 @@ public class CanjeRecompensaController {
 
     //retorna un canje por id
     @GetMapping("/{id}")
-    public ResponseEntity<CanjeRecompensaDTO> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(canjeRecompensaService.getById(id));
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(canjeRecompensaService.getById(id)); // 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Canje no encontrado con id: " + id); // 404 Not Found
+        }
     }
 
     //todos los canjes realizados por un usuario
@@ -43,8 +47,12 @@ public class CanjeRecompensaController {
 
     //elimina un canje por id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        canjeRecompensaService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            canjeRecompensaService.delete(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Canje no encontrado con id: " + id); // 404 Not Found
+        }
     }
 }

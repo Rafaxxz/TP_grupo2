@@ -27,8 +27,12 @@ public class LogroController {
     // muestra un logro por id
     // @PathVariable extrae el {id} de la URL y lo convierte a UUID automáticamente.
     @GetMapping("/{id}")
-    public ResponseEntity<LogroDTO> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(logroService.getById(id)); // 200 OK
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(logroService.getById(id)); // 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logro no encontrado con id: " + id); // 404 Not Found
+        }
     }
 
     // para crear un nuevo recurso
@@ -39,14 +43,22 @@ public class LogroController {
 
     // para reemplazar un recurso existente completo
     @PutMapping("/{id}")
-    public ResponseEntity<LogroDTO> update(@PathVariable UUID id, @RequestBody LogroDTO dto) {
-        return ResponseEntity.ok(logroService.update(id, dto)); // 200 OK
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody LogroDTO dto) {
+        try {
+            return ResponseEntity.ok(logroService.update(id, dto)); // 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logro no encontrado con id: " + id); // 404 Not Found
+        }
     }
 
     // para eliminar un recurso
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        logroService.delete(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            logroService.delete(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logro no encontrado con id: " + id); // 404 Not Found
+        }
     }
 }

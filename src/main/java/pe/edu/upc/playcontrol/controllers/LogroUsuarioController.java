@@ -23,10 +23,14 @@ public class LogroUsuarioController {
         return ResponseEntity.ok(logroUsuarioService.getAll());
     }
 
-    //devuelve un logro por id
+    //devuelve un logro-usuario por id
     @GetMapping("/{id}")
-    public ResponseEntity<LogroUsuarioDTO> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(logroUsuarioService.getById(id));
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return ResponseEntity.ok(logroUsuarioService.getById(id)); // 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("LogroUsuario no encontrado con id: " + id); // 404 Not Found
+        }
     }
 
     // todos los logros desbloqueados por un usuario
@@ -35,20 +39,20 @@ public class LogroUsuarioController {
         return ResponseEntity.ok(logroUsuarioService.getByUsuarioId(usuarioId));
     }
 
-    //crea un nuevo logro
+    //crea un nuevo logro-usuario (desbloquea un logro)
     @PostMapping
     public ResponseEntity<LogroUsuarioDTO> save(@RequestBody LogroUsuarioDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(logroUsuarioService.save(dto));
     }
 
-    //elimina un logro por id
+    //elimina un logro-usuario por id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        logroUsuarioService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            logroUsuarioService.delete(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("LogroUsuario no encontrado con id: " + id); // 404 Not Found
+        }
     }
-
-    // no funciona corregir: Falta endpoint para obtener estadísticas de logros de un usuario (total, desbloqueados, pendientes) (US11, US15)
-    // no funciona corregir: Falta endpoint para verificar logros desbloqueables según progreso del usuario (US09)
-    // no funciona corregir: Falta endpoint para obtener logros por periodo (últimos logros desbloqueados) (US15)
 }
