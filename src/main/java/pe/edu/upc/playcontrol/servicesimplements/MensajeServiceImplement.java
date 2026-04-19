@@ -24,18 +24,23 @@ public class MensajeServiceImplement implements IMensajeService {
     private IUsuarioRepository usuarioRepository;
 
     @Override
-    public List<MensajeDTO> getAll() {
+    public List<MensajeDTO> list() {
         return mensajeRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<MensajeDTO> getById(UUID id) {
-        return mensajeRepository.findById(id).map(this::toDTO);
+    public MensajeDTO insert(MensajeDTO dto) {
+        return toDTO(mensajeRepository.save(toEntity(dto)));
     }
 
     @Override
-    public MensajeDTO save(MensajeDTO dto) {
+    public MensajeDTO update(MensajeDTO dto) {
         return toDTO(mensajeRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<MensajeDTO> listId(UUID id) {
+        return mensajeRepository.findById(id).map(this::toDTO);
     }
 
     @Override

@@ -7,8 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IContenidoEducativoService {
-    List<ContenidoEducativoDTO> getAll();
-    Optional<ContenidoEducativoDTO> getById(UUID id);
-    ContenidoEducativoDTO save(ContenidoEducativoDTO dto);
+    List<ContenidoEducativoDTO> list();
+    ContenidoEducativoDTO insert(ContenidoEducativoDTO dto);
+    ContenidoEducativoDTO update(ContenidoEducativoDTO dto);
+    Optional<ContenidoEducativoDTO> listId(UUID id);
     void delete(UUID id);
 }

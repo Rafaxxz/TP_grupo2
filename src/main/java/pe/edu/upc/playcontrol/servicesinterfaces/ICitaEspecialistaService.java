@@ -7,8 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ICitaEspecialistaService {
-    List<CitaEspecialistaDTO> getAll();
-    Optional<CitaEspecialistaDTO> getById(UUID id);
-    CitaEspecialistaDTO save(CitaEspecialistaDTO dto);
+    List<CitaEspecialistaDTO> list();
+    CitaEspecialistaDTO insert(CitaEspecialistaDTO dto);
+    CitaEspecialistaDTO update(CitaEspecialistaDTO dto);
+    Optional<CitaEspecialistaDTO> listId(UUID id);
     void delete(UUID id);
 }

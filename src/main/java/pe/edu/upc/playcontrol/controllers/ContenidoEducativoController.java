@@ -8,6 +8,7 @@ import pe.edu.upc.playcontrol.dtos.ContenidoEducativoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IContenidoEducativoService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,36 +19,47 @@ public class ContenidoEducativoController {
     private IContenidoEducativoService contenidoEducativoService;
 
     @GetMapping
-    public ResponseEntity<List<ContenidoEducativoDTO>> getAll() {
-        return ResponseEntity.ok(contenidoEducativoService.getAll());
+    public ResponseEntity<List<ContenidoEducativoDTO>> list() {
+        return ResponseEntity.ok(contenidoEducativoService.list());
+    }
+
+    @PostMapping("/nuevo")
+    public ResponseEntity<ContenidoEducativoDTO> insert(@RequestBody ContenidoEducativoDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(contenidoEducativoService.insert(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContenidoEducativoDTO> getById(@PathVariable UUID id) {
-        return contenidoEducativoService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<ContenidoEducativoDTO> found = contenidoEducativoService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contenido educativo no encontrado");
+        }
     }
 
-    @PostMapping
-    public ResponseEntity<ContenidoEducativoDTO> save(@RequestBody ContenidoEducativoDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(contenidoEducativoService.save(dto));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ContenidoEducativoDTO> update(@PathVariable UUID id, @RequestBody ContenidoEducativoDTO dto) {
-        dto.setIdContenido(id);
-        return ResponseEntity.ok(contenidoEducativoService.save(dto));
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody ContenidoEducativoDTO dto) {
+        Optional<ContenidoEducativoDTO> existing = contenidoEducativoService.listId(dto.getIdContenido());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contenido educativo no encontrado");
+        }
+        return ResponseEntity.ok(contenidoEducativoService.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<ContenidoEducativoDTO> existing = contenidoEducativoService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contenido educativo no encontrado");
+        }
         contenidoEducativoService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Contenido educativo eliminado correctamente");
     }
 
-    // no funciona corregir: Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)
-    // no funciona corregir: Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
-    // no funciona corregir: Falta endpoint para obtener recursos descargables (US30)
-    // no funciona corregir: Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)
+
+    // - Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)
+    // - Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
+    // - Falta endpoint para obtener recursos descargables (US30)
+    // - Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)
 }

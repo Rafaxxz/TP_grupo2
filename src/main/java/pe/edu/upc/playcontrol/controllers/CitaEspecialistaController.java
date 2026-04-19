@@ -8,6 +8,7 @@ import pe.edu.upc.playcontrol.dtos.CitaEspecialistaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICitaEspecialistaService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,36 +19,46 @@ public class CitaEspecialistaController {
     private ICitaEspecialistaService citaEspecialistaService;
 
     @GetMapping
-    public ResponseEntity<List<CitaEspecialistaDTO>> getAll() {
-        return ResponseEntity.ok(citaEspecialistaService.getAll());
+    public ResponseEntity<List<CitaEspecialistaDTO>> list() {
+        return ResponseEntity.ok(citaEspecialistaService.list());
+    }
+
+    @PostMapping("/nuevo")
+    public ResponseEntity<CitaEspecialistaDTO> insert(@RequestBody CitaEspecialistaDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(citaEspecialistaService.insert(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CitaEspecialistaDTO> getById(@PathVariable UUID id) {
-        return citaEspecialistaService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<CitaEspecialistaDTO> found = citaEspecialistaService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada");
+        }
     }
 
-    @PostMapping
-    public ResponseEntity<CitaEspecialistaDTO> save(@RequestBody CitaEspecialistaDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(citaEspecialistaService.save(dto));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<CitaEspecialistaDTO> update(@PathVariable UUID id, @RequestBody CitaEspecialistaDTO dto) {
-        dto.setIdCita(id);
-        return ResponseEntity.ok(citaEspecialistaService.save(dto));
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody CitaEspecialistaDTO dto) {
+        Optional<CitaEspecialistaDTO> existing = citaEspecialistaService.listId(dto.getIdCita());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada");
+        }
+        return ResponseEntity.ok(citaEspecialistaService.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<CitaEspecialistaDTO> existing = citaEspecialistaService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cita no encontrada");
+        }
         citaEspecialistaService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Cita eliminada correctamente");
     }
 
-    // no funciona corregir: Falta endpoint para obtener citas por usuario (US29, US37)
-    // no funciona corregir: Falta endpoint para obtener citas por especialista (US29, US38)
-    // no funciona corregir: Falta endpoint para actualizar estado de cita (confirmada, cancelada, completada) (US29)
-    // no funciona corregir: Falta endpoint para obtener citas por rango de fechas (US29)
+    // - Falta endpoint para obtener citas por usuario (US29, US37)
+    // - Falta endpoint para obtener citas por especialista (US29, US38)
+    // - Falta endpoint para actualizar estado de cita (confirmada, cancelada, completada) (US29)
+    // - Falta endpoint para obtener citas por rango de fechas (US29)
 }

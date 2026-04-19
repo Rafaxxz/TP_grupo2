@@ -29,22 +29,23 @@ public class RetoServiceImplement implements IRetoService {
     private ILogroRepository logroRepository;
 
     @Override
-    public List<RetoDTO> getAll() {
-        return retoRepository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+    public List<RetoDTO> list() {
+        return retoRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<RetoDTO> getById(UUID id) {
+    public RetoDTO insert(RetoDTO dto) {
+        return toDTO(retoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public RetoDTO update(RetoDTO dto) {
+        return toDTO(retoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<RetoDTO> listId(UUID id) {
         return retoRepository.findById(id).map(this::toDTO);
-    }
-
-    @Override
-    public RetoDTO save(RetoDTO dto) {
-        Reto entity = toEntity(dto);
-        return toDTO(retoRepository.save(entity));
     }
 
     @Override

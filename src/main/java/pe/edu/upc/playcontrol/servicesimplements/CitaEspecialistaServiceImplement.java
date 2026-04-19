@@ -29,18 +29,23 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
     private IEspecialistaRepository especialistaRepository;
 
     @Override
-    public List<CitaEspecialistaDTO> getAll() {
+    public List<CitaEspecialistaDTO> list() {
         return citaEspecialistaRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<CitaEspecialistaDTO> getById(UUID id) {
-        return citaEspecialistaRepository.findById(id).map(this::toDTO);
+    public CitaEspecialistaDTO insert(CitaEspecialistaDTO dto) {
+        return toDTO(citaEspecialistaRepository.save(toEntity(dto)));
     }
 
     @Override
-    public CitaEspecialistaDTO save(CitaEspecialistaDTO dto) {
+    public CitaEspecialistaDTO update(CitaEspecialistaDTO dto) {
         return toDTO(citaEspecialistaRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<CitaEspecialistaDTO> listId(UUID id) {
+        return citaEspecialistaRepository.findById(id).map(this::toDTO);
     }
 
     @Override

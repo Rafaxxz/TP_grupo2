@@ -19,18 +19,23 @@ public class ContenidoEducativoServiceImplement implements IContenidoEducativoSe
     private IContenidoEducativoRepository contenidoEducativoRepository;
 
     @Override
-    public List<ContenidoEducativoDTO> getAll() {
+    public List<ContenidoEducativoDTO> list() {
         return contenidoEducativoRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<ContenidoEducativoDTO> getById(UUID id) {
-        return contenidoEducativoRepository.findById(id).map(this::toDTO);
+    public ContenidoEducativoDTO insert(ContenidoEducativoDTO dto) {
+        return toDTO(contenidoEducativoRepository.save(toEntity(dto)));
     }
 
     @Override
-    public ContenidoEducativoDTO save(ContenidoEducativoDTO dto) {
+    public ContenidoEducativoDTO update(ContenidoEducativoDTO dto) {
         return toDTO(contenidoEducativoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<ContenidoEducativoDTO> listId(UUID id) {
+        return contenidoEducativoRepository.findById(id).map(this::toDTO);
     }
 
     @Override

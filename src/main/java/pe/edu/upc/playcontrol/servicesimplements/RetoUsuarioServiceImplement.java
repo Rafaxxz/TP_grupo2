@@ -29,18 +29,23 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     private IUsuarioRepository usuarioRepository;
 
     @Override
-    public List<RetoUsuarioDTO> getAll() {
+    public List<RetoUsuarioDTO> list() {
         return retoUsuarioRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<RetoUsuarioDTO> getById(UUID id) {
-        return retoUsuarioRepository.findById(id).map(this::toDTO);
+    public RetoUsuarioDTO insert(RetoUsuarioDTO dto) {
+        return toDTO(retoUsuarioRepository.save(toEntity(dto)));
     }
 
     @Override
-    public RetoUsuarioDTO save(RetoUsuarioDTO dto) {
+    public RetoUsuarioDTO update(RetoUsuarioDTO dto) {
         return toDTO(retoUsuarioRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<RetoUsuarioDTO> listId(UUID id) {
+        return retoUsuarioRepository.findById(id).map(this::toDTO);
     }
 
     @Override

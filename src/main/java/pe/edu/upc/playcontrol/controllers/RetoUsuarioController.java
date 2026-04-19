@@ -8,6 +8,7 @@ import pe.edu.upc.playcontrol.dtos.RetoUsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,36 +19,47 @@ public class RetoUsuarioController {
     private IRetoUsuarioService retoUsuarioService;
 
     @GetMapping
-    public ResponseEntity<List<RetoUsuarioDTO>> getAll() {
-        return ResponseEntity.ok(retoUsuarioService.getAll());
+    public ResponseEntity<List<RetoUsuarioDTO>> list() {
+        return ResponseEntity.ok(retoUsuarioService.list());
+    }
+
+    @PostMapping("/nuevo")
+    public ResponseEntity<RetoUsuarioDTO> insert(@RequestBody RetoUsuarioDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(retoUsuarioService.insert(dto));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RetoUsuarioDTO> getById(@PathVariable UUID id) {
-        return retoUsuarioService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<RetoUsuarioDTO> found = retoUsuarioService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
+        }
     }
 
-    @PostMapping
-    public ResponseEntity<RetoUsuarioDTO> save(@RequestBody RetoUsuarioDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(retoUsuarioService.save(dto));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<RetoUsuarioDTO> update(@PathVariable UUID id, @RequestBody RetoUsuarioDTO dto) {
-        dto.setId(id);
-        return ResponseEntity.ok(retoUsuarioService.save(dto));
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody RetoUsuarioDTO dto) {
+        Optional<RetoUsuarioDTO> existing = retoUsuarioService.listId(dto.getId());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
+        }
+        return ResponseEntity.ok(retoUsuarioService.update(dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<RetoUsuarioDTO> existing = retoUsuarioService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
+        }
         retoUsuarioService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("RetoUsuario eliminado correctamente");
     }
 
-    // no funciona corregir: Falta endpoint para obtener retos de un usuario específico (US12, US16, US35)
-    // no funciona corregir: Falta endpoint para actualizar progreso de reto (US12, US16)
-    // no funciona corregir: Falta endpoint para obtener retos completados por usuario (US12, US15)
-    // no funciona corregir: Falta endpoint para obtener retos en progreso de un usuario (US12)
+
+    // - Falta endpoint para obtener retos de un usuario específico (US12, US16, US35)
+    // - Falta endpoint para actualizar progreso de reto (US12, US16)
+    // - Falta endpoint para obtener retos completados por usuario (US12, US15)
+    // - Falta endpoint para obtener retos en progreso de un usuario (US12)
 }

@@ -7,8 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IRetoUsuarioService {
-    List<RetoUsuarioDTO> getAll();
-    Optional<RetoUsuarioDTO> getById(UUID id);
-    RetoUsuarioDTO save(RetoUsuarioDTO dto);
+    List<RetoUsuarioDTO> list();
+    RetoUsuarioDTO insert(RetoUsuarioDTO dto);
+    RetoUsuarioDTO update(RetoUsuarioDTO dto);
+    Optional<RetoUsuarioDTO> listId(UUID id);
     void delete(UUID id);
 }
