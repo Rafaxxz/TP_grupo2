@@ -48,11 +48,13 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
                 .collect(Collectors.toList());
     }
 
+    // no funciona corregir: No valida que el usuarioId exista antes de guardar. Debería inyectar IUsuarioRepository y verificar con usuarioRepository.existsById(dto.getUsuarioId()) o lanzar excepción si no existe.
+    // no funciona corregir: No valida que el usuario tenga suficientes puntos para canjear la recompensa (recompensa.getCostoPuntos() vs puntos del usuario).
     // aqui le asignamos los datos del dto
     @Override
     public CanjeRecompensaDTO save(CanjeRecompensaDTO dto) {
         CanjeRecompensa canje = new CanjeRecompensa();
-        canje.setUsuarioId(dto.getUsuarioId());
+        canje.setUsuarioId(dto.getUsuarioId()); // No valida que el usuario exista
         // valida antes de pasarlo que la recompensa exista
         Recompensa recompensa = recompensaRepository.findById(dto.getRecompensaId())
                 .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + dto.getRecompensaId()));

@@ -45,4 +45,9 @@ public class RetoUsuarioController {
         retoUsuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener retos de un usuario específico (US12, US16, US35)
+    // no funciona corregir: Falta endpoint para actualizar progreso de reto (US12, US16)
+    // no funciona corregir: Falta endpoint para obtener retos completados por usuario (US12, US15)
+    // no funciona corregir: Falta endpoint para obtener retos en progreso de un usuario (US12)
 }

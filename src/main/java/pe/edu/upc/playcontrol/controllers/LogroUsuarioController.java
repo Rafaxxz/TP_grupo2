@@ -47,4 +47,8 @@ public class LogroUsuarioController {
         logroUsuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener estadísticas de logros de un usuario (total, desbloqueados, pendientes) (US11, US15)
+    // no funciona corregir: Falta endpoint para verificar logros desbloqueables según progreso del usuario (US09)
+    // no funciona corregir: Falta endpoint para obtener logros por periodo (últimos logros desbloqueados) (US15)
 }

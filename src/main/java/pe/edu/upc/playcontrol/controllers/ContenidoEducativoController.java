@@ -45,4 +45,9 @@ public class ContenidoEducativoController {
         contenidoEducativoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)
+    // no funciona corregir: Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
+    // no funciona corregir: Falta endpoint para obtener recursos descargables (US30)
+    // no funciona corregir: Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)
 }

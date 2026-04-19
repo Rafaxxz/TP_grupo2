@@ -47,4 +47,8 @@ public class RecompensaController {
         recompensaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para filtrar recompensas por tipo (avatar, badge, premio) (US10, US14)
+    // no funciona corregir: Falta endpoint para obtener recompensas disponibles según puntos del usuario (US10, US14)
+    // no funciona corregir: Falta endpoint para obtener recompensas ordenadas por costo de puntos (US10)
 }

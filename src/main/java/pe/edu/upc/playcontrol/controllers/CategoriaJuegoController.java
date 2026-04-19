@@ -16,13 +16,19 @@ public class CategoriaJuegoController {
         this.service = service;
     }
 
+    // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto, aunque esta entidad no tiene relaciones complejas.
     @PostMapping
     public CategoriaJuego guardar(@RequestBody CategoriaJuego categoriaJuego) {
         return service.guardar(categoriaJuego);
     }
 
+    // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto.
     @GetMapping
     public List<CategoriaJuego> listar() {
         return service.listar();
     }
+
+    // no funciona corregir: Falta endpoint GET /{id} para buscar categoría por ID
+    // no funciona corregir: Falta endpoint PUT /{id} para actualizar categoría
+    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar categoría
 }

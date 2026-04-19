@@ -45,4 +45,8 @@ public class EspecialistaController {
         especialistaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para buscar especialistas por especialidad o tipo (US29, US37)
+    // no funciona corregir: Falta endpoint para ver disponibilidad de especialista (US29, US37)
+    // no funciona corregir: Falta endpoint para obtener especialistas disponibles para citas (US29)
 }

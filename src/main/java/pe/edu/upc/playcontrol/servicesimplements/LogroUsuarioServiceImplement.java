@@ -45,10 +45,11 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
                 .collect(Collectors.toList());
     }
 
+    // no funciona corregir: No valida que el usuarioId exista antes de guardar. Debería inyectar IUsuarioRepository y verificar con usuarioRepository.existsById(dto.getUsuarioId()) o lanzar excepción si no existe.
     @Override
     public LogroUsuarioDTO save(LogroUsuarioDTO dto) {
         LogroUsuario lu = new LogroUsuario();
-        lu.setUsuarioId(dto.getUsuarioId());
+        lu.setUsuarioId(dto.getUsuarioId()); // No valida que el usuario exista
         Logro logro = logroRepository.findById(dto.getLogroId())
                 .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + dto.getLogroId()));
         lu.setLogro(logro);

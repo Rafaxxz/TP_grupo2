@@ -45,4 +45,9 @@ public class RetoController {
         retoService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener retos activos (US12, US16, US35)
+    // no funciona corregir: Falta endpoint para filtrar retos por tipo (semanal, familiar, comunitario) (US12, US16, US35)
+    // no funciona corregir: Falta endpoint para filtrar retos por dificultad (US12)
+    // no funciona corregir: Falta endpoint para obtener retos disponibles para un usuario (US12, US16)
 }

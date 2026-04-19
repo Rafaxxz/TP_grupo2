@@ -45,4 +45,9 @@ public class CitaEspecialistaController {
         citaEspecialistaService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener citas por usuario (US29, US37)
+    // no funciona corregir: Falta endpoint para obtener citas por especialista (US29, US38)
+    // no funciona corregir: Falta endpoint para actualizar estado de cita (confirmada, cancelada, completada) (US29)
+    // no funciona corregir: Falta endpoint para obtener citas por rango de fechas (US29)
 }

@@ -45,4 +45,9 @@ public class MensajeController {
         mensajeService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener mensajes por usuario remitente (US22, US37)
+    // no funciona corregir: Falta endpoint para obtener mensajes por usuario destinatario (US22, US37)
+    // no funciona corregir: Falta endpoint para marcar mensaje como leído (US22)
+    // no funciona corregir: Falta endpoint para obtener conversación entre dos usuarios (US37)
 }

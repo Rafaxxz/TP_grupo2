@@ -45,4 +45,12 @@ public class UsuarioController {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    // no funciona corregir: Falta endpoint para obtener hijos de un padre (US17, US18, US19, US20)
+    // no funciona corregir: Falta endpoint para obtener puntos acumulados de usuario (US09, US10, US36)
+    // no funciona corregir: Falta endpoint para actualizar puntos de usuario (US09, US10)
+    // no funciona corregir: Falta endpoint para obtener estadísticas generales del usuario (US17, US33, US36)
+    // no funciona corregir: Falta endpoint para obtener nivel de bienestar digital del usuario (US36)
+    // no funciona corregir: Falta endpoint para buscar usuario por email o username (login/búsqueda)
+    // no funciona corregir: Falta endpoint para vincular hijo con padre (US17, US18, US19)
 }

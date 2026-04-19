@@ -38,15 +38,19 @@ public class UsuarioServiceImplement implements IUsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // no funciona corregir: El método toDTO no está mapeando rolId ni puntosTotales que están en UsuarioDTO pero no en la entidad Usuario. Verificar si la entidad necesita estos campos o si el DTO está mal diseñado.
+    // no funciona corregir: PROBLEMA DE SEGURIDAD - el passwordHash NO debe exponerse en respuestas GET, solo debe usarse en POST para crear/actualizar. Eliminar del DTO de respuesta o crear DTO separado para request/response.
     private UsuarioDTO toDTO(Usuario e) {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setIdUsuario(e.getIdUsuario());
         dto.setUsername(e.getUsername());
         dto.setEmail(e.getEmail());
         dto.setNombre(e.getNombre());
-        dto.setPasswordHash(e.getPasswordHash());
+        dto.setPasswordHash(e.getPasswordHash()); // PROBLEMA DE SEGURIDAD - exponiendo password hash
         dto.setEstado(e.getEstado());
         dto.setCreatedAt(e.getCreatedAt());
+        // dto.setRolId() - no existe en entidad Usuario
+        // dto.setPuntosTotales() - no existe en entidad Usuario
         return dto;
     }
 
