@@ -1,18 +1,12 @@
 package pe.edu.upc.playcontrol.entities;
+
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "juego")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Juego {
-
-
 
     @Id
     @GeneratedValue
@@ -28,4 +22,39 @@ public class Juego {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaJuego categoriaJuego;
+
+    public Juego() {
+    }
+
+    public UUID getIdJuego() {
+        return idJuego;
+    }
+
+    public void setIdJuego(UUID idJuego) {
+        this.idJuego = idJuego;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPlataforma() {
+        return plataforma;
+    }
+
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
+    }
+
+    public CategoriaJuego getCategoriaJuego() {
+        return categoriaJuego;
+    }
+
+    public void setCategoriaJuego(CategoriaJuego categoriaJuego) {
+        this.categoriaJuego = categoriaJuego;
+    }
 }

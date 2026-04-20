@@ -5,5 +5,5 @@ import pe.edu.upc.playcontrol.entities.Juego;
 
 import java.util.UUID;
 
-public interface JuegoRepository extends JpaRepository<Juego, UUID> {
+public interface IJuegoRepository extends JpaRepository<Juego, UUID> {
 }

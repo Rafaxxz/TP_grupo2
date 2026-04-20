@@ -1,12 +1,14 @@
 package pe.edu.upc.playcontrol.servicesinterfaces;
 
-import pe.edu.upc.playcontrol.entities.SesionJuego;
+import pe.edu.upc.playcontrol.dtos.SesionJuegoDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface SesionJuegoService {
-    SesionJuego guardar(SesionJuego sesionJuego);
-    List<SesionJuego> listar();
-    SesionJuego buscarPorId(UUID id);
+    List<SesionJuegoDTO> getAll();
+    Optional<SesionJuegoDTO> getById(UUID id);
+    SesionJuegoDTO save(SesionJuegoDTO dto);
+    void delete(UUID id);
 }

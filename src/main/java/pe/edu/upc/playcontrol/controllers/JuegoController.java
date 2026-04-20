@@ -1,42 +1,48 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.upc.playcontrol.entities.Juego;
+import pe.edu.upc.playcontrol.dtos.JuegoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.JuegoService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/juegos")
+@RequestMapping("/api/juegos")
 public class JuegoController {
 
-    private final JuegoService service;
+    @Autowired
+    private JuegoService juegoService;
 
-    public JuegoController(JuegoService service) {
-        this.service = service;
-    }
-
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar porque la relación @ManyToOne (categoriaJuego) requiere objeto completo, no ID. Ya existe JuegoDTO, implementar conversión en service.
-    @PostMapping
-    public Juego guardar(@RequestBody Juego juego) {
-        return service.guardar(juego);
-    }
-
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe JuegoDTO, usarlo.
     @GetMapping
-    public List<Juego> listar() {
-        return service.listar();
+    public ResponseEntity<List<JuegoDTO>> getAll() {
+        return ResponseEntity.ok(juegoService.getAll());
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe JuegoDTO, usarlo.
     @GetMapping("/{id}")
-    public Juego buscarPorId(@PathVariable UUID id) {
-        return service.buscarPorId(id);
+    public ResponseEntity<JuegoDTO> getById(@PathVariable UUID id) {
+        return juegoService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // no funciona corregir: Falta endpoint PUT /{id} para actualizar juego
-    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar juego
-    // no funciona corregir: Falta endpoint para buscar juegos por categoría (para organización)
-    // no funciona corregir: Falta endpoint para buscar juegos por usuario (juegos que juega un usuario)
+    @PostMapping
+    public ResponseEntity<JuegoDTO> save(@RequestBody JuegoDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(juegoService.save(dto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<JuegoDTO> update(@PathVariable UUID id, @RequestBody JuegoDTO dto) {
+        dto.setIdJuego(id);
+        return ResponseEntity.ok(juegoService.save(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        juegoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

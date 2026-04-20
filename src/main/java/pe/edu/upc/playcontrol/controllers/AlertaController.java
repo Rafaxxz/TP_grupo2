@@ -1,44 +1,48 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pe.edu.upc.playcontrol.entities.Alerta;
+import pe.edu.upc.playcontrol.dtos.AlertaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.AlertaService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/alertas")
+@RequestMapping("/api/alertas")
 public class AlertaController {
 
-    private final AlertaService service;
+    @Autowired
+    private AlertaService alertaService;
 
-    public AlertaController(AlertaService service) {
-        this.service = service;
-    }
-
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar datos porque las relaciones @ManyToOne (usuario, sesionJuego) requieren objetos completos, no solo IDs. Crear AlertaDTO y convertir en el service.
-    @PostMapping
-    public Alerta guardar(@RequestBody Alerta alerta) {
-        return service.guardar(alerta);
-    }
-
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON o exponer datos innecesarios. Usar AlertaDTO.
     @GetMapping
-    public List<Alerta> listar() {
-        return service.listar();
+    public ResponseEntity<List<AlertaDTO>> getAll() {
+        return ResponseEntity.ok(alertaService.getAll());
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON o exponer datos innecesarios. Usar AlertaDTO.
     @GetMapping("/{id}")
-    public Alerta buscarPorId(@PathVariable UUID id) {
-        return service.buscarPorId(id);
+    public ResponseEntity<AlertaDTO> getById(@PathVariable UUID id) {
+        return alertaService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // no funciona corregir: Falta endpoint para obtener alertas no leídas por usuario (US02, US08)
-    // no funciona corregir: Falta endpoint para marcar alerta como leída (US06, US08)
-    // no funciona corregir: Falta endpoint para obtener alertas por usuario (US02, US17, US18)
-    // no funciona corregir: Falta endpoint para filtrar alertas por periodo/fecha (US08)
-    // no funciona corregir: Falta endpoint para actualizar alerta
-    // no funciona corregir: Falta endpoint para eliminar alerta
+    @PostMapping
+    public ResponseEntity<AlertaDTO> save(@RequestBody AlertaDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(alertaService.save(dto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AlertaDTO> update(@PathVariable UUID id, @RequestBody AlertaDTO dto) {
+        dto.setIdAlerta(id);
+        return ResponseEntity.ok(alertaService.save(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        alertaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

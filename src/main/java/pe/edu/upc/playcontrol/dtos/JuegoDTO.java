@@ -1,23 +1,46 @@
 package pe.edu.upc.playcontrol.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class JuegoDTO {
+
     private UUID idJuego;
-    private String titulo;
-    private String descripcion;
-    private String urlImagen;
+    private String nombre;
+    private String plataforma;
     private Integer categoriaId;
-    private String tipoMecánica;
+
+    public JuegoDTO() {
+    }
+
+    public UUID getIdJuego() {
+        return idJuego;
+    }
+
+    public void setIdJuego(UUID idJuego) {
+        this.idJuego = idJuego;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getPlataforma() {
+        return plataforma;
+    }
+
+    public void setPlataforma(String plataforma) {
+        this.plataforma = plataforma;
+    }
+
+    public Integer getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Integer categoriaId) {
+        this.categoriaId = categoriaId;
+    }
 }
-
-

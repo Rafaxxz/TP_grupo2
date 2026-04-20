@@ -1,12 +1,14 @@
 package pe.edu.upc.playcontrol.servicesinterfaces;
 
-import pe.edu.upc.playcontrol.entities.Juego;
+import pe.edu.upc.playcontrol.dtos.JuegoDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface JuegoService {
-    Juego guardar(Juego juego);
-    List<Juego> listar();
-    Juego buscarPorId(UUID id);
+    List<JuegoDTO> getAll();
+    Optional<JuegoDTO> getById(UUID id);
+    JuegoDTO save(JuegoDTO dto);
+    void delete(UUID id);
 }

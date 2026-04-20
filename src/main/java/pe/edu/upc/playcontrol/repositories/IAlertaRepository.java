@@ -5,7 +5,6 @@ import pe.edu.upc.playcontrol.entities.Alerta;
 
 import java.util.UUID;
 
-public interface AlertaRepository extends JpaRepository<Alerta, UUID> {
+public interface IAlertaRepository extends JpaRepository<Alerta, UUID> {
 }
-
 
