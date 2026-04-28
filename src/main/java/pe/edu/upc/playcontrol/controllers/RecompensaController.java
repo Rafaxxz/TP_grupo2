@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.RecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 

@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.RolDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRolService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,11 +29,11 @@ public class RolController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
-            return rolService.getById(id)
-                    .map(ResponseEntity::ok)
-                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Rol no encontrado con id: " + id).getBody() == null
-                            ? ResponseEntity.notFound().build()
-                            : buildErrorResponse(HttpStatus.NOT_FOUND, "Rol no encontrado con id: " + id));
+            var result = rolService.getById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.ok(result.get());
+            }
+            return buildErrorResponse(HttpStatus.NOT_FOUND, "Rol no encontrado con id: " + id);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener rol: " + e.getMessage());
         }

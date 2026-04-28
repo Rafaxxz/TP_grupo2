@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.MensajeDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,9 +30,11 @@ public class MensajeController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         try {
-            return mensajeService.getById(id)
-                    .map(ResponseEntity::ok)
-                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Mensaje no encontrado con id: " + id));
+            var result = mensajeService.getById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.ok(result.get());
+            }
+            return buildErrorResponse(HttpStatus.NOT_FOUND, "Mensaje no encontrado con id: " + id);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener mensaje: " + e.getMessage());
         }

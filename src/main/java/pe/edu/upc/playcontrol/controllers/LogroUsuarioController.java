@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.LogroUsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -33,9 +32,13 @@ public class LogroUsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         try {
-            return ResponseEntity.ok(logroUsuarioService.getById(id));
-        } catch (Exception e) {
+            var result = logroUsuarioService.getById(id);
+            if (result != null) {
+                return ResponseEntity.ok(result);
+            }
             return buildErrorResponse(HttpStatus.NOT_FOUND, "Logro de usuario no encontrado con id: " + id);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener logro de usuario: " + e.getMessage());
         }
     }
 

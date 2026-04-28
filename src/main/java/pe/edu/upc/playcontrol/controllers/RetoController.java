@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.RetoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,9 +30,11 @@ public class RetoController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         try {
-            return retoService.getById(id)
-                    .map(ResponseEntity::ok)
-                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Reto no encontrado con id: " + id));
+            var result = retoService.getById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.ok(result.get());
+            }
+            return buildErrorResponse(HttpStatus.NOT_FOUND, "Reto no encontrado con id: " + id);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener reto: " + e.getMessage());
         }

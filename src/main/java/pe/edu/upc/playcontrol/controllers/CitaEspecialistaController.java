@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.CitaEspecialistaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICitaEspecialistaService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,9 +30,11 @@ public class CitaEspecialistaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable UUID id) {
         try {
-            return citaEspecialistaService.getById(id)
-                    .map(ResponseEntity::ok)
-                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Cita no encontrada con id: " + id));
+            var result = citaEspecialistaService.getById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.ok(result.get());
+            }
+            return buildErrorResponse(HttpStatus.NOT_FOUND, "Cita no encontrada con id: " + id);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener cita: " + e.getMessage());
         }

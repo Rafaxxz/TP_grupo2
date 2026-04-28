@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.dtos.CanjeRecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
