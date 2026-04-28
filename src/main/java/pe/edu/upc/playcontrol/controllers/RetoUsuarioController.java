@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla reto_usuario
 @RestController
 @RequestMapping("/api/retos-usuario")
 public class RetoUsuarioController {
@@ -57,9 +58,21 @@ public class RetoUsuarioController {
         return ResponseEntity.ok("RetoUsuario eliminado correctamente");
     }
 
+    // Filtro simple: trae todos los retos aceptados por un usuario
+    @GetMapping("/por-usuario/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listByUsuarioId(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(retoUsuarioService.listByUsuarioId(usuarioId));
+    }
 
-    // - Falta endpoint para obtener retos de un usuario específico (US12, US16, US35)
+    // Query de decisión: retos completados (o no) de un usuario
+    @GetMapping("/por-completado/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listByUsuarioIdAndCompletado(
+            @PathVariable UUID usuarioId,
+            @RequestParam Boolean completado) {
+        return ResponseEntity.ok(retoUsuarioService.listByUsuarioIdAndCompletado(usuarioId, completado));
+    }
+
+    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren lógica de negocio o datos de otras tablas)
     // - Falta endpoint para actualizar progreso de reto (US12, US16)
-    // - Falta endpoint para obtener retos completados por usuario (US12, US15)
     // - Falta endpoint para obtener retos en progreso de un usuario (US12)
 }

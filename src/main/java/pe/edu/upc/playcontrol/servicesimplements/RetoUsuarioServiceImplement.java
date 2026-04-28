@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla reto_usuario
 @Service
 public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
 
@@ -51,6 +52,16 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     @Override
     public void delete(UUID id) {
         retoUsuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listByUsuarioId(UUID usuarioId) {
+        return retoUsuarioRepository.findByUsuario_IdUsuario(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(UUID usuarioId, Boolean completado) {
+        return retoUsuarioRepository.findByUsuario_IdUsuarioAndCompletado(usuarioId, completado).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private RetoUsuarioDTO toDTO(RetoUsuario e) {

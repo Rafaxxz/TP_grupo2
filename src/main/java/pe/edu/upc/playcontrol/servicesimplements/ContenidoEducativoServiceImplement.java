@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla contenido_educativo
 @Service
 public class ContenidoEducativoServiceImplement implements IContenidoEducativoService {
 
@@ -41,6 +42,11 @@ public class ContenidoEducativoServiceImplement implements IContenidoEducativoSe
     @Override
     public void delete(UUID id) {
         contenidoEducativoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ContenidoEducativoDTO> listByTipo(String tipo) {
+        return contenidoEducativoRepository.findByTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private ContenidoEducativoDTO toDTO(ContenidoEducativo e) {

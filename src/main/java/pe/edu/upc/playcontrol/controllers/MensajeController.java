@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla mensaje
 @RestController
 @RequestMapping("/api/mensajes")
 public class MensajeController {
@@ -57,9 +58,19 @@ public class MensajeController {
         return ResponseEntity.ok("Mensaje eliminado correctamente");
     }
 
+    // Filtro simple: trae mensajes enviados por un remitente
+    @GetMapping("/por-remitente/{remitenteId}")
+    public ResponseEntity<List<MensajeDTO>> listByRemitenteId(@PathVariable UUID remitenteId) {
+        return ResponseEntity.ok(mensajeService.listByRemitenteId(remitenteId));
+    }
 
-    // - Falta endpoint para obtener mensajes por usuario remitente (US22, US37)
-    // - Falta endpoint para obtener mensajes por usuario destinatario (US22, US37)
+    // Query de decisión: mensajes no leídos recibidos por un usuario
+    @GetMapping("/no-leidos/{destinatarioId}")
+    public ResponseEntity<List<MensajeDTO>> listNoLeidosByDestinatarioId(@PathVariable UUID destinatarioId) {
+        return ResponseEntity.ok(mensajeService.listNoLeidosByDestinatarioId(destinatarioId));
+    }
+
+    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren lógica de negocio compleja)
     // - Falta endpoint para marcar mensaje como leído (US22)
     // - Falta endpoint para obtener conversación entre dos usuarios (US37)
 }

@@ -12,4 +12,10 @@ public interface IRetoService {
     RetoDTO update(RetoDTO dto);
     Optional<RetoDTO> listId(UUID id);
     void delete(UUID id);
+
+    // Filtro simple: retos filtrados por tipo
+    List<RetoDTO> listByTipo(String tipo);
+
+    // Filtro simple: retos activos o inactivos
+    List<RetoDTO> listByActivo(Boolean activo);
 }

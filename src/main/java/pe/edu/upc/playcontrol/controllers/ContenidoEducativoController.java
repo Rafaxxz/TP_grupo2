@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla contenido_educativo
 @RestController
 @RequestMapping("/api/contenidos-educativos")
 public class ContenidoEducativoController {
@@ -57,8 +58,13 @@ public class ContenidoEducativoController {
         return ResponseEntity.ok("Contenido educativo eliminado correctamente");
     }
 
+    // Filtro simple: trae contenidos filtrados por tipo (articulo, video, guia, podcast)
+    @GetMapping("/por-tipo")
+    public ResponseEntity<List<ContenidoEducativoDTO>> listByTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(contenidoEducativoService.listByTipo(tipo));
+    }
 
-    // - Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)
+    // consultar validez: los siguientes van más allá del alcance de Semana 04
     // - Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
     // - Falta endpoint para obtener recursos descargables (US30)
     // - Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)

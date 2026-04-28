@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla mensaje
 @Service
 public class MensajeServiceImplement implements IMensajeService {
 
@@ -46,6 +47,16 @@ public class MensajeServiceImplement implements IMensajeService {
     @Override
     public void delete(UUID id) {
         mensajeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MensajeDTO> listByRemitenteId(UUID remitenteId) {
+        return mensajeRepository.findByRemitente_IdUsuario(remitenteId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MensajeDTO> listNoLeidosByDestinatarioId(UUID destinatarioId) {
+        return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, false).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private MensajeDTO toDTO(Mensaje e) {

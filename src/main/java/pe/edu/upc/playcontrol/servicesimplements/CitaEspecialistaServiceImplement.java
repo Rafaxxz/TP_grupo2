@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla cita_especialista
 @Service
 public class CitaEspecialistaServiceImplement implements ICitaEspecialistaService {
 
@@ -51,6 +52,16 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
     @Override
     public void delete(UUID id) {
         citaEspecialistaRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CitaEspecialistaDTO> listByUsuarioIdAndEstado(UUID usuarioId, String estado) {
+        return citaEspecialistaRepository.findByUsuario_IdUsuarioAndEstado(usuarioId, estado).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CitaEspecialistaDTO> listByUsuarioId(UUID usuarioId) {
+        return citaEspecialistaRepository.findByUsuario_IdUsuario(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private CitaEspecialistaDTO toDTO(CitaEspecialista e) {

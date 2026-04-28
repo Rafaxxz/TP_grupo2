@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla cita_especialista
 @RestController
 @RequestMapping("/api/citas-especialista")
 public class CitaEspecialistaController {
@@ -57,8 +58,21 @@ public class CitaEspecialistaController {
         return ResponseEntity.ok("Cita eliminada correctamente");
     }
 
-    // - Falta endpoint para obtener citas por usuario (US29, US37)
+    // Filtro simple: trae citas de un usuario filtradas por estado (pendiente, confirmada, cancelada, completada)
+    @GetMapping("/por-estado")
+    public ResponseEntity<List<CitaEspecialistaDTO>> listByUsuarioIdAndEstado(
+            @RequestParam UUID usuarioId,
+            @RequestParam String estado) {
+        return ResponseEntity.ok(citaEspecialistaService.listByUsuarioIdAndEstado(usuarioId, estado));
+    }
+
+    // Query de decisión: historial completo de citas de un usuario
+    @GetMapping("/por-usuario/{usuarioId}")
+    public ResponseEntity<List<CitaEspecialistaDTO>> listByUsuarioId(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(citaEspecialistaService.listByUsuarioId(usuarioId));
+    }
+
+    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren datos de otras tablas o lógica de negocio compleja)
     // - Falta endpoint para obtener citas por especialista (US29, US38)
-    // - Falta endpoint para actualizar estado de cita (confirmada, cancelada, completada) (US29)
     // - Falta endpoint para obtener citas por rango de fechas (US29)
 }

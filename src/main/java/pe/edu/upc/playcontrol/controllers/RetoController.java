@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla reto
 @RestController
 @RequestMapping("/api/retos")
 public class RetoController {
@@ -57,9 +58,15 @@ public class RetoController {
         return ResponseEntity.ok("Reto eliminado correctamente");
     }
 
+    // Filtro simple: trae retos según su tipo (semanal, familiar, comunitario)
+    @GetMapping("/por-tipo")
+    public ResponseEntity<List<RetoDTO>> listByTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(retoService.listByTipo(tipo));
+    }
 
-    // - Falta endpoint para obtener retos activos (US12, US16, US35)
-    // - Falta endpoint para filtrar retos por tipo (semanal, familiar, comunitario) (US12, US16, US35)
-    // - Falta endpoint para filtrar retos por dificultad (US12)
-    // - Falta endpoint para obtener retos disponibles para un usuario (US12, US16)
+    // Filtro simple: trae retos activos o inactivos
+    @GetMapping("/por-activo")
+    public ResponseEntity<List<RetoDTO>> listByActivo(@RequestParam Boolean activo) {
+        return ResponseEntity.ok(retoService.listByActivo(activo));
+    }
 }

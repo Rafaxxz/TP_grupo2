@@ -12,4 +12,7 @@ public interface IContenidoEducativoService {
     ContenidoEducativoDTO update(ContenidoEducativoDTO dto);
     Optional<ContenidoEducativoDTO> listId(UUID id);
     void delete(UUID id);
+
+    // Filtro simple: contenidos filtrados por tipo (articulo, video, guia, podcast)
+    List<ContenidoEducativoDTO> listByTipo(String tipo);
 }

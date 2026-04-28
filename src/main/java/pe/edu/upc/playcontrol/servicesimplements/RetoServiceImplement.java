@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla reto
 @Service
 public class RetoServiceImplement implements IRetoService {
 
@@ -51,6 +52,16 @@ public class RetoServiceImplement implements IRetoService {
     @Override
     public void delete(UUID id) {
         retoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RetoDTO> listByTipo(String tipo) {
+        return retoRepository.findByTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoDTO> listByActivo(Boolean activo) {
+        return retoRepository.findByActivo(activo).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private RetoDTO toDTO(Reto e) {

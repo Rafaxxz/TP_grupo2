@@ -12,4 +12,10 @@ public interface ICitaEspecialistaService {
     CitaEspecialistaDTO update(CitaEspecialistaDTO dto);
     Optional<CitaEspecialistaDTO> listId(UUID id);
     void delete(UUID id);
+
+    // Filtro simple: citas de un usuario filtradas por estado
+    List<CitaEspecialistaDTO> listByUsuarioIdAndEstado(UUID usuarioId, String estado);
+
+    // Query de decisión: todas las citas de un usuario (para ver su historial)
+    List<CitaEspecialistaDTO> listByUsuarioId(UUID usuarioId);
 }

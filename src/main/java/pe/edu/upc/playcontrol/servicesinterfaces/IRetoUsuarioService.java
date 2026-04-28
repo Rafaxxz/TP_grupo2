@@ -12,4 +12,10 @@ public interface IRetoUsuarioService {
     RetoUsuarioDTO update(RetoUsuarioDTO dto);
     Optional<RetoUsuarioDTO> listId(UUID id);
     void delete(UUID id);
+
+    // Filtro simple: retos aceptados por un usuario
+    List<RetoUsuarioDTO> listByUsuarioId(UUID usuarioId);
+
+    // Query de decisión: retos completados (o no) de un usuario
+    List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(UUID usuarioId, Boolean completado);
 }
