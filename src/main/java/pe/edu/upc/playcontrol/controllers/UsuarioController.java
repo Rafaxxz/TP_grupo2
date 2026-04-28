@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.UsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -30,14 +32,26 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> save(@RequestBody UsuarioDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(dto));
+    public ResponseEntity<?> save(@RequestBody UsuarioDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(dto));
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable UUID id, @RequestBody UsuarioDTO dto) {
-        dto.setIdUsuario(id);
-        return ResponseEntity.ok(usuarioService.save(dto));
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody UsuarioDTO dto) {
+        try {
+            dto.setIdUsuario(id);
+            return ResponseEntity.ok(usuarioService.save(dto));
+        } catch (IllegalArgumentException e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+        }
     }
 
     @DeleteMapping("/{id}")

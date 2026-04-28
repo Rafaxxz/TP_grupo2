@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.MensajeDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -18,32 +20,64 @@ public class MensajeController {
     private IMensajeService mensajeService;
 
     @GetMapping
-    public ResponseEntity<List<MensajeDTO>> getAll() {
-        return ResponseEntity.ok(mensajeService.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(mensajeService.getAll());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener mensajes: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MensajeDTO> getById(@PathVariable UUID id) {
-        return mensajeService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return mensajeService.getById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Mensaje no encontrado con id: " + id));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener mensaje: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<MensajeDTO> save(@RequestBody MensajeDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.save(dto));
+    public ResponseEntity<?> save(@RequestBody MensajeDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear mensaje: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MensajeDTO> update(@PathVariable UUID id, @RequestBody MensajeDTO dto) {
-        dto.setIdMensaje(id);
-        return ResponseEntity.ok(mensajeService.save(dto));
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody MensajeDTO dto) {
+        try {
+            dto.setIdMensaje(id);
+            return ResponseEntity.ok(mensajeService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar mensaje: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        mensajeService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            mensajeService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar mensaje: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 
     // no funciona corregir: Falta endpoint para obtener mensajes por usuario remitente (US22, US37)

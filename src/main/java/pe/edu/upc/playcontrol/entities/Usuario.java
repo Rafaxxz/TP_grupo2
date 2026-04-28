@@ -30,6 +30,12 @@ public class Usuario {
     @Column(name = "password_hash", nullable = false, columnDefinition = "TEXT")
     private String passwordHash;
 
+    @Column(name = "id_rol")
+    private Integer idRol;
+
+    @Column(name = "puntos_totales")
+    private Integer puntosTotales;
+
     @Column(name = "estado", nullable = false)
     private Boolean estado;
 
@@ -40,6 +46,9 @@ public class Usuario {
     public void prePersist() {
         if (createdAt == null) {
             createdAt = OffsetDateTime.now();
+        }
+        if (puntosTotales == null) {
+            puntosTotales = 0;
         }
     }
 }

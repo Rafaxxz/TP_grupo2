@@ -30,6 +30,18 @@ public class UsuarioServiceImplement implements IUsuarioService {
 
     @Override
     public UsuarioDTO save(UsuarioDTO dto) {
+        // Validar que username no esté duplicado
+        Optional<Usuario> existingByUsername = usuarioRepository.findByUsername(dto.getUsername());
+        if (existingByUsername.isPresent() && !existingByUsername.get().getIdUsuario().equals(dto.getIdUsuario())) {
+            throw new IllegalArgumentException("El username '" + dto.getUsername() + "' ya está registrado");
+        }
+
+        // Validar que email no esté duplicado
+        Optional<Usuario> existingByEmail = usuarioRepository.findByEmail(dto.getEmail());
+        if (existingByEmail.isPresent() && !existingByEmail.get().getIdUsuario().equals(dto.getIdUsuario())) {
+            throw new IllegalArgumentException("El email '" + dto.getEmail() + "' ya está registrado");
+        }
+
         return toDTO(usuarioRepository.save(toEntity(dto)));
     }
 
@@ -38,7 +50,6 @@ public class UsuarioServiceImplement implements IUsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    // no funciona corregir: El método toDTO no está mapeando rolId ni puntosTotales que están en UsuarioDTO pero no en la entidad Usuario. Verificar si la entidad necesita estos campos o si el DTO está mal diseñado.
     // no funciona corregir: PROBLEMA DE SEGURIDAD - el passwordHash NO debe exponerse en respuestas GET, solo debe usarse en POST para crear/actualizar. Eliminar del DTO de respuesta o crear DTO separado para request/response.
     private UsuarioDTO toDTO(Usuario e) {
         UsuarioDTO dto = new UsuarioDTO();
@@ -47,10 +58,10 @@ public class UsuarioServiceImplement implements IUsuarioService {
         dto.setEmail(e.getEmail());
         dto.setNombre(e.getNombre());
         dto.setPasswordHash(e.getPasswordHash()); // PROBLEMA DE SEGURIDAD - exponiendo password hash
+        dto.setRolId(e.getIdRol());
+        dto.setPuntosTotales(e.getPuntosTotales());
         dto.setEstado(e.getEstado());
         dto.setCreatedAt(e.getCreatedAt());
-        // dto.setRolId() - no existe en entidad Usuario
-        // dto.setPuntosTotales() - no existe en entidad Usuario
         return dto;
     }
 
@@ -61,7 +72,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
         e.setEmail(dto.getEmail());
         e.setNombre(dto.getNombre());
         e.setPasswordHash(dto.getPasswordHash());
+        e.setIdRol(dto.getRolId());
+        e.setPuntosTotales(dto.getPuntosTotales());
         e.setEstado(dto.getEstado());
         return e;
     }
 }
+
+

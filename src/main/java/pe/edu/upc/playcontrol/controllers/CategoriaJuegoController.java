@@ -1,10 +1,14 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.CategoriaJuego;
 import pe.edu.upc.playcontrol.servicesinterfaces.CategoriaJuegoService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/categorias-juego")
@@ -18,14 +22,32 @@ public class CategoriaJuegoController {
 
     // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto, aunque esta entidad no tiene relaciones complejas.
     @PostMapping
-    public CategoriaJuego guardar(@RequestBody CategoriaJuego categoriaJuego) {
-        return service.guardar(categoriaJuego);
+    public ResponseEntity<?> guardar(@RequestBody CategoriaJuego categoriaJuego) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(categoriaJuego));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear categoría: " + e.getMessage());
+        }
     }
 
     // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto.
     @GetMapping
-    public List<CategoriaJuego> listar() {
-        return service.listar();
+    public ResponseEntity<?> listar() {
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener categorías: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 
     // no funciona corregir: Falta endpoint GET /{id} para buscar categoría por ID

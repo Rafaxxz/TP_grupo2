@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.EspecialistaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -18,32 +20,64 @@ public class EspecialistaController {
     private IEspecialistaService especialistaService;
 
     @GetMapping
-    public ResponseEntity<List<EspecialistaDTO>> getAll() {
-        return ResponseEntity.ok(especialistaService.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(especialistaService.getAll());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener especialistas: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EspecialistaDTO> getById(@PathVariable UUID id) {
-        return especialistaService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return especialistaService.getById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Especialista no encontrado con id: " + id));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener especialista: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<EspecialistaDTO> save(@RequestBody EspecialistaDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(especialistaService.save(dto));
+    public ResponseEntity<?> save(@RequestBody EspecialistaDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(especialistaService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear especialista: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EspecialistaDTO> update(@PathVariable UUID id, @RequestBody EspecialistaDTO dto) {
-        dto.setIdEspecialista(id);
-        return ResponseEntity.ok(especialistaService.save(dto));
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody EspecialistaDTO dto) {
+        try {
+            dto.setIdEspecialista(id);
+            return ResponseEntity.ok(especialistaService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar especialista: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        especialistaService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            especialistaService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar especialista: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 
     // no funciona corregir: Falta endpoint para buscar especialistas por especialidad o tipo (US29, US37)

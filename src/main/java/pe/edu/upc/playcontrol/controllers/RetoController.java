@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RetoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -16,34 +18,67 @@ public class RetoController {
 
     @Autowired
     private IRetoService retoService;
+
     @GetMapping
-    public ResponseEntity<List<RetoDTO>> getAll() {
-        return ResponseEntity.ok(retoService.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(retoService.getAll());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener retos: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RetoDTO> getById(@PathVariable UUID id) {
-        return retoService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return retoService.getById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Reto no encontrado con id: " + id));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener reto: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<RetoDTO> save(@RequestBody RetoDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(retoService.save(dto));
+    public ResponseEntity<?> save(@RequestBody RetoDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(retoService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear reto: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RetoDTO> update(@PathVariable UUID id, @RequestBody RetoDTO dto) {
-        dto.setIdReto(id);
-        return ResponseEntity.ok(retoService.save(dto));
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RetoDTO dto) {
+        try {
+            dto.setIdReto(id);
+            return ResponseEntity.ok(retoService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar reto: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        retoService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            retoService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar reto: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 
     // no funciona corregir: Falta endpoint para obtener retos activos (US12, US16, US35)

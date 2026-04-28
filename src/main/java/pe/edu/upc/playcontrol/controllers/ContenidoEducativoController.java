@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.ContenidoEducativoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IContenidoEducativoService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -18,32 +20,64 @@ public class ContenidoEducativoController {
     private IContenidoEducativoService contenidoEducativoService;
 
     @GetMapping
-    public ResponseEntity<List<ContenidoEducativoDTO>> getAll() {
-        return ResponseEntity.ok(contenidoEducativoService.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(contenidoEducativoService.getAll());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener contenidos: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ContenidoEducativoDTO> getById(@PathVariable UUID id) {
-        return contenidoEducativoService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getById(@PathVariable UUID id) {
+        try {
+            return contenidoEducativoService.getById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Contenido no encontrado con id: " + id));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener contenido: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<ContenidoEducativoDTO> save(@RequestBody ContenidoEducativoDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(contenidoEducativoService.save(dto));
+    public ResponseEntity<?> save(@RequestBody ContenidoEducativoDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(contenidoEducativoService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear contenido: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ContenidoEducativoDTO> update(@PathVariable UUID id, @RequestBody ContenidoEducativoDTO dto) {
-        dto.setIdContenido(id);
-        return ResponseEntity.ok(contenidoEducativoService.save(dto));
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody ContenidoEducativoDTO dto) {
+        try {
+            dto.setIdContenido(id);
+            return ResponseEntity.ok(contenidoEducativoService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar contenido: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        contenidoEducativoService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        try {
+            contenidoEducativoService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar contenido: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 
     // no funciona corregir: Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)

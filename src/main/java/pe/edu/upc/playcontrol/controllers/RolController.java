@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RolDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRolService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/roles")
@@ -17,31 +19,65 @@ public class RolController {
     private IRolService rolService;
 
     @GetMapping
-    public ResponseEntity<List<RolDTO>> getAll() {
-        return ResponseEntity.ok(rolService.getAll());
+    public ResponseEntity<?> getAll() {
+        try {
+            return ResponseEntity.ok(rolService.getAll());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener roles: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RolDTO> getById(@PathVariable Integer id) {
-        return rolService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        try {
+            return rolService.getById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Rol no encontrado con id: " + id).getBody() == null
+                            ? ResponseEntity.notFound().build()
+                            : buildErrorResponse(HttpStatus.NOT_FOUND, "Rol no encontrado con id: " + id));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener rol: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public ResponseEntity<RolDTO> save(@RequestBody RolDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(rolService.save(dto));
+    public ResponseEntity<?> save(@RequestBody RolDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(rolService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear rol: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RolDTO> update(@PathVariable Integer id, @RequestBody RolDTO dto) {
-        dto.setIdRol(id);
-        return ResponseEntity.ok(rolService.save(dto));
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody RolDTO dto) {
+        try {
+            dto.setIdRol(id);
+            return ResponseEntity.ok(rolService.save(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar rol: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        rolService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        try {
+            rolService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar rol: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 }
