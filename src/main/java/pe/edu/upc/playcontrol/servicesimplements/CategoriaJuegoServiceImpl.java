@@ -15,21 +15,45 @@ import java.util.stream.Collectors;
 public class CategoriaJuegoServiceImpl implements CategoriaJuegoService {
 
     @Autowired
+<<<<<<< HEAD
     private CategoriaJuegoService categoriaJuegoRepository;
     private final CategoriaJuegoRepository repository;
+=======
+    private CategoriaJuegoRepository categoriaJuegoRepository;
+>>>>>>> ac7a2e12c04e142efe7adb01912433c539770ad2
 
-    public CategoriaJuegoServiceImpl(CategoriaJuegoRepository repository) {
-        this.repository = repository;
+    @Override
+    public List<CategoriaJuegoDTO> getAll() {
+        return categoriaJuegoRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CategoriaJuego guardar(CategoriaJuego categoriaJuego) {
-        return repository.save(categoriaJuego);
+    public Optional<CategoriaJuegoDTO> getById(Integer id) {
+        return categoriaJuegoRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public List<CategoriaJuego> listar() {
-        return repository.findAll();
+    public CategoriaJuegoDTO save(CategoriaJuegoDTO dto) {
+        return toDTO(categoriaJuegoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        categoriaJuegoRepository.deleteById(id);
+    }
+
+    private CategoriaJuegoDTO toDTO(CategoriaJuego e) {
+        CategoriaJuegoDTO dto = new CategoriaJuegoDTO();
+        dto.setIdCategoria(e.getIdCategoria());
+        dto.setNombre(e.getNombre());
+        return dto;
+    }
+
+    private CategoriaJuego toEntity(CategoriaJuegoDTO dto) {
+        CategoriaJuego e = new CategoriaJuego();
+        e.setIdCategoria(dto.getIdCategoria());
+        e.setNombre(dto.getNombre());
+        return e;
     }
 
     @Override

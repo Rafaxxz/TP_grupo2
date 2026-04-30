@@ -80,4 +80,8 @@ public class AlertaDTO {
     public void setLeida(Boolean leida) {
         this.leida = leida;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ac7a2e12c04e142efe7adb01912433c539770ad2

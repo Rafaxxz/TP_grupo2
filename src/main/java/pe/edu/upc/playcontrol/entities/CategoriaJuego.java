@@ -1,15 +1,10 @@
 package pe.edu.upc.playcontrol.entities;
+
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "categoria_juego")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class CategoriaJuego {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +13,23 @@ public class CategoriaJuego {
 
     @Column(name = "nombre", nullable = false, unique = true, length = 80)
     private String nombre;
+
+    public CategoriaJuego() {
+    }
+
+    public Integer getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
