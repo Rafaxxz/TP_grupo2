@@ -4,11 +4,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.playcontrol.dtos.SesionJuegoDTO;
 import pe.edu.upc.playcontrol.entities.SesionJuego;
 import pe.edu.upc.playcontrol.servicesinterfaces.SesionJuegoService;
 
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/sesiones")
@@ -82,4 +86,15 @@ public class SesionJuegoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<SesionJuegoDTO>> buscarPorUsuario(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(sesionJuegoService.buscarPorUsuario(usuarioId));
+    }
+
+    @GetMapping("/fecha")
+    public ResponseEntity<List<SesionJuegoDTO>> buscarPorFecha(@RequestParam LocalDate fecha) {
+        return ResponseEntity.ok(sesionJuegoService.buscarPorFecha(fecha));
+    }
+
 }

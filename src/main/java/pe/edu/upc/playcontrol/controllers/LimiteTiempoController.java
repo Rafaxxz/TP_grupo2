@@ -4,11 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.playcontrol.dtos.LimiteTiempoDTO;
 import pe.edu.upc.playcontrol.entities.LimiteTiempo;
 import pe.edu.upc.playcontrol.servicesinterfaces.LimiteTiempoService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/limites")
@@ -72,4 +75,15 @@ public class LimiteTiempoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<LimiteTiempoDTO>> buscarPorUsuario(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(limiteTiempoService.buscarPorUsuario(usuarioId));
+    }
+
+    @GetMapping("/bloqueados")
+    public ResponseEntity<List<LimiteTiempoDTO>> obtenerBloqueados() {
+        return ResponseEntity.ok(limiteTiempoService.obtenerBloqueados());
+    }
+
 }

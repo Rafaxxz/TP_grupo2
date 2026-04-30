@@ -4,11 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.playcontrol.dtos.AlertaDTO;
 import pe.edu.upc.playcontrol.entities.Alerta;
 import pe.edu.upc.playcontrol.servicesinterfaces.AlertaService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/alertas")
@@ -74,5 +77,15 @@ public class AlertaController {
         error.put("error", status.getReasonPhrase());
         error.put("message", message);
         return new ResponseEntity<>(error, status);
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<AlertaDTO>> buscarPorUsuario(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(alertaService.buscarPorUsuario(usuarioId));
+    }
+
+    @GetMapping("/no-leidas")
+    public ResponseEntity<List<AlertaDTO>> obtenerNoLeidas() {
+        return ResponseEntity.ok(alertaService.obtenerNoLeidas());
     }
 }
