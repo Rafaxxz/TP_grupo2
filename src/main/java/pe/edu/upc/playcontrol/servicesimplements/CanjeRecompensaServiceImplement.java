@@ -10,7 +10,6 @@ import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,14 +33,14 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     }
 
     @Override
-    public CanjeRecompensaDTO getById(UUID id) {
+    public CanjeRecompensaDTO getById(Integer id) {
         CanjeRecompensa canje = canjeRecompensaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CanjeRecompensa no encontrado con id: " + id));
         return toDto(canje);
     }
 
     @Override
-    public List<CanjeRecompensaDTO> getByUsuarioId(UUID usuarioId) {
+    public List<CanjeRecompensaDTO> getByUsuarioId(Integer usuarioId) {
         return canjeRecompensaRepository.findByUsuarioId(usuarioId)
                 .stream()
                 .map(this::toDto)
@@ -64,7 +63,7 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         canjeRecompensaRepository.deleteById(id);
     }
 

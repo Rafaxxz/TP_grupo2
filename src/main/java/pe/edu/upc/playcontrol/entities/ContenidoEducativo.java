@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "contenido_educativo")
@@ -14,9 +13,9 @@ import java.util.UUID;
 public class ContenidoEducativo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_contenido", updatable = false, nullable = false)
-    private UUID idContenido;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_contenido")
+    private Integer idContenido;
 
     @Column(name = "titulo", nullable = false, length = 250)
     private String titulo;

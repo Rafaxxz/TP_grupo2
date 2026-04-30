@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.repositories.ILogroRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +25,7 @@ public class LogroServiceImplement implements ILogroService {
     }
 
     @Override
-    public LogroDTO getById(UUID id) {
+    public LogroDTO getById(Integer id) {
         Logro logro = logroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + id));
         return toDto(logro);
@@ -38,7 +37,7 @@ public class LogroServiceImplement implements ILogroService {
     }
 
     @Override
-    public LogroDTO update(UUID id, LogroDTO dto) {
+    public LogroDTO update(Integer id, LogroDTO dto) {
         // Primero verificamos que el logro existe, luego actualizamos campo a campo.
         Logro logro = logroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + id));
@@ -52,7 +51,7 @@ public class LogroServiceImplement implements ILogroService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         logroRepository.deleteById(id);
     }
 

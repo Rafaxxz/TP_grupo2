@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.LogroUsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/logros-usuario")
@@ -18,7 +19,7 @@ public class LogroUsuarioController {
     @Autowired
     private ILogroUsuarioService logroUsuarioService;
 
-    //devuelve todos los logros
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -28,9 +29,9 @@ public class LogroUsuarioController {
         }
     }
 
-    //devuelve un logro por id
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = logroUsuarioService.getById(id);
             if (result != null) {
@@ -42,9 +43,9 @@ public class LogroUsuarioController {
         }
     }
 
-    // todos los logros desbloqueados por un usuario
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<?> getByUsuarioId(@PathVariable UUID usuarioId) {
+    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer usuarioId) {
         try {
             return ResponseEntity.ok(logroUsuarioService.getByUsuarioId(usuarioId));
         } catch (Exception e) {
@@ -52,9 +53,9 @@ public class LogroUsuarioController {
         }
     }
 
-    //crea un nuevo logro
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody LogroUsuarioDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody LogroUsuarioDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(logroUsuarioService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -64,9 +65,9 @@ public class LogroUsuarioController {
         }
     }
 
-    //elimina un logro por id
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             logroUsuarioService.delete(id);
             return ResponseEntity.noContent().build();
@@ -82,8 +83,4 @@ public class LogroUsuarioController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener estadísticas de logros de un usuario (total, desbloqueados, pendientes) (US11, US15)
-    // no funciona corregir: Falta endpoint para verificar logros desbloqueables según progreso del usuario (US09)
-    // no funciona corregir: Falta endpoint para obtener logros por periodo (últimos logros desbloqueados) (US15)
 }

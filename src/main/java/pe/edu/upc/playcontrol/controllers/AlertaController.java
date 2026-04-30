@@ -2,14 +2,13 @@ package pe.edu.upc.playcontrol.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.Alerta;
 import pe.edu.upc.playcontrol.servicesinterfaces.AlertaService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/alertas")
@@ -21,9 +20,21 @@ public class AlertaController {
         this.service = service;
     }
 
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar datos porque las relaciones @ManyToOne (usuario, sesionJuego) requieren objetos completos, no solo IDs. Crear AlertaDTO y convertir en el service.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody Alerta alerta) {
+        if (alerta.getUsuario() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El usuario de la alerta es obligatorio");
+        }
+        if (alerta.getTipo() == null || alerta.getTipo().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El tipo de alerta es obligatorio");
+        }
+        if (alerta.getMensaje() == null || alerta.getMensaje().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El mensaje de la alerta es obligatorio");
+        }
+        if (alerta.getNivel() == null || alerta.getNivel().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El nivel de la alerta es obligatorio");
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(alerta));
         } catch (IllegalArgumentException e) {
@@ -33,7 +44,7 @@ public class AlertaController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON o exponer datos innecesarios. Usar AlertaDTO.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
@@ -43,9 +54,9 @@ public class AlertaController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON o exponer datos innecesarios. Usar AlertaDTO.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         try {
             Alerta alerta = service.buscarPorId(id);
             if (alerta != null) {
@@ -64,11 +75,4 @@ public class AlertaController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener alertas no leídas por usuario (US02, US08)
-    // no funciona corregir: Falta endpoint para marcar alerta como leída (US06, US08)
-    // no funciona corregir: Falta endpoint para obtener alertas por usuario (US02, US17, US18)
-    // no funciona corregir: Falta endpoint para filtrar alertas por periodo/fecha (US08)
-    // no funciona corregir: Falta endpoint para actualizar alerta
-    // no funciona corregir: Falta endpoint para eliminar alerta
 }

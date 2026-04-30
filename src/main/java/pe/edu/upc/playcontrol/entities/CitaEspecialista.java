@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "cita_especialista")
@@ -14,9 +13,9 @@ import java.util.UUID;
 public class CitaEspecialista {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_cita", updatable = false, nullable = false)
-    private UUID idCita;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_cita")
+    private Integer idCita;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

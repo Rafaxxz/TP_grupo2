@@ -11,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,7 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
     }
 
     @Override
-    public Optional<EspecialistaDTO> getById(UUID id) {
+    public Optional<EspecialistaDTO> getById(Integer id) {
         return especialistaRepository.findById(id).map(this::toDTO);
     }
 
@@ -39,7 +38,7 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         especialistaRepository.deleteById(id);
     }
 

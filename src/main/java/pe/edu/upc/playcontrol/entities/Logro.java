@@ -1,27 +1,17 @@
 package pe.edu.upc.playcontrol.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.UUID;
+import lombok.*;
 
 @Entity
-
 @Table(name = "logro")
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Logro {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_logro", updatable = false, nullable = false)
-    private UUID idLogro;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_logro")
+    private Integer idLogro;
 
     @Column(name = "nombre", nullable = false, length = 120)
     private String nombre;

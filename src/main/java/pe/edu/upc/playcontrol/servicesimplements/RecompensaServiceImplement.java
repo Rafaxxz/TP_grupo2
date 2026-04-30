@@ -8,7 +8,6 @@ import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,7 @@ public class RecompensaServiceImplement implements IRecompensaService {
 
     // 3. traer un dto por id
     @Override
-    public RecompensaDTO getById(UUID id) {
+    public RecompensaDTO getById(Integer id) {
         Recompensa recompensa = recompensaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + id));
         return toDto(recompensa);
@@ -43,7 +42,7 @@ public class RecompensaServiceImplement implements IRecompensaService {
 
     // 5. actualizar un dto
     @Override
-    public RecompensaDTO update(UUID id, RecompensaDTO dto) {
+    public RecompensaDTO update(Integer id, RecompensaDTO dto) {
         Recompensa recompensa = recompensaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + id));
         recompensa.setNombre(dto.getNombre());
@@ -56,7 +55,7 @@ public class RecompensaServiceImplement implements IRecompensaService {
 
     // 6. eliminar un dto por id
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         recompensaRepository.deleteById(id);
     }
 

@@ -13,7 +13,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.ICitaEspecialistaService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,7 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
     }
 
     @Override
-    public Optional<CitaEspecialistaDTO> getById(UUID id) {
+    public Optional<CitaEspecialistaDTO> getById(Integer id) {
         return citaEspecialistaRepository.findById(id).map(this::toDTO);
     }
 
@@ -44,12 +43,12 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         citaEspecialistaRepository.deleteById(id);
     }
 
     @Override
-    public List<CitaEspecialistaDTO> getByUsuarioId(UUID usuarioId) {
+    public List<CitaEspecialistaDTO> getByUsuarioId(Integer usuarioId) {
         return citaEspecialistaRepository.findByUsuario_IdUsuario(usuarioId)
                 .stream().map(this::toDTO).collect(Collectors.toList());
     }

@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RetoUsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/retos-usuario")
@@ -18,6 +19,7 @@ public class RetoUsuarioController {
     @Autowired
     private IRetoUsuarioService retoUsuarioService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -27,8 +29,9 @@ public class RetoUsuarioController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = retoUsuarioService.getById(id);
             if (result.isPresent()) {
@@ -40,8 +43,9 @@ public class RetoUsuarioController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody RetoUsuarioDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody RetoUsuarioDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(retoUsuarioService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -51,8 +55,9 @@ public class RetoUsuarioController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RetoUsuarioDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RetoUsuarioDTO dto) {
         try {
             dto.setId(id);
             return ResponseEntity.ok(retoUsuarioService.save(dto));
@@ -63,8 +68,9 @@ public class RetoUsuarioController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             retoUsuarioService.delete(id);
             return ResponseEntity.noContent().build();
@@ -80,9 +86,4 @@ public class RetoUsuarioController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener retos de un usuario específico (US12, US16, US35)
-    // no funciona corregir: Falta endpoint para actualizar progreso de reto (US12, US16)
-    // no funciona corregir: Falta endpoint para obtener retos completados por usuario (US12, US15)
-    // no funciona corregir: Falta endpoint para obtener retos en progreso de un usuario (US12)
 }

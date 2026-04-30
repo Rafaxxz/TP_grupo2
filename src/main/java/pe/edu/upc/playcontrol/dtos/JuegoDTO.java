@@ -1,23 +1,24 @@
 package pe.edu.upc.playcontrol.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class JuegoDTO {
-    private UUID idJuego;
+    private Integer idJuego;
+
+    @NotBlank(message = "El título del juego es obligatorio")
     private String titulo;
+
     private String descripcion;
     private String urlImagen;
+
+    @NotNull(message = "La categoría es obligatoria")
     private Integer categoriaId;
+
     private String tipoMecánica;
 }
-
-

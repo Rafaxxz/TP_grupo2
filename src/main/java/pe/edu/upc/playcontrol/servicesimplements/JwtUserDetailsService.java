@@ -7,8 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pe.edu.upc.playcontrol.entities.Users;
-import pe.edu.upc.playcontrol.repositories.IUserRepository;
+import pe.edu.upc.playcontrol.entities.Usuario;
+import pe.edu.upc.playcontrol.repositories.IRolRepository;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,23 +18,27 @@ import java.util.List;
 public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private IUserRepository repo;
+    private IUsuarioRepository usuarioRepository;
+
+    @Autowired
+    private IRolRepository rolRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = repo.findOneByUsername(username);
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no existe: " + username));
 
-        if (user == null) {
-            throw new UsernameNotFoundException(String.format("Usuario no existe: %s", username));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (usuario.getIdRol() != null) {
+            rolRepository.findById(usuario.getIdRol())
+                    .ifPresent(rol -> authorities.add(new SimpleGrantedAuthority(rol.getNombre())));
         }
 
-        List<GrantedAuthority> roles = new ArrayList<>();
-        user.getRoles().forEach(rol -> {
-            roles.add(new SimpleGrantedAuthority(rol.getRol()));
-        });
-
         return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), user.getPassword(), user.getEnabled(),
-                true, true, true, roles);
+                usuario.getUsername(),
+                usuario.getPasswordHash(),
+                Boolean.TRUE.equals(usuario.getEstado()),
+                true, true, true,
+                authorities);
     }
 }

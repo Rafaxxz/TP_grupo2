@@ -2,14 +2,13 @@ package pe.edu.upc.playcontrol.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.LimiteTiempo;
 import pe.edu.upc.playcontrol.servicesinterfaces.LimiteTiempoService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/limites")
@@ -21,9 +20,18 @@ public class LimiteTiempoController {
         this.service = service;
     }
 
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar porque la relación @ManyToOne (usuario) requiere objeto completo, no ID. Ya existe LimiteTiempoDTO, implementar conversión en service.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody LimiteTiempo limiteTiempo) {
+        if (limiteTiempo.getUsuario() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El usuario del límite es obligatorio");
+        }
+        if (limiteTiempo.getTipo() == null || limiteTiempo.getTipo().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El tipo de límite es obligatorio");
+        }
+        if (limiteTiempo.getMinutosMaximos() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "Los minutos máximos son obligatorios");
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(limiteTiempo));
         } catch (IllegalArgumentException e) {
@@ -33,7 +41,7 @@ public class LimiteTiempoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe LimiteTiempoDTO, usarlo.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
@@ -43,9 +51,9 @@ public class LimiteTiempoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe LimiteTiempoDTO, usarlo.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         try {
             LimiteTiempo limite = service.buscarPorId(id);
             if (limite != null) {
@@ -64,11 +72,4 @@ public class LimiteTiempoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint PUT /{id} para actualizar límite (US04, US05, US19)
-    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar límite
-    // no funciona corregir: Falta endpoint para obtener límites por usuario (US04, US05, US17, US19)
-    // no funciona corregir: Falta endpoint para obtener límite activo de un usuario por tipo (diario/semanal) (US04, US05)
-    // no funciona corregir: Falta endpoint para verificar si usuario excedió límite (US02, US18)
-    // no funciona corregir: Falta endpoint para activar/desactivar bloqueo temporal (US07)
 }

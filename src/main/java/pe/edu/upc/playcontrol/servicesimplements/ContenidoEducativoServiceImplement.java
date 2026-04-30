@@ -9,7 +9,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IContenidoEducativoService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +23,7 @@ public class ContenidoEducativoServiceImplement implements IContenidoEducativoSe
     }
 
     @Override
-    public Optional<ContenidoEducativoDTO> getById(UUID id) {
+    public Optional<ContenidoEducativoDTO> getById(Integer id) {
         return contenidoEducativoRepository.findById(id).map(this::toDTO);
     }
 
@@ -34,7 +33,7 @@ public class ContenidoEducativoServiceImplement implements IContenidoEducativoSe
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         contenidoEducativoRepository.deleteById(id);
     }
 

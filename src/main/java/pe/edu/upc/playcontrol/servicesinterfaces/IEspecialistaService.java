@@ -4,12 +4,11 @@ import pe.edu.upc.playcontrol.dtos.EspecialistaDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IEspecialistaService {
     List<EspecialistaDTO> getAll();
-    Optional<EspecialistaDTO> getById(UUID id);
+    Optional<EspecialistaDTO> getById(Integer id);
     EspecialistaDTO save(EspecialistaDTO dto);
-    void delete(UUID id);
+    void delete(Integer id);
     List<EspecialistaDTO> getByEspecialidad(String especialidad);
 }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "canje_recompensa")
@@ -17,14 +16,13 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CanjeRecompensa {
 
-    //PK del canje
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_canje", updatable = false, nullable = false)
-    private UUID idCanje;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_canje")
+    private Integer idCanje;
 
     @Column(name = "usuario_id", nullable = false)
-    private UUID usuarioId;
+    private Integer usuarioId;
 
     //el LAZY hace que la carga de la recompensa se haga solo cuando se necesita acceder a ella
     //aqui se hace relacion con la tabla recompensa

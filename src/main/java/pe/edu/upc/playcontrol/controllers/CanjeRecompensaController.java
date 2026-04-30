@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.CanjeRecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/canjes")
@@ -18,7 +19,7 @@ public class CanjeRecompensaController {
     @Autowired
     private ICanjeRecompensaService canjeRecompensaService;
 
-    //retorna todos los canjes
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -28,9 +29,9 @@ public class CanjeRecompensaController {
         }
     }
 
-    //retorna un canje por id
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(canjeRecompensaService.getById(id));
         } catch (Exception e) {
@@ -38,9 +39,9 @@ public class CanjeRecompensaController {
         }
     }
 
-    //todos los canjes realizados por un usuario
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<?> getByUsuarioId(@PathVariable UUID usuarioId) {
+    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer usuarioId) {
         try {
             return ResponseEntity.ok(canjeRecompensaService.getByUsuarioId(usuarioId));
         } catch (Exception e) {
@@ -48,9 +49,9 @@ public class CanjeRecompensaController {
         }
     }
 
-    //crea un nuevo canje
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'HIJO')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody CanjeRecompensaDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody CanjeRecompensaDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(canjeRecompensaService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -60,9 +61,9 @@ public class CanjeRecompensaController {
         }
     }
 
-    //elimina un canje por id
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             canjeRecompensaService.delete(id);
             return ResponseEntity.noContent().build();

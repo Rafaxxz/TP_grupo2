@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.MensajeDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/mensajes")
@@ -18,6 +19,7 @@ public class MensajeController {
     @Autowired
     private IMensajeService mensajeService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -27,8 +29,9 @@ public class MensajeController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = mensajeService.getById(id);
             if (result.isPresent()) {
@@ -40,8 +43,9 @@ public class MensajeController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody MensajeDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody MensajeDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -51,8 +55,9 @@ public class MensajeController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody MensajeDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody MensajeDTO dto) {
         try {
             dto.setIdMensaje(id);
             return ResponseEntity.ok(mensajeService.save(dto));
@@ -63,8 +68,9 @@ public class MensajeController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             mensajeService.delete(id);
             return ResponseEntity.noContent().build();
@@ -80,9 +86,4 @@ public class MensajeController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener mensajes por usuario remitente (US22, US37)
-    // no funciona corregir: Falta endpoint para obtener mensajes por usuario destinatario (US22, US37)
-    // no funciona corregir: Falta endpoint para marcar mensaje como leído (US22)
-    // no funciona corregir: Falta endpoint para obtener conversación entre dos usuarios (US37)
 }

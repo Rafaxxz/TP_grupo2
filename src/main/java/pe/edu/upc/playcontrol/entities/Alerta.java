@@ -2,7 +2,6 @@ package pe.edu.upc.playcontrol.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "alerta")
@@ -12,11 +11,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Alerta {
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alerta")
-    private UUID idAlerta;
+    private Integer idAlerta;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

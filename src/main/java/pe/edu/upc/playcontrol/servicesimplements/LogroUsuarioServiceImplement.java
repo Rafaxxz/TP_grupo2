@@ -10,7 +10,6 @@ import pe.edu.upc.playcontrol.repositories.ILogroUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,14 +30,14 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
     }
 
     @Override
-    public LogroUsuarioDTO getById(UUID id) {
+    public LogroUsuarioDTO getById(Integer id) {
         LogroUsuario lu = logroUsuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("LogroUsuario no encontrado con id: " + id));
         return toDto(lu);
     }
 
     @Override
-    public List<LogroUsuarioDTO> getByUsuarioId(UUID usuarioId) {
+    public List<LogroUsuarioDTO> getByUsuarioId(Integer usuarioId) {
         return logroUsuarioRepository.findByUsuarioId(usuarioId)
                 .stream()
                 .map(this::toDto)
@@ -57,7 +56,7 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         logroUsuarioRepository.deleteById(id);
     }
 

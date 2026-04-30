@@ -5,12 +5,9 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.playcontrol.entities.CanjeRecompensa;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompensa, UUID> {
+public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompensa, Integer> {
 
-    // con JpaRepository se acceden a varios metodos como save, findAll, etc.
-    //aqui se hace SELECT * FROM canje_recompensa WHERE usuario_id = ?
-    List<CanjeRecompensa> findByUsuarioId(UUID usuarioId);
+    List<CanjeRecompensa> findByUsuarioId(Integer usuarioId);
 }

@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/recompensas")
@@ -18,7 +19,7 @@ public class RecompensaController {
     @Autowired
     private IRecompensaService recompensaService;
 
-    //devuelve todas las recompensas
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -28,9 +29,9 @@ public class RecompensaController {
         }
     }
 
-    // devuelve una recompensa por id
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(recompensaService.getById(id));
         } catch (Exception e) {
@@ -38,9 +39,9 @@ public class RecompensaController {
         }
     }
 
-    //crea una nueva recompensa
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody RecompensaDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody RecompensaDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(recompensaService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -50,9 +51,9 @@ public class RecompensaController {
         }
     }
 
-    //actualiza una recompensa existente
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RecompensaDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RecompensaDTO dto) {
         try {
             return ResponseEntity.ok(recompensaService.update(id, dto));
         } catch (IllegalArgumentException e) {
@@ -62,9 +63,9 @@ public class RecompensaController {
         }
     }
 
-    //elimina una recompensa por id
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             recompensaService.delete(id);
             return ResponseEntity.noContent().build();
@@ -80,8 +81,4 @@ public class RecompensaController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para filtrar recompensas por tipo (avatar, badge, premio) (US10, US14)
-    // no funciona corregir: Falta endpoint para obtener recompensas disponibles según puntos del usuario (US10, US14)
-    // no funciona corregir: Falta endpoint para obtener recompensas ordenadas por costo de puntos (US10)
 }

@@ -1,11 +1,7 @@
 package pe.edu.upc.playcontrol.entities;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "reto")
@@ -13,9 +9,9 @@ import java.util.UUID;
 public class Reto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_reto", updatable = false, nullable = false)
-    private UUID idReto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reto")
+    private Integer idReto;
 
     @Column(name = "titulo", nullable = false, length = 200)
     private String titulo;

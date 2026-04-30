@@ -2,22 +2,15 @@ package pe.edu.upc.playcontrol.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "juego")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Juego {
 
-
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_juego")
-    private UUID idJuego;
+    private Integer idJuego;
 
     @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;

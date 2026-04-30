@@ -6,7 +6,6 @@ import pe.edu.upc.playcontrol.repositories.SesionJuegoRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.SesionJuegoService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class SesionJuegoServiceImpl implements SesionJuegoService {
@@ -28,12 +27,12 @@ public class SesionJuegoServiceImpl implements SesionJuegoService {
     }
 
     @Override
-    public SesionJuego buscarPorId(UUID id) {
+    public SesionJuego buscarPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<SesionJuego> historialPorUsuario(UUID usuarioId) {
+    public List<SesionJuego> historialPorUsuario(Integer usuarioId) {
         return repository.historialPorUsuario(usuarioId);
     }
 }

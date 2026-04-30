@@ -13,7 +13,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +33,7 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     }
 
     @Override
-    public Optional<RetoUsuarioDTO> getById(UUID id) {
+    public Optional<RetoUsuarioDTO> getById(Integer id) {
         return retoUsuarioRepository.findById(id).map(this::toDTO);
     }
 
@@ -44,7 +43,7 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         retoUsuarioRepository.deleteById(id);
     }
 

@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RetoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/retos")
@@ -18,6 +19,7 @@ public class RetoController {
     @Autowired
     private IRetoService retoService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -27,8 +29,9 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = retoService.getById(id);
             if (result.isPresent()) {
@@ -40,11 +43,11 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody RetoDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody RetoDTO dto) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(retoService.save(dto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(retoService.save(dto));
         } catch (IllegalArgumentException e) {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
@@ -52,8 +55,9 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RetoDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RetoDTO dto) {
         try {
             dto.setIdReto(id);
             return ResponseEntity.ok(retoService.save(dto));
@@ -64,8 +68,9 @@ public class RetoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             retoService.delete(id);
             return ResponseEntity.noContent().build();
@@ -81,9 +86,4 @@ public class RetoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener retos activos (US12, US16, US35)
-    // no funciona corregir: Falta endpoint para filtrar retos por tipo (semanal, familiar, comunitario) (US12, US16, US35)
-    // no funciona corregir: Falta endpoint para filtrar retos por dificultad (US12)
-    // no funciona corregir: Falta endpoint para obtener retos disponibles para un usuario (US12, US16)
 }

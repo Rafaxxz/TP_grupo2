@@ -1,8 +1,10 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RolDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRolService;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/roles")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class RolController {
 
     @Autowired
@@ -40,7 +43,7 @@ public class RolController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody RolDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody RolDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(rolService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -51,7 +54,7 @@ public class RolController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody RolDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RolDTO dto) {
         try {
             dto.setIdRol(id);
             return ResponseEntity.ok(rolService.save(dto));

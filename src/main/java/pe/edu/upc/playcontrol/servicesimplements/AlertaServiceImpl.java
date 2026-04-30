@@ -6,7 +6,6 @@ import pe.edu.upc.playcontrol.repositories.AlertaRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.AlertaService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AlertaServiceImpl implements AlertaService {
@@ -28,7 +27,7 @@ public class AlertaServiceImpl implements AlertaService {
     }
 
     @Override
-    public Alerta buscarPorId(UUID id) {
+    public Alerta buscarPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
 }

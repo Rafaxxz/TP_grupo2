@@ -4,11 +4,10 @@ import pe.edu.upc.playcontrol.dtos.ContenidoEducativoDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IContenidoEducativoService {
     List<ContenidoEducativoDTO> getAll();
-    Optional<ContenidoEducativoDTO> getById(UUID id);
+    Optional<ContenidoEducativoDTO> getById(Integer id);
     ContenidoEducativoDTO save(ContenidoEducativoDTO dto);
-    void delete(UUID id);
+    void delete(Integer id);
 }

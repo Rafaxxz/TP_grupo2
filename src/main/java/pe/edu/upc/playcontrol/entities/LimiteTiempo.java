@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "limite_tiempo",
@@ -15,11 +14,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class LimiteTiempo {
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_limite")
-    private UUID idLimite;
+    private Integer idLimite;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)

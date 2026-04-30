@@ -2,21 +2,16 @@ package pe.edu.upc.playcontrol.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "usuario")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Usuario {
 
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private UUID idUsuario;
+    private Integer idUsuario;
 
     @Column(name = "username", nullable = false, unique = true, length = 60)
     private String username;
@@ -44,11 +39,7 @@ public class Usuario {
 
     @PrePersist
     public void prePersist() {
-        if (createdAt == null) {
-            createdAt = OffsetDateTime.now();
-        }
-        if (puntosTotales == null) {
-            puntosTotales = 0;
-        }
+        if (createdAt == null) createdAt = OffsetDateTime.now();
+        if (puntosTotales == null) puntosTotales = 0;
     }
 }

@@ -8,9 +8,7 @@ import pe.edu.upc.playcontrol.entities.SesionJuego;
 import pe.edu.upc.playcontrol.servicesinterfaces.SesionJuegoService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/sesiones")
@@ -22,9 +20,18 @@ public class SesionJuegoController {
         this.service = service;
     }
 
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar porque las relaciones @ManyToOne (usuario, juego) requieren objetos completos, no IDs. Ya existe SesionJuegoDTO, implementar conversión en service.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'HIJO')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody SesionJuego sesionJuego) {
+        if (sesionJuego.getUsuario() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El usuario de la sesión es obligatorio");
+        }
+        if (sesionJuego.getJuego() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El juego de la sesión es obligatorio");
+        }
+        if (sesionJuego.getInicio() == null) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "La fecha de inicio de la sesión es obligatoria");
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(sesionJuego));
         } catch (IllegalArgumentException e) {
@@ -34,7 +41,7 @@ public class SesionJuegoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON. Ya existe SesionJuegoDTO, usarlo.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
@@ -44,9 +51,9 @@ public class SesionJuegoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relaciones @ManyToOne, puede causar referencias circulares en JSON. Ya existe SesionJuegoDTO, usarlo.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         try {
             SesionJuego sesion = service.buscarPorId(id);
             if (sesion != null) {
@@ -58,9 +65,9 @@ public class SesionJuegoController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/historial/{usuarioId}")
-    public ResponseEntity<?> historialPorUsuario(@PathVariable UUID usuarioId) {
+    public ResponseEntity<?> historialPorUsuario(@PathVariable Integer usuarioId) {
         try {
             return ResponseEntity.ok(service.historialPorUsuario(usuarioId));
         } catch (Exception e) {
@@ -75,14 +82,4 @@ public class SesionJuegoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint PUT /{id} para actualizar sesión (finalizar sesión activa) (US01)
-    // no funciona corregir: Falta endpoint para obtener sesiones por usuario (US01, US17, US33, US43)
-    // no funciona corregir: Falta endpoint para obtener sesiones por fecha o rango de fechas (US01, US33, US43)
-    // no funciona corregir: Falta endpoint para obtener sesiones activas de un usuario (US01, US02)
-    // no funciona corregir: Falta endpoint para obtener tiempo total jugado por usuario (diario/semanal/mensual) (US01, US02, US04, US05, US17, US33, US43)
-    // no funciona corregir: Falta endpoint para obtener estadísticas de tiempo de juego por juego (US01, US33)
-    // no funciona corregir: Falta endpoint para obtener reporte mensual de sesiones (US33)
-    // no funciona corregir: Falta endpoint para obtener panel de rendimiento semanal (US43)
-    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar sesión
 }

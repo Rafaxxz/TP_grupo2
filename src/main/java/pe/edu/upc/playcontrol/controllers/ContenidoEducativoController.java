@@ -1,15 +1,16 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.ContenidoEducativoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IContenidoEducativoService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/contenidos-educativos")
@@ -18,6 +19,7 @@ public class ContenidoEducativoController {
     @Autowired
     private IContenidoEducativoService contenidoEducativoService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -27,8 +29,9 @@ public class ContenidoEducativoController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = contenidoEducativoService.getById(id);
             if (result.isPresent()) {
@@ -40,8 +43,9 @@ public class ContenidoEducativoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody ContenidoEducativoDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody ContenidoEducativoDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(contenidoEducativoService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -51,8 +55,9 @@ public class ContenidoEducativoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody ContenidoEducativoDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody ContenidoEducativoDTO dto) {
         try {
             dto.setIdContenido(id);
             return ResponseEntity.ok(contenidoEducativoService.save(dto));
@@ -63,8 +68,9 @@ public class ContenidoEducativoController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             contenidoEducativoService.delete(id);
             return ResponseEntity.noContent().build();
@@ -80,9 +86,4 @@ public class ContenidoEducativoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para filtrar contenidos por tipo (articulo, video, guia, podcast) (US23, US24, US39)
-    // no funciona corregir: Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
-    // no funciona corregir: Falta endpoint para obtener recursos descargables (US30)
-    // no funciona corregir: Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)
 }

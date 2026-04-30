@@ -6,7 +6,6 @@ import pe.edu.upc.playcontrol.repositories.JuegoRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.JuegoService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class JuegoServiceImpl implements JuegoService {
@@ -28,7 +27,7 @@ public class JuegoServiceImpl implements JuegoService {
     }
 
     @Override
-    public Juego buscarPorId(UUID id) {
+    public Juego buscarPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
 }

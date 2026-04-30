@@ -1,5 +1,6 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/especialistas")
@@ -19,6 +19,7 @@ public class EspecialistaController {
     @Autowired
     private IEspecialistaService especialistaService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -28,8 +29,9 @@ public class EspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = especialistaService.getById(id);
             if (result.isPresent()) {
@@ -41,8 +43,9 @@ public class EspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody EspecialistaDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody EspecialistaDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(especialistaService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -52,8 +55,9 @@ public class EspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody EspecialistaDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody EspecialistaDTO dto) {
         try {
             dto.setIdEspecialista(id);
             return ResponseEntity.ok(especialistaService.save(dto));
@@ -74,8 +78,9 @@ public class EspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             especialistaService.delete(id);
             return ResponseEntity.noContent().build();
@@ -91,8 +96,4 @@ public class EspecialistaController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para buscar especialistas por especialidad o tipo (US29, US37)
-    // no funciona corregir: Falta endpoint para ver disponibilidad de especialista (US29, US37)
-    // no funciona corregir: Falta endpoint para obtener especialistas disponibles para citas (US29)
 }

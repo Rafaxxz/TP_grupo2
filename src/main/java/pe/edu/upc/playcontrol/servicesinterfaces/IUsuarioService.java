@@ -4,11 +4,10 @@ import pe.edu.upc.playcontrol.dtos.UsuarioDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IUsuarioService {
     List<UsuarioDTO> getAll();
-    Optional<UsuarioDTO> getById(UUID id);
+    Optional<UsuarioDTO> getById(Integer id);
     UsuarioDTO save(UsuarioDTO dto);
-    void delete(UUID id);
+    void delete(Integer id);
 }

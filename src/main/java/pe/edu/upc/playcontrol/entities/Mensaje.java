@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "mensaje")
@@ -15,9 +14,9 @@ import java.util.UUID;
 public class Mensaje {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_mensaje", updatable = false, nullable = false)
-    private UUID idMensaje;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_mensaje")
+    private Integer idMensaje;
 
     @ManyToOne
     @JoinColumn(name = "remitente_id", nullable = false)

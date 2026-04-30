@@ -7,7 +7,6 @@ import pe.edu.upc.playcontrol.repositories.LimiteTiempoRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.LimiteTiempoService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class LimiteTiempoServiceImplement implements LimiteTiempoService {
@@ -26,10 +25,7 @@ public class LimiteTiempoServiceImplement implements LimiteTiempoService {
     }
 
     @Override
-    public LimiteTiempo buscarPorId(UUID id) {
+    public LimiteTiempo buscarPorId(Integer id) {
         return limiteTiempoRepository.findById(id).orElse(null);
     }
 }
-
-
-

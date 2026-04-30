@@ -5,10 +5,9 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.playcontrol.entities.LogroUsuario;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface ILogroUsuarioRepository extends JpaRepository<LogroUsuario, UUID> {
+public interface ILogroUsuarioRepository extends JpaRepository<LogroUsuario, Integer> {
 
-    List<LogroUsuario> findByUsuarioId(UUID usuarioId);
+    List<LogroUsuario> findByUsuarioId(Integer usuarioId);
 }

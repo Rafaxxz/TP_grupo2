@@ -1,5 +1,6 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.ICitaEspecialistaService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/citas-especialista")
@@ -19,6 +19,7 @@ public class CitaEspecialistaController {
     @Autowired
     private ICitaEspecialistaService citaEspecialistaService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
@@ -28,8 +29,9 @@ public class CitaEspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable UUID id) {
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
         try {
             var result = citaEspecialistaService.getById(id);
             if (result.isPresent()) {
@@ -41,8 +43,9 @@ public class CitaEspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody CitaEspecialistaDTO dto) {
+    public ResponseEntity<?> save(@Valid @RequestBody CitaEspecialistaDTO dto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(citaEspecialistaService.save(dto));
         } catch (IllegalArgumentException e) {
@@ -52,8 +55,9 @@ public class CitaEspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody CitaEspecialistaDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody CitaEspecialistaDTO dto) {
         try {
             dto.setIdCita(id);
             return ResponseEntity.ok(citaEspecialistaService.save(dto));
@@ -64,9 +68,9 @@ public class CitaEspecialistaController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<?> getByUsuarioId(@PathVariable UUID usuarioId) {
+    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer usuarioId) {
         try {
             return ResponseEntity.ok(citaEspecialistaService.getByUsuarioId(usuarioId));
         } catch (Exception e) {
@@ -74,8 +78,9 @@ public class CitaEspecialistaController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             citaEspecialistaService.delete(id);
             return ResponseEntity.noContent().build();
@@ -91,9 +96,4 @@ public class CitaEspecialistaController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint para obtener citas por usuario (US29, US37)
-    // no funciona corregir: Falta endpoint para obtener citas por especialista (US29, US38)
-    // no funciona corregir: Falta endpoint para actualizar estado de cita (confirmada, cancelada, completada) (US29)
-    // no funciona corregir: Falta endpoint para obtener citas por rango de fechas (US29)
 }

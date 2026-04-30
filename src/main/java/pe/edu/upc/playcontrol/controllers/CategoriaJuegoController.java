@@ -2,12 +2,12 @@ package pe.edu.upc.playcontrol.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.CategoriaJuego;
 import pe.edu.upc.playcontrol.servicesinterfaces.CategoriaJuegoService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,9 +20,12 @@ public class CategoriaJuegoController {
         this.service = service;
     }
 
-    // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto, aunque esta entidad no tiene relaciones complejas.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody CategoriaJuego categoriaJuego) {
+        if (categoriaJuego.getNombre() == null || categoriaJuego.getNombre().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El nombre de la categoría es obligatorio");
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(categoriaJuego));
         } catch (IllegalArgumentException e) {
@@ -32,7 +35,7 @@ public class CategoriaJuegoController {
         }
     }
 
-    // no funciona corregir: Recomendado usar CategoriaJuegoDTO en lugar de Entity para consistencia con el resto del proyecto.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
@@ -49,8 +52,4 @@ public class CategoriaJuegoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint GET /{id} para buscar categoría por ID
-    // no funciona corregir: Falta endpoint PUT /{id} para actualizar categoría
-    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar categoría
 }

@@ -2,14 +2,13 @@ package pe.edu.upc.playcontrol.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.Juego;
 import pe.edu.upc.playcontrol.servicesinterfaces.JuegoService;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/juegos")
@@ -21,9 +20,12 @@ public class JuegoController {
         this.service = service;
     }
 
-    // no funciona corregir: Este endpoint usa Entity en lugar de DTO, causará error al insertar porque la relación @ManyToOne (categoriaJuego) requiere objeto completo, no ID. Ya existe JuegoDTO, implementar conversión en service.
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody Juego juego) {
+        if (juego.getNombre() == null || juego.getNombre().isBlank()) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, "El nombre del juego es obligatorio");
+        }
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.guardar(juego));
         } catch (IllegalArgumentException e) {
@@ -33,7 +35,7 @@ public class JuegoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe JuegoDTO, usarlo.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
@@ -43,9 +45,9 @@ public class JuegoController {
         }
     }
 
-    // no funciona corregir: Este endpoint retorna Entity con relación @ManyToOne, puede causar referencias circulares en JSON. Ya existe JuegoDTO, usarlo.
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<?> buscarPorId(@PathVariable Integer id) {
         try {
             Juego juego = service.buscarPorId(id);
             if (juego != null) {
@@ -64,9 +66,4 @@ public class JuegoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    // no funciona corregir: Falta endpoint PUT /{id} para actualizar juego
-    // no funciona corregir: Falta endpoint DELETE /{id} para eliminar juego
-    // no funciona corregir: Falta endpoint para buscar juegos por categoría (para organización)
-    // no funciona corregir: Falta endpoint para buscar juegos por usuario (juegos que juega un usuario)
 }

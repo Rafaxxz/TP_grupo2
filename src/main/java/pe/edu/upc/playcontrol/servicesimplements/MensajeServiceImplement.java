@@ -11,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +28,7 @@ public class MensajeServiceImplement implements IMensajeService {
     }
 
     @Override
-    public Optional<MensajeDTO> getById(UUID id) {
+    public Optional<MensajeDTO> getById(Integer id) {
         return mensajeRepository.findById(id).map(this::toDTO);
     }
 
@@ -39,7 +38,7 @@ public class MensajeServiceImplement implements IMensajeService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         mensajeRepository.deleteById(id);
     }
 
