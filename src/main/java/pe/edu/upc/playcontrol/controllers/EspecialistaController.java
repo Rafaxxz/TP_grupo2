@@ -3,6 +3,7 @@ package pe.edu.upc.playcontrol.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.EspecialistaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
@@ -60,6 +61,16 @@ public class EspecialistaController {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar especialista: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/especialidad/{especialidad}")
+    public ResponseEntity<?> getByEspecialidad(@PathVariable String especialidad) {
+        try {
+            return ResponseEntity.ok(especialistaService.getByEspecialidad(especialidad));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al buscar por especialidad: " + e.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package pe.edu.upc.playcontrol.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.entities.SesionJuego;
 import pe.edu.upc.playcontrol.servicesinterfaces.SesionJuegoService;
@@ -54,6 +55,16 @@ public class SesionJuegoController {
             return buildErrorResponse(HttpStatus.NOT_FOUND, "Sesión no encontrada con id: " + id);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener sesión: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/historial/{usuarioId}")
+    public ResponseEntity<?> historialPorUsuario(@PathVariable UUID usuarioId) {
+        try {
+            return ResponseEntity.ok(service.historialPorUsuario(usuarioId));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener historial: " + e.getMessage());
         }
     }
 

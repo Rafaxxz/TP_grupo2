@@ -9,4 +9,5 @@ public interface SesionJuegoService {
     SesionJuego guardar(SesionJuego sesionJuego);
     List<SesionJuego> listar();
     SesionJuego buscarPorId(UUID id);
+    List<SesionJuego> historialPorUsuario(UUID usuarioId);
 }

@@ -31,4 +31,9 @@ public class SesionJuegoServiceImpl implements SesionJuegoService {
     public SesionJuego buscarPorId(UUID id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<SesionJuego> historialPorUsuario(UUID usuarioId) {
+        return repository.historialPorUsuario(usuarioId);
+    }
 }

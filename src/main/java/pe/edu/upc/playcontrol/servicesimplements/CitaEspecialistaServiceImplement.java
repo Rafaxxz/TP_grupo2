@@ -48,6 +48,12 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
         citaEspecialistaRepository.deleteById(id);
     }
 
+    @Override
+    public List<CitaEspecialistaDTO> getByUsuarioId(UUID usuarioId) {
+        return citaEspecialistaRepository.findByUsuario_IdUsuario(usuarioId)
+                .stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     private CitaEspecialistaDTO toDTO(CitaEspecialista e) {
         CitaEspecialistaDTO dto = new CitaEspecialistaDTO();
         dto.setIdCita(e.getIdCita());

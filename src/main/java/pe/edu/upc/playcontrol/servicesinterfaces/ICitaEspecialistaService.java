@@ -11,4 +11,5 @@ public interface ICitaEspecialistaService {
     Optional<CitaEspecialistaDTO> getById(UUID id);
     CitaEspecialistaDTO save(CitaEspecialistaDTO dto);
     void delete(UUID id);
+    List<CitaEspecialistaDTO> getByUsuarioId(UUID usuarioId);
 }

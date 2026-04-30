@@ -43,6 +43,12 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
         especialistaRepository.deleteById(id);
     }
 
+    @Override
+    public List<EspecialistaDTO> getByEspecialidad(String especialidad) {
+        return especialistaRepository.findByEspecialidadIgnoreCase(especialidad)
+                .stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     private EspecialistaDTO toDTO(Especialista e) {
         EspecialistaDTO dto = new EspecialistaDTO();
         dto.setIdEspecialista(e.getIdEspecialista());

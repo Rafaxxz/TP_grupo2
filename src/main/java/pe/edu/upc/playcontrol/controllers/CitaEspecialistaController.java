@@ -3,6 +3,7 @@ package pe.edu.upc.playcontrol.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.CitaEspecialistaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICitaEspecialistaService;
@@ -60,6 +61,16 @@ public class CitaEspecialistaController {
             return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar cita: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<?> getByUsuarioId(@PathVariable UUID usuarioId) {
+        try {
+            return ResponseEntity.ok(citaEspecialistaService.getByUsuarioId(usuarioId));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al buscar citas por usuario: " + e.getMessage());
         }
     }
 

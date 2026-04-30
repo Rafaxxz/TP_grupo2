@@ -11,4 +11,5 @@ public interface IEspecialistaService {
     Optional<EspecialistaDTO> getById(UUID id);
     EspecialistaDTO save(EspecialistaDTO dto);
     void delete(UUID id);
+    List<EspecialistaDTO> getByEspecialidad(String especialidad);
 }
