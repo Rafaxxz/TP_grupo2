@@ -49,6 +49,16 @@ public class ContenidoEducativoServiceImplement implements IContenidoEducativoSe
         return contenidoEducativoRepository.findByTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<ContenidoEducativoDTO> findByTipoOrdenadoPorFecha(String tipo) {
+        return contenidoEducativoRepository.findByTipoOrdenadoPorFecha(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ContenidoEducativoDTO> findUltimosContenidosPorTipo(String tipo) {
+        return contenidoEducativoRepository.findUltimosContenidosPorTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     private ContenidoEducativoDTO toDTO(ContenidoEducativo e) {
         ContenidoEducativoDTO dto = new ContenidoEducativoDTO();
         dto.setIdContenido(e.getIdContenido());

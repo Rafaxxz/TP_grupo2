@@ -64,6 +64,16 @@ public class CitaEspecialistaServiceImplement implements ICitaEspecialistaServic
         return citaEspecialistaRepository.findByUsuario_IdUsuario(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<CitaEspecialistaDTO> findProximasCitasPendientes(UUID usuarioId) {
+        return citaEspecialistaRepository.findProximasCitasPendientes(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object historialCitasPorEspecialista(UUID usuarioId) {
+        return citaEspecialistaRepository.historialCitasPorEspecialista(usuarioId);
+    }
+
     private CitaEspecialistaDTO toDTO(CitaEspecialista e) {
         CitaEspecialistaDTO dto = new CitaEspecialistaDTO();
         dto.setIdCita(e.getIdCita());

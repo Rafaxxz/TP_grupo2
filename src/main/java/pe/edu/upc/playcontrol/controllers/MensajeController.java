@@ -70,7 +70,16 @@ public class MensajeController {
         return ResponseEntity.ok(mensajeService.listNoLeidosByDestinatarioId(destinatarioId));
     }
 
-    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren lógica de negocio compleja)
-    // - Falta endpoint para marcar mensaje como leído (US22)
-    // - Falta endpoint para obtener conversación entre dos usuarios (US37)
+    // Query 1: Conversación entre dos usuarios
+    @GetMapping("/conversacion")
+    public ResponseEntity<List<MensajeDTO>> findConversacionBetweenUsers(@RequestParam UUID usuarioA,
+                                                                          @RequestParam UUID usuarioB) {
+        return ResponseEntity.ok(mensajeService.findConversacionBetweenUsers(usuarioA, usuarioB));
+    }
+
+    // Query 2: Resumen de mensajes no leídos por remitente
+    @GetMapping("/resumen-no-leidos/{usuarioId}")
+    public ResponseEntity<?> resumenNoLeidosPorRemitente(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(mensajeService.resumenNoLeidosPorRemitente(usuarioId));
+    }
 }

@@ -64,8 +64,15 @@ public class ContenidoEducativoController {
         return ResponseEntity.ok(contenidoEducativoService.listByTipo(tipo));
     }
 
-    // consultar validez: los siguientes van más allá del alcance de Semana 04
-    // - Falta endpoint para buscar contenidos por palabra clave o tema (US23, US26)
-    // - Falta endpoint para obtener recursos descargables (US30)
-    // - Falta endpoint para obtener contenidos ordenados por fecha de publicación (US25, US40)
+    // Query 1: Contenidos filtrados por tipo ordenados por fecha de publicación
+    @GetMapping("/por-tipo-ordenado")
+    public ResponseEntity<List<ContenidoEducativoDTO>> findByTipoOrdenadoPorFecha(@RequestParam String tipo) {
+        return ResponseEntity.ok(contenidoEducativoService.findByTipoOrdenadoPorFecha(tipo));
+    }
+
+    // Query 2: Últimos contenidos publicados para un tipo específico
+    @GetMapping("/ultimos-por-tipo")
+    public ResponseEntity<List<ContenidoEducativoDTO>> findUltimosContenidosPorTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(contenidoEducativoService.findUltimosContenidosPorTipo(tipo));
+    }
 }

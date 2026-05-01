@@ -18,4 +18,10 @@ public interface IMensajeService {
 
     // Query de decisión: mensajes no leídos recibidos por un usuario
     List<MensajeDTO> listNoLeidosByDestinatarioId(UUID destinatarioId);
+
+    // Query 1: Conversación completa entre dos usuarios
+    List<MensajeDTO> findConversacionBetweenUsers(UUID usuarioA, UUID usuarioB);
+
+    // Query 2: Resumen de mensajes no leídos por persona que los envió
+    Object resumenNoLeidosPorRemitente(UUID usuarioId);
 }

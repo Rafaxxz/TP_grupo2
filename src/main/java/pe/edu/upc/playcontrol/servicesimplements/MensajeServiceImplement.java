@@ -59,6 +59,16 @@ public class MensajeServiceImplement implements IMensajeService {
         return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, false).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<MensajeDTO> findConversacionBetweenUsers(UUID usuarioA, UUID usuarioB) {
+        return mensajeRepository.findConversacionBetweenUsers(usuarioA, usuarioB).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object resumenNoLeidosPorRemitente(UUID usuarioId) {
+        return mensajeRepository.resumenNoLeidosPorRemitente(usuarioId);
+    }
+
     private MensajeDTO toDTO(Mensaje e) {
         MensajeDTO dto = new MensajeDTO();
         dto.setIdMensaje(e.getIdMensaje());

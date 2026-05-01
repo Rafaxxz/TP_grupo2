@@ -69,4 +69,16 @@ public class RetoController {
     public ResponseEntity<List<RetoDTO>> listByActivo(@RequestParam Boolean activo) {
         return ResponseEntity.ok(retoService.listByActivo(activo));
     }
+
+    // Query 1: Retos activos disponibles filtrados por tipo con ordenamiento por dificultad
+    @GetMapping("/activos-por-tipo")
+    public ResponseEntity<List<RetoDTO>> listActivosByTipoOrdenado(@RequestParam String tipo) {
+        return ResponseEntity.ok(retoService.listActivosByTipoOrdenado(tipo));
+    }
+
+    // Query 2: Próximos retos a vencer
+    @GetMapping("/proximos-a-vencer")
+    public ResponseEntity<List<RetoDTO>> listProximosAVencer() {
+        return ResponseEntity.ok(retoService.listProximosAVencer());
+    }
 }

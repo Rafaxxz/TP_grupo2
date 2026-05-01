@@ -72,7 +72,15 @@ public class CitaEspecialistaController {
         return ResponseEntity.ok(citaEspecialistaService.listByUsuarioId(usuarioId));
     }
 
-    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren datos de otras tablas o lógica de negocio compleja)
-    // - Falta endpoint para obtener citas por especialista (US29, US38)
-    // - Falta endpoint para obtener citas por rango de fechas (US29)
+    // Query 1: Próximas citas pendientes de un usuario
+    @GetMapping("/proximas-pendientes/{usuarioId}")
+    public ResponseEntity<List<CitaEspecialistaDTO>> findProximasCitasPendientes(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(citaEspecialistaService.findProximasCitasPendientes(usuarioId));
+    }
+
+    // Query 2: Historial de citas por especialista
+    @GetMapping("/historial-por-especialista/{usuarioId}")
+    public ResponseEntity<?> historialCitasPorEspecialista(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(citaEspecialistaService.historialCitasPorEspecialista(usuarioId));
+    }
 }

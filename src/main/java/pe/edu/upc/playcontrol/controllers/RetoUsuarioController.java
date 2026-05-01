@@ -72,7 +72,23 @@ public class RetoUsuarioController {
         return ResponseEntity.ok(retoUsuarioService.listByUsuarioIdAndCompletado(usuarioId, completado));
     }
 
-    // consultar validez: los siguientes van más allá del alcance de Semana 04 (requieren lógica de negocio o datos de otras tablas)
-    // - Falta endpoint para actualizar progreso de reto (US12, US16)
-    // - Falta endpoint para obtener retos en progreso de un usuario (US12)
+    // Query 1: Dashboard de progreso del usuario - consolidado de retos
+    @GetMapping("/dashboard/{usuarioId}")
+    public ResponseEntity<?> dashboardProgresoUsuario(@PathVariable UUID usuarioId,
+                                                       @RequestParam(required = false) String fechaInicio,
+                                                       @RequestParam(required = false) String fechaFin) {
+        java.time.OffsetDateTime inicio = fechaInicio != null ? java.time.OffsetDateTime.parse(fechaInicio) : null;
+        java.time.OffsetDateTime fin = fechaFin != null ? java.time.OffsetDateTime.parse(fechaFin) : null;
+        return ResponseEntity.ok(retoUsuarioService.dashboardProgresoUsuario(usuarioId, inicio, fin));
+    }
+
+    // Query 2: Retos completados en un rango de fechas
+    @GetMapping("/completados-por-fecha/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listCompletadosByFechaBetween(@PathVariable UUID usuarioId,
+                                                                               @RequestParam(required = false) String fechaInicio,
+                                                                               @RequestParam(required = false) String fechaFin) {
+        java.time.OffsetDateTime inicio = fechaInicio != null ? java.time.OffsetDateTime.parse(fechaInicio) : null;
+        java.time.OffsetDateTime fin = fechaFin != null ? java.time.OffsetDateTime.parse(fechaFin) : null;
+        return ResponseEntity.ok(retoUsuarioService.listCompletadosByFechaBetween(usuarioId, inicio, fin));
+    }
 }

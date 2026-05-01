@@ -18,4 +18,10 @@ public interface ICitaEspecialistaService {
 
     // Query de decisión: todas las citas de un usuario (para ver su historial)
     List<CitaEspecialistaDTO> listByUsuarioId(UUID usuarioId);
+
+    // Query 1: Citas pendientes/confirmadas en los próximos 30 días
+    List<CitaEspecialistaDTO> findProximasCitasPendientes(UUID usuarioId);
+
+    // Query 2: Historial de citas por especialista con conteos
+    Object historialCitasPorEspecialista(UUID usuarioId);
 }

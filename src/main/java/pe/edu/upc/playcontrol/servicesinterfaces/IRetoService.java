@@ -18,4 +18,10 @@ public interface IRetoService {
 
     // Filtro simple: retos activos o inactivos
     List<RetoDTO> listByActivo(Boolean activo);
+
+    // Query 1: Retos disponibles activos filtrados por tipo ordenados por fecha
+    List<RetoDTO> listActivosByTipoOrdenado(String tipo);
+
+    // Query 2: Retos próximos a vencer en los próximos 7 días
+    List<RetoDTO> listProximosAVencer();
 }

@@ -64,6 +64,16 @@ public class RetoServiceImplement implements IRetoService {
         return retoRepository.findByActivo(activo).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<RetoDTO> listActivosByTipoOrdenado(String tipo) {
+        return retoRepository.findActivosByTipoOrdenado(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoDTO> listProximosAVencer() {
+        return retoRepository.findProximosAVencer().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     private RetoDTO toDTO(Reto e) {
         RetoDTO dto = new RetoDTO();
         dto.setIdReto(e.getIdReto());

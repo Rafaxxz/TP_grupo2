@@ -11,6 +11,7 @@ import pe.edu.upc.playcontrol.repositories.IRetoUsuarioRepository;
 import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,6 +63,16 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     @Override
     public List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(UUID usuarioId, Boolean completado) {
         return retoUsuarioRepository.findByUsuario_IdUsuarioAndCompletado(usuarioId, completado).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object dashboardProgresoUsuario(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+        return retoUsuarioRepository.dashboardProgresoUsuario(usuarioId, fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listCompletadosByFechaBetween(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+        return retoUsuarioRepository.findCompletadosByFechaBetween(usuarioId, fechaInicio, fechaFin).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private RetoUsuarioDTO toDTO(RetoUsuario e) {
