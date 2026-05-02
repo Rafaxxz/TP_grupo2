@@ -22,8 +22,8 @@ public interface ILogroRepository extends JpaRepository<Logro, UUID> {
     List<Logro> findByCriterioOrdenado(@Param("criterio") String criterio);
 
     // Query 2: Estadísticas de logros con conteo de desbloqueos
-    @Query("SELECT l.id, l.nombre, l.criterio, COUNT(lu) as usuariosQueLoDesbloquearon " +
-           "FROM Logro l LEFT JOIN LogroUsuario lu ON l.id = lu.logro.idLogro " +
-           "GROUP BY l.id, l.nombre, l.criterio ORDER BY usuariosQueLoDesbloquearon DESC")
+    @Query("SELECT l.idLogro, l.nombre, l.criterio, COUNT(lu) as usuariosQueLoDesbloquearon " +
+           "FROM Logro l LEFT JOIN LogroUsuario lu ON l.idLogro = lu.logro.idLogro " +
+           "GROUP BY l.idLogro, l.nombre, l.criterio ORDER BY usuariosQueLoDesbloquearon DESC")
     List<Object[]> findConEstadisticasDesbloqueos();
 }

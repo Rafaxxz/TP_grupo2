@@ -7,7 +7,6 @@ import pe.edu.upc.playcontrol.entities.CanjeRecompensa;
 import pe.edu.upc.playcontrol.entities.Recompensa;
 import pe.edu.upc.playcontrol.repositories.ICanjeRecompensaRepository;
 import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
-import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.List;
@@ -24,9 +23,6 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
 
     @Autowired
     private IRecompensaRepository recompensaRepository;
-
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
 
     @Override
     public List<CanjeRecompensaDTO> list() {

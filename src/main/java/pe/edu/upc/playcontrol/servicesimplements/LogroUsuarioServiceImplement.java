@@ -7,7 +7,6 @@ import pe.edu.upc.playcontrol.entities.Logro;
 import pe.edu.upc.playcontrol.entities.LogroUsuario;
 import pe.edu.upc.playcontrol.repositories.ILogroRepository;
 import pe.edu.upc.playcontrol.repositories.ILogroUsuarioRepository;
-import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 
 import java.time.OffsetDateTime;
@@ -25,9 +24,6 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
 
     @Autowired
     private ILogroRepository logroRepository;
-
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
 
     @Override
     public List<LogroUsuarioDTO> list() {
