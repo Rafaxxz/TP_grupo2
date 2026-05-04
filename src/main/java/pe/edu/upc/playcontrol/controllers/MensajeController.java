@@ -1,17 +1,17 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.MensajeDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla mensaje
 @RestController
 @RequestMapping("/api/mensajes")
 public class MensajeController {
@@ -19,71 +19,67 @@ public class MensajeController {
     @Autowired
     private IMensajeService mensajeService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            return ResponseEntity.ok(mensajeService.getAll());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener mensajes: " + e.getMessage());
-        }
+    public ResponseEntity<List<MensajeDTO>> list() {
+        return ResponseEntity.ok(mensajeService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<MensajeDTO> insert(@RequestBody MensajeDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.insert(dto));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        try {
-            var result = mensajeService.getById(id);
-            if (result.isPresent()) {
-                return ResponseEntity.ok(result.get());
-            }
-            return buildErrorResponse(HttpStatus.NOT_FOUND, "Mensaje no encontrado con id: " + id);
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener mensaje: " + e.getMessage());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<MensajeDTO> found = mensajeService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody MensajeDTO dto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear mensaje: " + e.getMessage());
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody MensajeDTO dto) {
+        Optional<MensajeDTO> existing = mensajeService.listId(dto.getIdMensaje());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
         }
+        return ResponseEntity.ok(mensajeService.update(dto));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody MensajeDTO dto) {
-        try {
-            dto.setIdMensaje(id);
-            return ResponseEntity.ok(mensajeService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar mensaje: " + e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        try {
-            mensajeService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar mensaje: " + e.getMessage());
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<MensajeDTO> existing = mensajeService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
         }
+        mensajeService.delete(id);
+        return ResponseEntity.ok("Mensaje eliminado correctamente");
     }
 
-    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        return new ResponseEntity<>(error, status);
+    // Filtro simple: trae mensajes enviados por un remitente
+    @GetMapping("/por-remitente/{remitenteId}")
+    public ResponseEntity<List<MensajeDTO>> listByRemitenteId(@PathVariable UUID remitenteId) {
+        return ResponseEntity.ok(mensajeService.listByRemitenteId(remitenteId));
+    }
+
+    // Query de decisión: mensajes no leídos recibidos por un usuario
+    @GetMapping("/no-leidos/{destinatarioId}")
+    public ResponseEntity<List<MensajeDTO>> listNoLeidosByDestinatarioId(@PathVariable UUID destinatarioId) {
+        return ResponseEntity.ok(mensajeService.listNoLeidosByDestinatarioId(destinatarioId));
+    }
+
+    // Query 1: Conversación entre dos usuarios
+    @GetMapping("/conversacion")
+    public ResponseEntity<List<MensajeDTO>> findConversacionBetweenUsers(@RequestParam UUID usuarioA,
+                                                                          @RequestParam UUID usuarioB) {
+        return ResponseEntity.ok(mensajeService.findConversacionBetweenUsers(usuarioA, usuarioB));
+    }
+
+    // Query 2: Resumen de mensajes no leídos por remitente
+    @GetMapping("/resumen-no-leidos/{usuarioId}")
+    public ResponseEntity<?> resumenNoLeidosPorRemitente(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(mensajeService.resumenNoLeidosPorRemitente(usuarioId));
     }
 }

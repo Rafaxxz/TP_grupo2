@@ -11,8 +11,10 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla mensaje
 @Service
 public class MensajeServiceImplement implements IMensajeService {
 
@@ -23,23 +25,48 @@ public class MensajeServiceImplement implements IMensajeService {
     private IUsuarioRepository usuarioRepository;
 
     @Override
-    public List<MensajeDTO> getAll() {
+    public List<MensajeDTO> list() {
         return mensajeRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<MensajeDTO> getById(Integer id) {
-        return mensajeRepository.findById(id).map(this::toDTO);
-    }
-
-    @Override
-    public MensajeDTO save(MensajeDTO dto) {
+    public MensajeDTO insert(MensajeDTO dto) {
         return toDTO(mensajeRepository.save(toEntity(dto)));
     }
 
     @Override
-    public void delete(Integer id) {
+    public MensajeDTO update(MensajeDTO dto) {
+        return toDTO(mensajeRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<MensajeDTO> listId(UUID id) {
+        return mensajeRepository.findById(id).map(this::toDTO);
+    }
+
+    @Override
+    public void delete(UUID id) {
         mensajeRepository.deleteById(id);
+    }
+
+    @Override
+    public List<MensajeDTO> listByRemitenteId(UUID remitenteId) {
+        return mensajeRepository.findByRemitente_IdUsuario(remitenteId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MensajeDTO> listNoLeidosByDestinatarioId(UUID destinatarioId) {
+        return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, false).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MensajeDTO> findConversacionBetweenUsers(UUID usuarioA, UUID usuarioB) {
+        return mensajeRepository.findConversacionBetweenUsers(usuarioA, usuarioB).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object resumenNoLeidosPorRemitente(UUID usuarioId) {
+        return mensajeRepository.resumenNoLeidosPorRemitente(usuarioId);
     }
 
     private MensajeDTO toDTO(Mensaje e) {

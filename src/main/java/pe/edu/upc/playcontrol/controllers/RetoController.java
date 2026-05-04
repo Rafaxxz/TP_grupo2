@@ -1,17 +1,17 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RetoDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla reto
 @RestController
 @RequestMapping("/api/retos")
 public class RetoController {
@@ -19,71 +19,66 @@ public class RetoController {
     @Autowired
     private IRetoService retoService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            return ResponseEntity.ok(retoService.getAll());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener retos: " + e.getMessage());
-        }
+    public ResponseEntity<List<RetoDTO>> list() {
+        return ResponseEntity.ok(retoService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<RetoDTO> insert(@RequestBody RetoDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(retoService.insert(dto));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        try {
-            var result = retoService.getById(id);
-            if (result.isPresent()) {
-                return ResponseEntity.ok(result.get());
-            }
-            return buildErrorResponse(HttpStatus.NOT_FOUND, "Reto no encontrado con id: " + id);
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener reto: " + e.getMessage());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<RetoDTO> found = retoService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reto no encontrado");
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody RetoDTO dto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(retoService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear reto: " + e.getMessage());
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody RetoDTO dto) {
+        Optional<RetoDTO> existing = retoService.listId(dto.getIdReto());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reto no encontrado");
         }
+        return ResponseEntity.ok(retoService.update(dto));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RetoDTO dto) {
-        try {
-            dto.setIdReto(id);
-            return ResponseEntity.ok(retoService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar reto: " + e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        try {
-            retoService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar reto: " + e.getMessage());
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<RetoDTO> existing = retoService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reto no encontrado");
         }
+        retoService.delete(id);
+        return ResponseEntity.ok("Reto eliminado correctamente");
     }
 
-    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        return new ResponseEntity<>(error, status);
+    // Filtro simple: trae retos según su tipo (semanal, familiar, comunitario)
+    @GetMapping("/por-tipo")
+    public ResponseEntity<List<RetoDTO>> listByTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(retoService.listByTipo(tipo));
+    }
+
+    // Filtro simple: trae retos activos o inactivos
+    @GetMapping("/por-activo")
+    public ResponseEntity<List<RetoDTO>> listByActivo(@RequestParam Boolean activo) {
+        return ResponseEntity.ok(retoService.listByActivo(activo));
+    }
+
+    // Query 1: Retos activos disponibles filtrados por tipo con ordenamiento por dificultad
+    @GetMapping("/activos-por-tipo")
+    public ResponseEntity<List<RetoDTO>> listActivosByTipoOrdenado(@RequestParam String tipo) {
+        return ResponseEntity.ok(retoService.listActivosByTipoOrdenado(tipo));
+    }
+
+    // Query 2: Próximos retos a vencer
+    @GetMapping("/proximos-a-vencer")
+    public ResponseEntity<List<RetoDTO>> listProximosAVencer() {
+        return ResponseEntity.ok(retoService.listProximosAVencer());
     }
 }

@@ -1,17 +1,17 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RetoUsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla reto_usuario
 @RestController
 @RequestMapping("/api/retos-usuario")
 public class RetoUsuarioController {
@@ -19,71 +19,76 @@ public class RetoUsuarioController {
     @Autowired
     private IRetoUsuarioService retoUsuarioService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            return ResponseEntity.ok(retoUsuarioService.getAll());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener retos de usuarios: " + e.getMessage());
-        }
+    public ResponseEntity<List<RetoUsuarioDTO>> list() {
+        return ResponseEntity.ok(retoUsuarioService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<RetoUsuarioDTO> insert(@RequestBody RetoUsuarioDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(retoUsuarioService.insert(dto));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        try {
-            var result = retoUsuarioService.getById(id);
-            if (result.isPresent()) {
-                return ResponseEntity.ok(result.get());
-            }
-            return buildErrorResponse(HttpStatus.NOT_FOUND, "Reto de usuario no encontrado con id: " + id);
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener reto de usuario: " + e.getMessage());
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<RetoUsuarioDTO> found = retoUsuarioService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody RetoUsuarioDTO dto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(retoUsuarioService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear reto de usuario: " + e.getMessage());
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody RetoUsuarioDTO dto) {
+        Optional<RetoUsuarioDTO> existing = retoUsuarioService.listId(dto.getId());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
         }
+        return ResponseEntity.ok(retoUsuarioService.update(dto));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RetoUsuarioDTO dto) {
-        try {
-            dto.setId(id);
-            return ResponseEntity.ok(retoUsuarioService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar reto de usuario: " + e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        try {
-            retoUsuarioService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar reto de usuario: " + e.getMessage());
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<RetoUsuarioDTO> existing = retoUsuarioService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RetoUsuario no encontrado");
         }
+        retoUsuarioService.delete(id);
+        return ResponseEntity.ok("RetoUsuario eliminado correctamente");
     }
 
-    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        return new ResponseEntity<>(error, status);
+    // Filtro simple: trae todos los retos aceptados por un usuario
+    @GetMapping("/por-usuario/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listByUsuarioId(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(retoUsuarioService.listByUsuarioId(usuarioId));
+    }
+
+    // Query de decisión: retos completados (o no) de un usuario
+    @GetMapping("/por-completado/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listByUsuarioIdAndCompletado(
+            @PathVariable UUID usuarioId,
+            @RequestParam Boolean completado) {
+        return ResponseEntity.ok(retoUsuarioService.listByUsuarioIdAndCompletado(usuarioId, completado));
+    }
+
+    // Query 1: Dashboard de progreso del usuario - consolidado de retos
+    @GetMapping("/dashboard/{usuarioId}")
+    public ResponseEntity<?> dashboardProgresoUsuario(@PathVariable UUID usuarioId,
+                                                       @RequestParam(required = false) String fechaInicio,
+                                                       @RequestParam(required = false) String fechaFin) {
+        java.time.OffsetDateTime inicio = fechaInicio != null ? java.time.OffsetDateTime.parse(fechaInicio) : null;
+        java.time.OffsetDateTime fin = fechaFin != null ? java.time.OffsetDateTime.parse(fechaFin) : null;
+        return ResponseEntity.ok(retoUsuarioService.dashboardProgresoUsuario(usuarioId, inicio, fin));
+    }
+
+    // Query 2: Retos completados en un rango de fechas
+    @GetMapping("/completados-por-fecha/{usuarioId}")
+    public ResponseEntity<List<RetoUsuarioDTO>> listCompletadosByFechaBetween(@PathVariable UUID usuarioId,
+                                                                               @RequestParam(required = false) String fechaInicio,
+                                                                               @RequestParam(required = false) String fechaFin) {
+        java.time.OffsetDateTime inicio = fechaInicio != null ? java.time.OffsetDateTime.parse(fechaInicio) : null;
+        java.time.OffsetDateTime fin = fechaFin != null ? java.time.OffsetDateTime.parse(fechaFin) : null;
+        return ResponseEntity.ok(retoUsuarioService.listCompletadosByFechaBetween(usuarioId, inicio, fin));
     }
 }

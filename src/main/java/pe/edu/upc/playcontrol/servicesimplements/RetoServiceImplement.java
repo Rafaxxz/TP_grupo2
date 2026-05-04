@@ -13,8 +13,10 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla reto
 @Service
 public class RetoServiceImplement implements IRetoService {
 
@@ -28,27 +30,48 @@ public class RetoServiceImplement implements IRetoService {
     private ILogroRepository logroRepository;
 
     @Override
-    public List<RetoDTO> getAll() {
-        return retoRepository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+    public List<RetoDTO> list() {
+        return retoRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<RetoDTO> getById(Integer id) {
+    public RetoDTO insert(RetoDTO dto) {
+        return toDTO(retoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public RetoDTO update(RetoDTO dto) {
+        return toDTO(retoRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<RetoDTO> listId(UUID id) {
         return retoRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public RetoDTO save(RetoDTO dto) {
-        Reto entity = toEntity(dto);
-        return toDTO(retoRepository.save(entity));
+    public void delete(UUID id) {
+        retoRepository.deleteById(id);
     }
 
     @Override
-    public void delete(Integer id) {
-        retoRepository.deleteById(id);
+    public List<RetoDTO> listByTipo(String tipo) {
+        return retoRepository.findByTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoDTO> listByActivo(Boolean activo) {
+        return retoRepository.findByActivo(activo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoDTO> listActivosByTipoOrdenado(String tipo) {
+        return retoRepository.findActivosByTipoOrdenado(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoDTO> listProximosAVencer() {
+        return retoRepository.findProximosAVencer().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private RetoDTO toDTO(Reto e) {

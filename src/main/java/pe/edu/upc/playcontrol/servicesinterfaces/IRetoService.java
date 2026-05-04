@@ -4,12 +4,24 @@ import pe.edu.upc.playcontrol.dtos.RetoDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IRetoService {
-    List<RetoDTO> getAll();
+    List<RetoDTO> list();
+    RetoDTO insert(RetoDTO dto);
+    RetoDTO update(RetoDTO dto);
+    Optional<RetoDTO> listId(UUID id);
+    void delete(UUID id);
 
-    Optional<RetoDTO> getById(Integer id);
-    RetoDTO save(RetoDTO dto);
+    // Filtro simple: retos filtrados por tipo
+    List<RetoDTO> listByTipo(String tipo);
 
-    void delete(Integer id);
+    // Filtro simple: retos activos o inactivos
+    List<RetoDTO> listByActivo(Boolean activo);
+
+    // Query 1: Retos disponibles activos filtrados por tipo ordenados por fecha
+    List<RetoDTO> listActivosByTipoOrdenado(String tipo);
+
+    // Query 2: Retos próximos a vencer en los próximos 7 días
+    List<RetoDTO> listProximosAVencer();
 }
