@@ -43,6 +43,11 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
         especialistaRepository.deleteById(id);
     }
 
+    @Override
+    public List<Especialista> findByVerificateTrue() {
+        return especialistaRepository.findByVerificateTrue();
+    }
+
     private EspecialistaDTO toDTO(Especialista e) {
         EspecialistaDTO dto = new EspecialistaDTO();
         dto.setIdEspecialista(e.getIdEspecialista());

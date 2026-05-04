@@ -1,5 +1,6 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/especialistas")
@@ -44,5 +46,18 @@ public class EspecialistaController {
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         especialistaService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/verificate")
+    public ResponseEntity<?> especialitVerific(){
+        ModelMapper mapper = new ModelMapper();
+        List<EspecialistaDTO> lista = especialistaService.findByVerificateTrue().stream().map(e -> mapper.map(e, EspecialistaDTO.class)).collect(Collectors.toList());
+
+        if(!lista.isEmpty()){
+            return ResponseEntity.ok(lista);
+        }else{
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron especialistas verificados");
+        }
+
     }
 }

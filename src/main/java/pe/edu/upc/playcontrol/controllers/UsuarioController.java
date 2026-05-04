@@ -1,5 +1,6 @@
 package pe.edu.upc.playcontrol.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -45,4 +47,33 @@ public class UsuarioController {
         usuarioService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/userLastDays")
+    public ResponseEntity<?> userLastDays(){
+        ModelMapper mapper = new ModelMapper();
+        List<UsuarioDTO> lista = usuarioService.findLastUsers().stream().map(u -> mapper.map(u, UsuarioDTO.class)).collect(Collectors.toList());
+
+        if(!lista.isEmpty()){
+            return ResponseEntity.ok(lista);
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron usuarios registrados en los últimos 30 días");
+        }
+    }
+
+    @GetMapping("/userByRol")
+    public ResponseEntity<?> userByRol(@PathVariable String nombre){
+        ModelMapper mapper = new ModelMapper();
+        List<UsuarioDTO> lista = usuarioService.findByRolNombre(nombre)
+                .stream()
+                .map(user -> mapper.map(user, UsuarioDTO.class))
+                .collect(Collectors.toList());
+
+        if (!lista.isEmpty()) {
+            return ResponseEntity.ok(lista);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontraron usuarios con el rol: " + nombre);
+        }
+    }
+
 }

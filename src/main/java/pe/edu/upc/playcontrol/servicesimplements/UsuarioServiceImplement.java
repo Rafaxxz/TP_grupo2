@@ -8,7 +8,7 @@ import pe.edu.upc.playcontrol.entities.Usuario;
 import pe.edu.upc.playcontrol.repositories.IRolRepository;
 import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
-
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,6 +41,17 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Override
     public void delete(UUID id) {
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Usuario> findLastUsers() {
+        OffsetDateTime Last30days = OffsetDateTime.now().minusDays(30);
+        return usuarioRepository.findLastUsers(Last30days);
+    }
+
+    @Override
+    public List<Usuario> findByRolNombre(String nombre) {
+        return usuarioRepository.findByRolNombre(nombre);
     }
 
     private UsuarioDTO toDTO(Usuario e) {
