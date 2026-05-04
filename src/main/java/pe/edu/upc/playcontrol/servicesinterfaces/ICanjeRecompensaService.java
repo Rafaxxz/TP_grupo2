@@ -3,21 +3,25 @@ package pe.edu.upc.playcontrol.servicesinterfaces;
 import pe.edu.upc.playcontrol.dtos.CanjeRecompensaDTO;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface ICanjeRecompensaService {
+    List<CanjeRecompensaDTO> list();
+    CanjeRecompensaDTO insert(CanjeRecompensaDTO dto);
+    CanjeRecompensaDTO update(CanjeRecompensaDTO dto);
+    Optional<CanjeRecompensaDTO> listId(UUID id);
+    void delete(UUID id);
 
-    //devuelve todos los canjes de recompensa como dto
-    List<CanjeRecompensaDTO> getAll();
+    // Filtro simple: canjes realizados por un usuario
+    List<CanjeRecompensaDTO> listByUsuarioId(UUID usuarioId);
 
-    // devuelve un canje de recompensa por id
-    CanjeRecompensaDTO getById(Integer id);
+    // Query de decisión: total de puntos gastados por un usuario en canjes
+    int totalPuntosGastadosPorUsuario(UUID usuarioId);
 
-    // devuelve todos los canjes de recompensa por un usuario
-    List<CanjeRecompensaDTO> getByUsuarioId(Integer usuarioId);
+    // Query 1: BALANCE ACTUAL - puntos ganados vs gastados
+    Object balanceActualPuntos(UUID usuarioId);
 
-    // crea un nuevo canje de recompensa
-    CanjeRecompensaDTO save(CanjeRecompensaDTO dto);
-
-    // elimina un canje de recompensa por id
-    void delete(Integer id);
+    // Query 2: Historial de canjes - recompensas reclamadas vs disponibles
+    Object historialCanjesVsDisponibles(UUID usuarioId);
 }

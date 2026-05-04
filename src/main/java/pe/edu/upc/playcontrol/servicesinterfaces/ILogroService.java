@@ -3,16 +3,22 @@ package pe.edu.upc.playcontrol.servicesinterfaces;
 import pe.edu.upc.playcontrol.dtos.LogroDTO;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface ILogroService {
+    List<LogroDTO> list();
+    LogroDTO insert(LogroDTO dto);
+    LogroDTO update(LogroDTO dto);
+    Optional<LogroDTO> listId(UUID id);
+    void delete(UUID id);
 
-    List<LogroDTO> getAll();
+    // Filtro simple: logros según su criterio de desbloqueo
+    List<LogroDTO> listByCriterio(String criterio);
 
-    LogroDTO getById(Integer id);
+    // Query 1: Logros disponibles filtrados por criterio con ordenamiento por dificultad
+    List<LogroDTO> listByCriterioOrdenado(String criterio);
 
-    LogroDTO save(LogroDTO dto);
-
-    LogroDTO update(Integer id, LogroDTO dto);
-
-    void delete(Integer id);
+    // Query 2: Estadísticas de logros con conteo de desbloqueos
+    Object findConEstadisticasDesbloqueos();
 }

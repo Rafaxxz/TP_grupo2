@@ -1,17 +1,17 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.CanjeRecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla canje_recompensa
 @RestController
 @RequestMapping("/api/canjes")
 public class CanjeRecompensaController {
@@ -19,64 +19,66 @@ public class CanjeRecompensaController {
     @Autowired
     private ICanjeRecompensaService canjeRecompensaService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            return ResponseEntity.ok(canjeRecompensaService.getAll());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener canjes: " + e.getMessage());
-        }
+    public ResponseEntity<List<CanjeRecompensaDTO>> list() {
+        return ResponseEntity.ok(canjeRecompensaService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<CanjeRecompensaDTO> insert(@RequestBody CanjeRecompensaDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(canjeRecompensaService.insert(dto));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(canjeRecompensaService.getById(id));
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.NOT_FOUND, "Canje no encontrado con id: " + id);
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<CanjeRecompensaDTO> found = canjeRecompensaService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Canje no encontrado");
         }
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer usuarioId) {
-        try {
-            return ResponseEntity.ok(canjeRecompensaService.getByUsuarioId(usuarioId));
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener canjes del usuario: " + e.getMessage());
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody CanjeRecompensaDTO dto) {
+        Optional<CanjeRecompensaDTO> existing = canjeRecompensaService.listId(dto.getIdCanje());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Canje no encontrado");
         }
+        return ResponseEntity.ok(canjeRecompensaService.update(dto));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'HIJO')")
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody CanjeRecompensaDTO dto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(canjeRecompensaService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear canje: " + e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        try {
-            canjeRecompensaService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar canje: " + e.getMessage());
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<CanjeRecompensaDTO> existing = canjeRecompensaService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Canje no encontrado");
         }
+        canjeRecompensaService.delete(id);
+        return ResponseEntity.ok("Canje eliminado correctamente");
     }
 
-    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        return new ResponseEntity<>(error, status);
+    // Filtro simple: trae todos los canjes realizados por un usuario
+    @GetMapping("/por-usuario/{usuarioId}")
+    public ResponseEntity<List<CanjeRecompensaDTO>> listByUsuarioId(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(canjeRecompensaService.listByUsuarioId(usuarioId));
+    }
+
+    // Query de decisión: total de puntos que ha gastado un usuario en canjes
+    @GetMapping("/puntos-gastados/{usuarioId}")
+    public ResponseEntity<Integer> totalPuntosGastados(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(canjeRecompensaService.totalPuntosGastadosPorUsuario(usuarioId));
+    }
+
+    // Query 1: Balance actual - puntos ganados vs gastados
+    @GetMapping("/balance/{usuarioId}")
+    public ResponseEntity<?> balanceActualPuntos(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(canjeRecompensaService.balanceActualPuntos(usuarioId));
+    }
+
+    // Query 2: Historial de canjes - recompensas reclamadas vs disponibles
+    @GetMapping("/historial-vs-disponibles/{usuarioId}")
+    public ResponseEntity<?> historialCanjesVsDisponibles(@PathVariable UUID usuarioId) {
+        return ResponseEntity.ok(canjeRecompensaService.historialCanjesVsDisponibles(usuarioId));
     }
 }

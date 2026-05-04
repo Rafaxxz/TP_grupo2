@@ -9,9 +9,13 @@ import pe.edu.upc.playcontrol.repositories.ILogroRepository;
 import pe.edu.upc.playcontrol.repositories.ILogroUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla logro_usuario
 @Service
 public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
 
@@ -22,50 +26,68 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
     private ILogroRepository logroRepository;
 
     @Override
-    public List<LogroUsuarioDTO> getAll() {
-        return logroUsuarioRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<LogroUsuarioDTO> list() {
+        return logroUsuarioRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public LogroUsuarioDTO getById(Integer id) {
-        LogroUsuario lu = logroUsuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("LogroUsuario no encontrado con id: " + id));
-        return toDto(lu);
+    public LogroUsuarioDTO insert(LogroUsuarioDTO dto) {
+        return toDTO(logroUsuarioRepository.save(toEntity(dto)));
     }
 
     @Override
-    public List<LogroUsuarioDTO> getByUsuarioId(Integer usuarioId) {
-        return logroUsuarioRepository.findByUsuarioId(usuarioId)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    // no funciona corregir: No valida que el usuarioId exista antes de guardar. Debería inyectar IUsuarioRepository y verificar con usuarioRepository.existsById(dto.getUsuarioId()) o lanzar excepción si no existe.
-    @Override
-    public LogroUsuarioDTO save(LogroUsuarioDTO dto) {
-        LogroUsuario lu = new LogroUsuario();
-        lu.setUsuarioId(dto.getUsuarioId()); // No valida que el usuario exista
-        Logro logro = logroRepository.findById(dto.getLogroId())
-                .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + dto.getLogroId()));
-        lu.setLogro(logro);
-        return toDto(logroUsuarioRepository.save(lu));
+    public LogroUsuarioDTO update(LogroUsuarioDTO dto) {
+        return toDTO(logroUsuarioRepository.save(toEntity(dto)));
     }
 
     @Override
-    public void delete(Integer id) {
+    public Optional<LogroUsuarioDTO> listId(UUID id) {
+        return logroUsuarioRepository.findById(id).map(this::toDTO);
+    }
+
+    @Override
+    public void delete(UUID id) {
         logroUsuarioRepository.deleteById(id);
     }
 
-    private LogroUsuarioDTO toDto(LogroUsuario lu) {
+    @Override
+    public List<LogroUsuarioDTO> listByUsuarioId(UUID usuarioId) {
+        return logroUsuarioRepository.findByUsuarioId(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public long contarLogrosPorUsuario(UUID usuarioId) {
+        return logroUsuarioRepository.findByUsuarioId(usuarioId).size();
+    }
+
+    @Override
+    public Object dashboardProgresoLogros(UUID usuarioId) {
+        return logroUsuarioRepository.dashboardProgresoLogros(usuarioId);
+    }
+
+    @Override
+    public Object findTimelineDesbloqueos(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+        return logroUsuarioRepository.findTimelineDesbloqueos(usuarioId, fechaInicio, fechaFin);
+    }
+
+    private LogroUsuarioDTO toDTO(LogroUsuario e) {
         LogroUsuarioDTO dto = new LogroUsuarioDTO();
-        dto.setId(lu.getId());
-        dto.setUsuarioId(lu.getUsuarioId());
-        dto.setLogroId(lu.getLogro() != null ? lu.getLogro().getIdLogro() : null);
-        dto.setDesbloqueadoEn(lu.getDesbloqueadoEn());
+        dto.setId(e.getId());
+        dto.setUsuarioId(e.getUsuarioId());
+        dto.setLogroId(e.getLogro() != null ? e.getLogro().getIdLogro() : null);
+        dto.setDesbloqueadoEn(e.getDesbloqueadoEn());
         return dto;
+    }
+
+    private LogroUsuario toEntity(LogroUsuarioDTO dto) {
+        LogroUsuario e = new LogroUsuario();
+        e.setId(dto.getId());
+        e.setUsuarioId(dto.getUsuarioId());
+        if (dto.getLogroId() != null) {
+            Logro logro = logroRepository.findById(dto.getLogroId()).orElse(null);
+            e.setLogro(logro);
+        }
+        e.setDesbloqueadoEn(dto.getDesbloqueadoEn());
+        return e;
     }
 }

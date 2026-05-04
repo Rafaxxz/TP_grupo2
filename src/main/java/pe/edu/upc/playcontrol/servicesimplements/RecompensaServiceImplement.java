@@ -8,77 +8,76 @@ import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla recompensa
 @Service
 public class RecompensaServiceImplement implements IRecompensaService {
 
-    //1. inyectar el repositorio
     @Autowired
     private IRecompensaRepository recompensaRepository;
 
-    // 2. traer lo de la base de datos y convertirlo a un dto
     @Override
-    public List<RecompensaDTO> getAll() {
-        return recompensaRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<RecompensaDTO> list() {
+        return recompensaRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    // 3. traer un dto por id
     @Override
-    public RecompensaDTO getById(Integer id) {
-        Recompensa recompensa = recompensaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + id));
-        return toDto(recompensa);
+    public RecompensaDTO insert(RecompensaDTO dto) {
+        return toDTO(recompensaRepository.save(toEntity(dto)));
     }
 
-    // 4. guardar un dto
     @Override
-    public RecompensaDTO save(RecompensaDTO dto) {
-        return toDto(recompensaRepository.save(toEntity(dto)));
+    public RecompensaDTO update(RecompensaDTO dto) {
+        return toDTO(recompensaRepository.save(toEntity(dto)));
     }
 
-    // 5. actualizar un dto
     @Override
-    public RecompensaDTO update(Integer id, RecompensaDTO dto) {
-        Recompensa recompensa = recompensaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + id));
-        recompensa.setNombre(dto.getNombre());
-        recompensa.setDescripcion(dto.getDescripcion());
-        recompensa.setTipo(dto.getTipo());
-        recompensa.setCostoPuntos(dto.getCostoPuntos());
-        recompensa.setRecursoUrl(dto.getRecursoUrl());
-        return toDto(recompensaRepository.save(recompensa));
+    public Optional<RecompensaDTO> listId(UUID id) {
+        return recompensaRepository.findById(id).map(this::toDTO);
     }
 
-    // 6. eliminar un dto por id
     @Override
-    public void delete(Integer id) {
+    public void delete(UUID id) {
         recompensaRepository.deleteById(id);
     }
 
-    // 7. convierte la entidad a un DTO linea por linea (para el cliente)
-    private RecompensaDTO toDto(Recompensa recompensa) {
+    @Override
+    public List<RecompensaDTO> listByTipo(String tipo) {
+        return recompensaRepository.findByTipo(tipo).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecompensaDTO> findDisponiblesPorPuntos(Integer puntosDisponibles) {
+        return recompensaRepository.findDisponiblesPorPuntos(puntosDisponibles).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object findEstadisticasPorTipo() {
+        return recompensaRepository.findEstadisticasPorTipo();
+    }
+
+    private RecompensaDTO toDTO(Recompensa e) {
         RecompensaDTO dto = new RecompensaDTO();
-        dto.setIdRecompensa(recompensa.getIdRecompensa());
-        dto.setNombre(recompensa.getNombre());
-        dto.setDescripcion(recompensa.getDescripcion());
-        dto.setTipo(recompensa.getTipo());
-        dto.setCostoPuntos(recompensa.getCostoPuntos());
-        dto.setRecursoUrl(recompensa.getRecursoUrl());
+        dto.setIdRecompensa(e.getIdRecompensa());
+        dto.setNombre(e.getNombre());
+        dto.setDescripcion(e.getDescripcion());
+        dto.setTipo(e.getTipo());
+        dto.setCostoPuntos(e.getCostoPuntos());
+        dto.setRecursoUrl(e.getRecursoUrl());
         return dto;
     }
 
-    // 8. convierte el DTO a una entidad (para guardar en la base de datos)
     private Recompensa toEntity(RecompensaDTO dto) {
-        Recompensa recompensa = new Recompensa();
-        recompensa.setNombre(dto.getNombre());
-        recompensa.setDescripcion(dto.getDescripcion());
-        recompensa.setTipo(dto.getTipo());
-        recompensa.setCostoPuntos(dto.getCostoPuntos());
-        recompensa.setRecursoUrl(dto.getRecursoUrl());
-        return recompensa;
+        Recompensa e = new Recompensa();
+        e.setIdRecompensa(dto.getIdRecompensa());
+        e.setNombre(dto.getNombre());
+        e.setDescripcion(dto.getDescripcion());
+        e.setTipo(dto.getTipo());
+        e.setCostoPuntos(dto.getCostoPuntos());
+        e.setRecursoUrl(dto.getRecursoUrl());
+        return e;
     }
 }

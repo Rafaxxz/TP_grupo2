@@ -3,16 +3,22 @@ package pe.edu.upc.playcontrol.servicesinterfaces;
 import pe.edu.upc.playcontrol.dtos.RecompensaDTO;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface IRecompensaService {
+    List<RecompensaDTO> list();
+    RecompensaDTO insert(RecompensaDTO dto);
+    RecompensaDTO update(RecompensaDTO dto);
+    Optional<RecompensaDTO> listId(UUID id);
+    void delete(UUID id);
 
-    List<RecompensaDTO> getAll();
+    // Filtro simple: recompensas filtradas por tipo
+    List<RecompensaDTO> listByTipo(String tipo);
 
-    RecompensaDTO getById(Integer id);
+    // Query 1: Recompensas disponibles para un usuario según puntos que tiene
+    List<RecompensaDTO> findDisponiblesPorPuntos(Integer puntosDisponibles);
 
-    RecompensaDTO save(RecompensaDTO dto);
-
-    RecompensaDTO update(Integer id, RecompensaDTO dto);
-
-    void delete(Integer id);
+    // Query 2: Estadísticas de recompensas por tipo (cantidad, costo mín/máx/promedio)
+    Object findEstadisticasPorTipo();
 }

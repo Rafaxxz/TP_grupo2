@@ -10,8 +10,11 @@ import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla canje_recompensa
 @Service
 public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService {
 
@@ -22,60 +25,71 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     private IRecompensaRepository recompensaRepository;
 
     @Override
-    public List<CanjeRecompensaDTO> getAll() {
-        return canjeRecompensaRepository.findAll()
-                // convierte la lista para procesarla
-                .stream()
-                // convierte cada CanjeRecompensa a CanjeRecompensaDTO
-                .map(this::toDto)
-                // convierte el stream en una lista
-                .collect(Collectors.toList());
+    public List<CanjeRecompensaDTO> list() {
+        return canjeRecompensaRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public CanjeRecompensaDTO getById(Integer id) {
-        CanjeRecompensa canje = canjeRecompensaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CanjeRecompensa no encontrado con id: " + id));
-        return toDto(canje);
+    public CanjeRecompensaDTO insert(CanjeRecompensaDTO dto) {
+        return toDTO(canjeRecompensaRepository.save(toEntity(dto)));
     }
 
     @Override
-    public List<CanjeRecompensaDTO> getByUsuarioId(Integer usuarioId) {
-        return canjeRecompensaRepository.findByUsuarioId(usuarioId)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    // no funciona corregir: No valida que el usuarioId exista antes de guardar. Debería inyectar IUsuarioRepository y verificar con usuarioRepository.existsById(dto.getUsuarioId()) o lanzar excepción si no existe.
-    // no funciona corregir: No valida que el usuario tenga suficientes puntos para canjear la recompensa (recompensa.getCostoPuntos() vs puntos del usuario).
-    // aqui le asignamos los datos del dto
-    @Override
-    public CanjeRecompensaDTO save(CanjeRecompensaDTO dto) {
-        CanjeRecompensa canje = new CanjeRecompensa();
-        canje.setUsuarioId(dto.getUsuarioId()); // No valida que el usuario exista
-        // valida antes de pasarlo que la recompensa exista
-        Recompensa recompensa = recompensaRepository.findById(dto.getRecompensaId())
-                .orElseThrow(() -> new RuntimeException("Recompensa no encontrada con id: " + dto.getRecompensaId()));
-        canje.setRecompensa(recompensa);
-        canje.setPuntosUsados(dto.getPuntosUsados());
-        return toDto(canjeRecompensaRepository.save(canje));
+    public CanjeRecompensaDTO update(CanjeRecompensaDTO dto) {
+        return toDTO(canjeRecompensaRepository.save(toEntity(dto)));
     }
 
     @Override
-    public void delete(Integer id) {
+    public Optional<CanjeRecompensaDTO> listId(UUID id) {
+        return canjeRecompensaRepository.findById(id).map(this::toDTO);
+    }
+
+    @Override
+    public void delete(UUID id) {
         canjeRecompensaRepository.deleteById(id);
     }
 
-    // convierte la entidad a un DTO linea por linea
-    private CanjeRecompensaDTO toDto(CanjeRecompensa canje) {
+    @Override
+    public List<CanjeRecompensaDTO> listByUsuarioId(UUID usuarioId) {
+        return canjeRecompensaRepository.findByUsuarioId(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public int totalPuntosGastadosPorUsuario(UUID usuarioId) {
+        List<CanjeRecompensa> canjes = canjeRecompensaRepository.findByUsuarioId(usuarioId);
+        return canjes.stream().mapToInt(CanjeRecompensa::getPuntosUsados).sum();
+    }
+
+    @Override
+    public Object balanceActualPuntos(UUID usuarioId) {
+        return canjeRecompensaRepository.balanceActualPuntos(usuarioId);
+    }
+
+    @Override
+    public Object historialCanjesVsDisponibles(UUID usuarioId) {
+        return canjeRecompensaRepository.historialCanjesVsDisponibles(usuarioId);
+    }
+
+    private CanjeRecompensaDTO toDTO(CanjeRecompensa e) {
         CanjeRecompensaDTO dto = new CanjeRecompensaDTO();
-        dto.setIdCanje(canje.getIdCanje());
-        dto.setUsuarioId(canje.getUsuarioId());
-        // verifica que la recompensa no sea nula antes de obtener su id
-        dto.setRecompensaId(canje.getRecompensa() != null ? canje.getRecompensa().getIdRecompensa() : null);
-        dto.setPuntosUsados(canje.getPuntosUsados());
-        dto.setCanjeadoEn(canje.getCanjeadoEn());
+        dto.setIdCanje(e.getIdCanje());
+        dto.setUsuarioId(e.getUsuarioId());
+        dto.setRecompensaId(e.getRecompensa() != null ? e.getRecompensa().getIdRecompensa() : null);
+        dto.setPuntosUsados(e.getPuntosUsados());
+        dto.setCanjeadoEn(e.getCanjeadoEn());
         return dto;
+    }
+
+    private CanjeRecompensa toEntity(CanjeRecompensaDTO dto) {
+        CanjeRecompensa e = new CanjeRecompensa();
+        e.setIdCanje(dto.getIdCanje());
+        e.setUsuarioId(dto.getUsuarioId());
+        if (dto.getRecompensaId() != null) {
+            Recompensa recompensa = recompensaRepository.findById(dto.getRecompensaId()).orElse(null);
+            e.setRecompensa(recompensa);
+        }
+        e.setPuntosUsados(dto.getPuntosUsados());
+        e.setCanjeadoEn(dto.getCanjeadoEn());
+        return e;
     }
 }

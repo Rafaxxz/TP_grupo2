@@ -8,8 +8,11 @@ import pe.edu.upc.playcontrol.repositories.ILogroRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ILogroService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+// Aquí se implementa la lógica de negocio para la tabla logro
 @Service
 public class LogroServiceImplement implements ILogroService {
 
@@ -17,66 +20,66 @@ public class LogroServiceImplement implements ILogroService {
     private ILogroRepository logroRepository;
 
     @Override
-    public List<LogroDTO> getAll() {
-        return logroRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<LogroDTO> list() {
+        return logroRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public LogroDTO getById(Integer id) {
-        Logro logro = logroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + id));
-        return toDto(logro);
+    public LogroDTO insert(LogroDTO dto) {
+        return toDTO(logroRepository.save(toEntity(dto)));
     }
 
     @Override
-    public LogroDTO save(LogroDTO dto) {
-        return toDto(logroRepository.save(toEntity(dto)));
+    public LogroDTO update(LogroDTO dto) {
+        return toDTO(logroRepository.save(toEntity(dto)));
     }
 
     @Override
-    public LogroDTO update(Integer id, LogroDTO dto) {
-        // Primero verificamos que el logro existe, luego actualizamos campo a campo.
-        Logro logro = logroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Logro no encontrado con id: " + id));
-        logro.setNombre(dto.getNombre());
-        logro.setDescripcion(dto.getDescripcion());
-        logro.setIconoUrl(dto.getIconoUrl());
-        logro.setPuntosOtorgados(dto.getPuntosOtorgados());
-        logro.setCriterio(dto.getCriterio());
-        logro.setValorCriterio(dto.getValorCriterio());
-        return toDto(logroRepository.save(logro));
+    public Optional<LogroDTO> listId(UUID id) {
+        return logroRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(UUID id) {
         logroRepository.deleteById(id);
     }
 
-    // convierte la entidad a un DTO linea por linea
-    private LogroDTO toDto(Logro logro) {
+    @Override
+    public List<LogroDTO> listByCriterio(String criterio) {
+        return logroRepository.findByCriterio(criterio).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LogroDTO> listByCriterioOrdenado(String criterio) {
+        return logroRepository.findByCriterioOrdenado(criterio).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object findConEstadisticasDesbloqueos() {
+        return logroRepository.findConEstadisticasDesbloqueos();
+    }
+
+    private LogroDTO toDTO(Logro e) {
         LogroDTO dto = new LogroDTO();
-        dto.setIdLogro(logro.getIdLogro());
-        dto.setNombre(logro.getNombre());
-        dto.setDescripcion(logro.getDescripcion());
-        dto.setIconoUrl(logro.getIconoUrl());
-        dto.setPuntosOtorgados(logro.getPuntosOtorgados());
-        dto.setCriterio(logro.getCriterio());
-        dto.setValorCriterio(logro.getValorCriterio());
+        dto.setIdLogro(e.getIdLogro());
+        dto.setNombre(e.getNombre());
+        dto.setDescripcion(e.getDescripcion());
+        dto.setIconoUrl(e.getIconoUrl());
+        dto.setPuntosOtorgados(e.getPuntosOtorgados());
+        dto.setCriterio(e.getCriterio());
+        dto.setValorCriterio(e.getValorCriterio());
         return dto;
     }
 
-    // convierte el DTO a una entidad
     private Logro toEntity(LogroDTO dto) {
-        Logro logro = new Logro();
-        logro.setNombre(dto.getNombre());
-        logro.setDescripcion(dto.getDescripcion());
-        logro.setIconoUrl(dto.getIconoUrl());
-        logro.setPuntosOtorgados(dto.getPuntosOtorgados());
-        logro.setCriterio(dto.getCriterio());
-        logro.setValorCriterio(dto.getValorCriterio());
-        return logro;
+        Logro e = new Logro();
+        e.setIdLogro(dto.getIdLogro());
+        e.setNombre(dto.getNombre());
+        e.setDescripcion(dto.getDescripcion());
+        e.setIconoUrl(dto.getIconoUrl());
+        e.setPuntosOtorgados(dto.getPuntosOtorgados());
+        e.setCriterio(dto.getCriterio());
+        e.setValorCriterio(dto.getValorCriterio());
+        return e;
     }
 }

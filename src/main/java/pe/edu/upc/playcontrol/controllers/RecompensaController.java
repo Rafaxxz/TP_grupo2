@@ -1,17 +1,17 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.RecompensaDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+// Aquí se exponen los endpoints REST para la tabla recompensa
 @RestController
 @RequestMapping("/api/recompensas")
 public class RecompensaController {
@@ -19,66 +19,60 @@ public class RecompensaController {
     @Autowired
     private IRecompensaService recompensaService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        try {
-            return ResponseEntity.ok(recompensaService.getAll());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener recompensas: " + e.getMessage());
-        }
+    public ResponseEntity<List<RecompensaDTO>> list() {
+        return ResponseEntity.ok(recompensaService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<RecompensaDTO> insert(@RequestBody RecompensaDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(recompensaService.insert(dto));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(recompensaService.getById(id));
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.NOT_FOUND, "Recompensa no encontrada con id: " + id);
+    public ResponseEntity<?> listId(@PathVariable UUID id) {
+        Optional<RecompensaDTO> found = recompensaService.listId(id);
+        if (found.isPresent()) {
+            return ResponseEntity.ok(found.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recompensa no encontrada");
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody RecompensaDTO dto) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(recompensaService.save(dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear recompensa: " + e.getMessage());
+    @PutMapping("/actualiza")
+    public ResponseEntity<?> update(@RequestBody RecompensaDTO dto) {
+        Optional<RecompensaDTO> existing = recompensaService.listId(dto.getIdRecompensa());
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recompensa no encontrada");
         }
+        return ResponseEntity.ok(recompensaService.update(dto));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @Valid @RequestBody RecompensaDTO dto) {
-        try {
-            return ResponseEntity.ok(recompensaService.update(id, dto));
-        } catch (IllegalArgumentException e) {
-            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar recompensa: " + e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        try {
-            recompensaService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar recompensa: " + e.getMessage());
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
+        Optional<RecompensaDTO> existing = recompensaService.listId(id);
+        if (existing.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recompensa no encontrada");
         }
+        recompensaService.delete(id);
+        return ResponseEntity.ok("Recompensa eliminada correctamente");
     }
 
-    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("status", status.value());
-        error.put("error", status.getReasonPhrase());
-        error.put("message", message);
-        return new ResponseEntity<>(error, status);
+    // Filtro simple: trae recompensas filtradas por tipo
+    @GetMapping("/por-tipo")
+    public ResponseEntity<List<RecompensaDTO>> listByTipo(@RequestParam String tipo) {
+        return ResponseEntity.ok(recompensaService.listByTipo(tipo));
+    }
+
+    // Query 1: Recompensas disponibles para un usuario según puntos que tiene
+    @GetMapping("/disponibles-por-puntos")
+    public ResponseEntity<List<RecompensaDTO>> findDisponiblesPorPuntos(@RequestParam Integer puntosDisponibles) {
+        return ResponseEntity.ok(recompensaService.findDisponiblesPorPuntos(puntosDisponibles));
+    }
+
+    // Query 2: Estadísticas de recompensas por tipo (cantidad, costo mín/máx/promedio)
+    @GetMapping("/estadisticas-por-tipo")
+    public ResponseEntity<?> findEstadisticasPorTipo() {
+        return ResponseEntity.ok(recompensaService.findEstadisticasPorTipo());
     }
 }
