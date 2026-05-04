@@ -11,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla canje_recompensa
@@ -40,33 +39,33 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     }
 
     @Override
-    public Optional<CanjeRecompensaDTO> listId(UUID id) {
+    public Optional<CanjeRecompensaDTO> listId(Integer id) {
         return canjeRecompensaRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         canjeRecompensaRepository.deleteById(id);
     }
 
     @Override
-    public List<CanjeRecompensaDTO> listByUsuarioId(UUID usuarioId) {
+    public List<CanjeRecompensaDTO> listByUsuarioId(Integer usuarioId) {
         return canjeRecompensaRepository.findByUsuarioId(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public int totalPuntosGastadosPorUsuario(UUID usuarioId) {
+    public int totalPuntosGastadosPorUsuario(Integer usuarioId) {
         List<CanjeRecompensa> canjes = canjeRecompensaRepository.findByUsuarioId(usuarioId);
         return canjes.stream().mapToInt(CanjeRecompensa::getPuntosUsados).sum();
     }
 
     @Override
-    public Object balanceActualPuntos(UUID usuarioId) {
+    public Object balanceActualPuntos(Integer usuarioId) {
         return canjeRecompensaRepository.balanceActualPuntos(usuarioId);
     }
 
     @Override
-    public Object historialCanjesVsDisponibles(UUID usuarioId) {
+    public Object historialCanjesVsDisponibles(Integer usuarioId) {
         return canjeRecompensaRepository.historialCanjesVsDisponibles(usuarioId);
     }
 

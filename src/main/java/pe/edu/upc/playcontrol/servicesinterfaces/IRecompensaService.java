@@ -4,14 +4,13 @@ import pe.edu.upc.playcontrol.dtos.RecompensaDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IRecompensaService {
     List<RecompensaDTO> list();
     RecompensaDTO insert(RecompensaDTO dto);
     RecompensaDTO update(RecompensaDTO dto);
-    Optional<RecompensaDTO> listId(UUID id);
-    void delete(UUID id);
+    Optional<RecompensaDTO> listId(Integer id);
+    void delete(Integer id);
 
     // Filtro simple: recompensas filtradas por tipo
     List<RecompensaDTO> listByTipo(String tipo);

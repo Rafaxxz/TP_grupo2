@@ -4,14 +4,13 @@ import pe.edu.upc.playcontrol.dtos.LogroDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ILogroService {
     List<LogroDTO> list();
     LogroDTO insert(LogroDTO dto);
     LogroDTO update(LogroDTO dto);
-    Optional<LogroDTO> listId(UUID id);
-    void delete(UUID id);
+    Optional<LogroDTO> listId(Integer id);
+    void delete(Integer id);
 
     // Filtro simple: logros según su criterio de desbloqueo
     List<LogroDTO> listByCriterio(String criterio);

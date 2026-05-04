@@ -4,14 +4,13 @@ import pe.edu.upc.playcontrol.dtos.RetoDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IRetoService {
     List<RetoDTO> list();
     RetoDTO insert(RetoDTO dto);
     RetoDTO update(RetoDTO dto);
-    Optional<RetoDTO> listId(UUID id);
-    void delete(UUID id);
+    Optional<RetoDTO> listId(Integer id);
+    void delete(Integer id);
 
     // Filtro simple: retos filtrados por tipo
     List<RetoDTO> listByTipo(String tipo);

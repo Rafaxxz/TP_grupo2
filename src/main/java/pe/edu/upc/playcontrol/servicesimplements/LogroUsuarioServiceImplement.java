@@ -12,7 +12,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.ILogroUsuarioService;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla logro_usuario
@@ -41,32 +40,32 @@ public class LogroUsuarioServiceImplement implements ILogroUsuarioService {
     }
 
     @Override
-    public Optional<LogroUsuarioDTO> listId(UUID id) {
+    public Optional<LogroUsuarioDTO> listId(Integer id) {
         return logroUsuarioRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         logroUsuarioRepository.deleteById(id);
     }
 
     @Override
-    public List<LogroUsuarioDTO> listByUsuarioId(UUID usuarioId) {
+    public List<LogroUsuarioDTO> listByUsuarioId(Integer usuarioId) {
         return logroUsuarioRepository.findByUsuarioId(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public long contarLogrosPorUsuario(UUID usuarioId) {
+    public long contarLogrosPorUsuario(Integer usuarioId) {
         return logroUsuarioRepository.findByUsuarioId(usuarioId).size();
     }
 
     @Override
-    public Object dashboardProgresoLogros(UUID usuarioId) {
+    public Object dashboardProgresoLogros(Integer usuarioId) {
         return logroUsuarioRepository.dashboardProgresoLogros(usuarioId);
     }
 
     @Override
-    public Object findTimelineDesbloqueos(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+    public Object findTimelineDesbloqueos(Integer usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
         return logroUsuarioRepository.findTimelineDesbloqueos(usuarioId, fechaInicio, fechaFin);
     }
 

@@ -7,22 +7,21 @@ import pe.edu.upc.playcontrol.entities.RetoUsuario;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 
 // Aquí se definen las consultas a la tabla reto_usuario para filtros y queries de decisión
-public interface IRetoUsuarioRepository extends JpaRepository<RetoUsuario, UUID> {
+public interface IRetoUsuarioRepository extends JpaRepository<RetoUsuario, Integer> {
 
     // Filtro simple: trae todos los retos aceptados por un usuario
-    List<RetoUsuario> findByUsuario_IdUsuario(UUID usuarioId);
+    List<RetoUsuario> findByUsuario_IdUsuario(Integer usuarioId);
 
     // Filtro simple: trae retos completados o en progreso de un usuario
-    List<RetoUsuario> findByUsuario_IdUsuarioAndCompletado(UUID usuarioId, Boolean completado);
+    List<RetoUsuario> findByUsuario_IdUsuarioAndCompletado(Integer usuarioId, Boolean completado);
 
     // Query 1: Dashboard del usuario - progreso consolidado por estado con puntos totales
-    @Query("SELECT ru.completado, COUNT(ru) as total, COALESCE(SUM(r.puntos), 0) as puntosTotal " +
+    @Query("SELECT ru.completado, COUNT(ru) as total, COALESCE(SUM(r.recompensa.costoPuntos), 0) as puntosTotal " +
            "FROM RetoUsuario ru JOIN ru.reto r WHERE ru.usuario.idUsuario = :usuarioId " +
            "AND ru.aceptadoEn BETWEEN :fechaInicio AND :fechaFin GROUP BY ru.completado")
-    List<Object[]> dashboardProgresoUsuario(@Param("usuarioId") UUID usuarioId,
+    List<Object[]> dashboardProgresoUsuario(@Param("usuarioId") Integer usuarioId,
                                              @Param("fechaInicio") OffsetDateTime fechaInicio,
                                              @Param("fechaFin") OffsetDateTime fechaFin);
 
@@ -30,7 +29,7 @@ public interface IRetoUsuarioRepository extends JpaRepository<RetoUsuario, UUID>
     @Query("SELECT ru FROM RetoUsuario ru WHERE ru.usuario.idUsuario = :usuarioId " +
            "AND ru.completado = true AND ru.finalizadoEn BETWEEN :fechaInicio AND :fechaFin " +
            "ORDER BY ru.finalizadoEn DESC")
-    List<RetoUsuario> findCompletadosByFechaBetween(@Param("usuarioId") UUID usuarioId,
+    List<RetoUsuario> findCompletadosByFechaBetween(@Param("usuarioId") Integer usuarioId,
                                                      @Param("fechaInicio") OffsetDateTime fechaInicio,
                                                      @Param("fechaFin") OffsetDateTime fechaFin);
 }

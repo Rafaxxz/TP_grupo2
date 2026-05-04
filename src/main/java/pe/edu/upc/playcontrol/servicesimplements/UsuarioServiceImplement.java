@@ -9,6 +9,7 @@ import pe.edu.upc.playcontrol.entities.Usuario;
 import pe.edu.upc.playcontrol.repositories.IRolRepository;
 import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -68,14 +69,14 @@ public class UsuarioServiceImplement implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> findLastUsers() {
-        OffsetDateTime Last30days = OffsetDateTime.now().minusDays(30);
-        return usuarioRepository.findLastUsers(Last30days);
+    public List<UsuarioDTO> findLastUsers() {
+        OffsetDateTime last30days = OffsetDateTime.now().minusDays(30);
+        return usuarioRepository.findLastUsers(last30days).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<Usuario> findByRolNombre(String nombre) {
-        return usuarioRepository.findByRolNombre(nombre);
+    public List<UsuarioDTO> findByRolNombre(String nombre) {
+        return usuarioRepository.findByRolNombre(nombre).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private UsuarioDTO toDTO(Usuario e) {

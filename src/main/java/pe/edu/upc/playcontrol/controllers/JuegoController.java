@@ -61,21 +61,45 @@ public class JuegoController {
         }
     }
 
+    // ADMIN, PADRE e HIJO pueden buscar juegos por plataforma
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @GetMapping("/plataforma")
+    public ResponseEntity<?> buscarPorPlataforma(@RequestParam String plataforma) {
+        try {
+            List<JuegoDTO> result = service.buscarPorPlataforma(plataforma);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron juegos para la plataforma: " + plataforma);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al buscar juegos por plataforma: " + e.getMessage());
+        }
+    }
+
+    // ADMIN, PADRE e HIJO pueden buscar juegos por categoría
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @GetMapping("/categoria/{idCategoria}")
+    public ResponseEntity<?> buscarPorCategoria(@PathVariable Integer idCategoria) {
+        try {
+            List<JuegoDTO> result = service.buscarPorCategoria(idCategoria);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron juegos para la categoría con id: " + idCategoria);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al buscar juegos por categoría: " + e.getMessage());
+        }
+    }
+
     private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
         Map<String, Object> error = new HashMap<>();
         error.put("status", status.value());
         error.put("error", status.getReasonPhrase());
         error.put("message", message);
         return new ResponseEntity<>(error, status);
-    }
-
-    @GetMapping("/plataforma")
-    public ResponseEntity<List<JuegoDTO>> buscarPorPlataforma(@RequestParam String plataforma) {
-        return ResponseEntity.ok(juegoService.buscarPorPlataforma(plataforma));
-    }
-
-    @GetMapping("/categoria/{idCategoria}")
-    public ResponseEntity<List<JuegoDTO>> buscarPorCategoria(@PathVariable Integer idCategoria) {
-        return ResponseEntity.ok(juegoService.buscarPorCategoria(idCategoria));
     }
 }

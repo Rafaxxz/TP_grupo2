@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.playcontrol.dtos.CategoriaJuegoDTO;
 import pe.edu.upc.playcontrol.entities.CategoriaJuego;
-import pe.edu.upc.playcontrol.repositories.CategoriaJuegoRepository;
+import pe.edu.upc.playcontrol.repositories.ICategoriaJuegoRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.CategoriaJuegoService;
 
 import java.util.List;
@@ -15,12 +15,7 @@ import java.util.stream.Collectors;
 public class CategoriaJuegoServiceImpl implements CategoriaJuegoService {
 
     @Autowired
-<<<<<<< HEAD
-    private CategoriaJuegoService categoriaJuegoRepository;
-    private final CategoriaJuegoRepository repository;
-=======
-    private CategoriaJuegoRepository categoriaJuegoRepository;
->>>>>>> ac7a2e12c04e142efe7adb01912433c539770ad2
+    private ICategoriaJuegoRepository categoriaJuegoRepository;
 
     @Override
     public List<CategoriaJuegoDTO> getAll() {
@@ -42,6 +37,17 @@ public class CategoriaJuegoServiceImpl implements CategoriaJuegoService {
         categoriaJuegoRepository.deleteById(id);
     }
 
+    @Override
+    public List<CategoriaJuegoDTO> buscarPorNombre(String nombre) {
+        return categoriaJuegoRepository.buscarPorNombre(nombre)
+                .stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existePorNombre(String nombre) {
+        return categoriaJuegoRepository.existePorNombre(nombre);
+    }
+
     private CategoriaJuegoDTO toDTO(CategoriaJuego e) {
         CategoriaJuegoDTO dto = new CategoriaJuegoDTO();
         dto.setIdCategoria(e.getIdCategoria());
@@ -54,38 +60,5 @@ public class CategoriaJuegoServiceImpl implements CategoriaJuegoService {
         e.setIdCategoria(dto.getIdCategoria());
         e.setNombre(dto.getNombre());
         return e;
-    }
-
-    @Override
-    public List<CategoriaJuegoDTO> getAll() {
-        return List.of();
-    }
-
-    @Override
-    public Optional<CategoriaJuegoDTO> getById(Integer id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public CategoriaJuegoDTO save(CategoriaJuegoDTO dto) {
-        return null;
-    }
-
-    @Override
-    public void delete(Integer id) {
-
-    }
-
-    @Override
-    public List<CategoriaJuegoDTO> buscarPorNombre(String nombre) {
-        return categoriaJuegoRepository.buscarPorNombre(nombre)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean existePorNombre(String nombre) {
-        return categoriaJuegoRepository.existePorNombre(nombre);
     }
 }

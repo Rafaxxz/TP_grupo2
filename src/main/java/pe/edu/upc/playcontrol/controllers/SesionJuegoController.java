@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/sesiones")
@@ -79,6 +78,40 @@ public class SesionJuegoController {
         }
     }
 
+    // ADMIN y PADRE pueden ver el historial de sesiones de un usuario
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<?> buscarPorUsuario(@PathVariable Integer usuarioId) {
+        try {
+            List<SesionJuegoDTO> result = service.buscarPorUsuario(usuarioId);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron sesiones para el usuario con id: " + usuarioId);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener sesiones del usuario: " + e.getMessage());
+        }
+    }
+
+    // Solo ADMIN puede consultar sesiones por fecha
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/fecha")
+    public ResponseEntity<?> buscarPorFecha(@RequestParam LocalDate fecha) {
+        try {
+            List<SesionJuegoDTO> result = service.buscarPorFecha(fecha);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron sesiones para la fecha: " + fecha);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener sesiones por fecha: " + e.getMessage());
+        }
+    }
+
     private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
         Map<String, Object> error = new HashMap<>();
         error.put("status", status.value());
@@ -86,15 +119,4 @@ public class SesionJuegoController {
         error.put("message", message);
         return new ResponseEntity<>(error, status);
     }
-
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<SesionJuegoDTO>> buscarPorUsuario(@PathVariable UUID usuarioId) {
-        return ResponseEntity.ok(sesionJuegoService.buscarPorUsuario(usuarioId));
-    }
-
-    @GetMapping("/fecha")
-    public ResponseEntity<List<SesionJuegoDTO>> buscarPorFecha(@RequestParam LocalDate fecha) {
-        return ResponseEntity.ok(sesionJuegoService.buscarPorFecha(fecha));
-    }
-
 }

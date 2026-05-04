@@ -7,18 +7,17 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.playcontrol.entities.CanjeRecompensa;
 
 import java.util.List;
-import java.util.UUID;
 
 // Aquí se definen las consultas a la tabla canje_recompensa para filtros y queries de decisión
 @Repository
-public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompensa, UUID> {
+public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompensa, Integer> {
 
     // Filtro simple: trae todos los canjes realizados por un usuario
-    List<CanjeRecompensa> findByUsuarioId(UUID usuarioId);
+    List<CanjeRecompensa> findByUsuarioId(Integer usuarioId);
 
     // Query de decisión: total de puntos gastados por un usuario en canjes
     @Query("SELECT COALESCE(SUM(cr.puntosUsados), 0) FROM CanjeRecompensa cr WHERE cr.usuarioId = :usuarioId")
-    int totalPuntosGastadosPorUsuario(@Param("usuarioId") UUID usuarioId);
+    int totalPuntosGastadosPorUsuario(@Param("usuarioId") Integer usuarioId);
 
     // Query 1: BALANCE ACTUAL - puntos ganados vs gastados
     @Query("SELECT " +
@@ -28,7 +27,7 @@ public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompens
            "COALESCE((SELECT SUM(l.puntosOtorgados) FROM LogroUsuario lu JOIN lu.logro l " +
            "WHERE lu.usuarioId = :usuarioId), 0) - COALESCE(SUM(cr.puntosUsados), 0) as balanceActual " +
            "FROM CanjeRecompensa cr WHERE cr.usuarioId = :usuarioId")
-    Object balanceActualPuntos(@Param("usuarioId") UUID usuarioId);
+    Object balanceActualPuntos(@Param("usuarioId") Integer usuarioId);
 
     // Query 2: HISTORIAL DE CANJES - Recompensas reclamadas vs disponibles
     @Query("SELECT 'Reclamadas' as estado, COUNT(cr) as cantidad, " +
@@ -44,5 +43,5 @@ public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompens
            "WHERE lu.usuarioId = :usuarioId), 0) - " +
            "COALESCE((SELECT SUM(cr2.puntosUsados) FROM CanjeRecompensa cr2 " +
            "WHERE cr2.usuarioId = :usuarioId), 0))")
-    List<Object[]> historialCanjesVsDisponibles(@Param("usuarioId") UUID usuarioId);
+    List<Object[]> historialCanjesVsDisponibles(@Param("usuarioId") Integer usuarioId);
 }

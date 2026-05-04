@@ -7,11 +7,10 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.playcontrol.entities.Logro;
 
 import java.util.List;
-import java.util.UUID;
 
 // Aquí se definen las consultas a la tabla logro para filtros y queries de decisión
 @Repository
-public interface ILogroRepository extends JpaRepository<Logro, UUID> {
+public interface ILogroRepository extends JpaRepository<Logro, Integer> {
 
     // Filtro simple: trae logros según su criterio de desbloqueo
     List<Logro> findByCriterio(String criterio);

@@ -3,15 +3,16 @@ package pe.edu.upc.playcontrol.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.MensajeDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
-// Aquí se exponen los endpoints REST para la tabla mensaje
 @RestController
 @RequestMapping("/api/mensajes")
 public class MensajeController {
@@ -19,67 +20,156 @@ public class MensajeController {
     @Autowired
     private IMensajeService mensajeService;
 
+    // Solo ADMIN ve el listado completo de todos los mensajes del sistema
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<MensajeDTO>> list() {
-        return ResponseEntity.ok(mensajeService.list());
-    }
-
-    @PostMapping("/nuevo")
-    public ResponseEntity<MensajeDTO> insert(@RequestBody MensajeDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.insert(dto));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listId(@PathVariable UUID id) {
-        Optional<MensajeDTO> found = mensajeService.listId(id);
-        if (found.isPresent()) {
-            return ResponseEntity.ok(found.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
+    public ResponseEntity<?> list() {
+        try {
+            return ResponseEntity.ok(mensajeService.list());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener la lista de mensajes: " + e.getMessage());
         }
     }
 
+    // ADMIN, PADRE e HIJO pueden enviar mensajes
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PostMapping("/nuevo")
+    public ResponseEntity<?> insert(@RequestBody MensajeDTO dto) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(mensajeService.insert(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al enviar el mensaje: " + e.getMessage());
+        }
+    }
+
+    // ADMIN, PADRE e HIJO pueden ver el detalle de un mensaje
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> listId(@PathVariable Integer id) {
+        try {
+            Optional<MensajeDTO> found = mensajeService.listId(id);
+            if (found.isPresent()) {
+                return ResponseEntity.ok(found.get());
+            }
+            return buildErrorResponse(HttpStatus.NOT_FOUND,
+                    "No se encontró el mensaje con id: " + id);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al buscar el mensaje: " + e.getMessage());
+        }
+    }
+
+    // ADMIN, PADRE e HIJO pueden modificar un mensaje (ej: marcar como leído)
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @PutMapping("/actualiza")
     public ResponseEntity<?> update(@RequestBody MensajeDTO dto) {
-        Optional<MensajeDTO> existing = mensajeService.listId(dto.getIdMensaje());
-        if (existing.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
+        try {
+            Optional<MensajeDTO> existing = mensajeService.listId(dto.getIdMensaje());
+            if (existing.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontró el mensaje con id: " + dto.getIdMensaje());
+            }
+            return ResponseEntity.ok(mensajeService.update(dto));
+        } catch (IllegalArgumentException e) {
+            return buildErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al actualizar el mensaje: " + e.getMessage());
         }
-        return ResponseEntity.ok(mensajeService.update(dto));
     }
 
+    // Solo ADMIN puede eliminar mensajes
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        Optional<MensajeDTO> existing = mensajeService.listId(id);
-        if (existing.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mensaje no encontrado");
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        try {
+            Optional<MensajeDTO> existing = mensajeService.listId(id);
+            if (existing.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontró el mensaje con id: " + id);
+            }
+            mensajeService.delete(id);
+            return ResponseEntity.ok("Mensaje eliminado correctamente");
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al eliminar el mensaje: " + e.getMessage());
         }
-        mensajeService.delete(id);
-        return ResponseEntity.ok("Mensaje eliminado correctamente");
     }
 
-    // Filtro simple: trae mensajes enviados por un remitente
+    // ADMIN, PADRE e HIJO pueden ver mensajes enviados por un remitente
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/por-remitente/{remitenteId}")
-    public ResponseEntity<List<MensajeDTO>> listByRemitenteId(@PathVariable UUID remitenteId) {
-        return ResponseEntity.ok(mensajeService.listByRemitenteId(remitenteId));
+    public ResponseEntity<?> listByRemitenteId(@PathVariable Integer remitenteId) {
+        try {
+            List<MensajeDTO> result = mensajeService.listByRemitenteId(remitenteId);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron mensajes del remitente con id: " + remitenteId);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener mensajes del remitente: " + e.getMessage());
+        }
     }
 
-    // Query de decisión: mensajes no leídos recibidos por un usuario
+    // ADMIN, PADRE e HIJO pueden ver sus mensajes no leídos
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/no-leidos/{destinatarioId}")
-    public ResponseEntity<List<MensajeDTO>> listNoLeidosByDestinatarioId(@PathVariable UUID destinatarioId) {
-        return ResponseEntity.ok(mensajeService.listNoLeidosByDestinatarioId(destinatarioId));
+    public ResponseEntity<?> listNoLeidosByDestinatarioId(@PathVariable Integer destinatarioId) {
+        try {
+            List<MensajeDTO> result = mensajeService.listNoLeidosByDestinatarioId(destinatarioId);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No hay mensajes no leídos para el usuario con id: " + destinatarioId);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener mensajes no leídos: " + e.getMessage());
+        }
     }
 
-    // Query 1: Conversación entre dos usuarios
+    // ADMIN, PADRE e HIJO pueden ver la conversación entre dos usuarios
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/conversacion")
-    public ResponseEntity<List<MensajeDTO>> findConversacionBetweenUsers(@RequestParam UUID usuarioA,
-                                                                          @RequestParam UUID usuarioB) {
-        return ResponseEntity.ok(mensajeService.findConversacionBetweenUsers(usuarioA, usuarioB));
+    public ResponseEntity<?> findConversacionBetweenUsers(
+            @RequestParam Integer usuarioA,
+            @RequestParam Integer usuarioB) {
+        try {
+            List<MensajeDTO> result = mensajeService.findConversacionBetweenUsers(usuarioA, usuarioB);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron mensajes entre los usuarios indicados");
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener la conversación: " + e.getMessage());
+        }
     }
 
-    // Query 2: Resumen de mensajes no leídos por remitente
+    // ADMIN, PADRE e HIJO pueden ver el resumen de mensajes no leídos agrupados por remitente
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/resumen-no-leidos/{usuarioId}")
-    public ResponseEntity<?> resumenNoLeidosPorRemitente(@PathVariable UUID usuarioId) {
-        return ResponseEntity.ok(mensajeService.resumenNoLeidosPorRemitente(usuarioId));
+    public ResponseEntity<?> resumenNoLeidosPorRemitente(@PathVariable Integer usuarioId) {
+        try {
+            return ResponseEntity.ok(mensajeService.resumenNoLeidosPorRemitente(usuarioId));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener el resumen de mensajes no leídos: " + e.getMessage());
+        }
+    }
+
+    private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", status.value());
+        error.put("error", status.getReasonPhrase());
+        error.put("message", message);
+        return new ResponseEntity<>(error, status);
     }
 }

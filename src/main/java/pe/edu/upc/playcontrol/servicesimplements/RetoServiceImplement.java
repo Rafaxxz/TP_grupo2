@@ -13,7 +13,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IRetoService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla reto
@@ -45,12 +44,12 @@ public class RetoServiceImplement implements IRetoService {
     }
 
     @Override
-    public Optional<RetoDTO> listId(UUID id) {
+    public Optional<RetoDTO> listId(Integer id) {
         return retoRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         retoRepository.deleteById(id);
     }
 

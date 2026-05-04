@@ -9,7 +9,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.ILogroService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla logro
@@ -35,12 +34,12 @@ public class LogroServiceImplement implements ILogroService {
     }
 
     @Override
-    public Optional<LogroDTO> listId(UUID id) {
+    public Optional<LogroDTO> listId(Integer id) {
         return logroRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         logroRepository.deleteById(id);
     }
 

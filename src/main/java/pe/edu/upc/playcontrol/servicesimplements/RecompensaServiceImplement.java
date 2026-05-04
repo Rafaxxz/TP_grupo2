@@ -9,7 +9,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IRecompensaService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla recompensa
@@ -35,12 +34,12 @@ public class RecompensaServiceImplement implements IRecompensaService {
     }
 
     @Override
-    public Optional<RecompensaDTO> listId(UUID id) {
+    public Optional<RecompensaDTO> listId(Integer id) {
         return recompensaRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         recompensaRepository.deleteById(id);
     }
 

@@ -7,11 +7,10 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.playcontrol.entities.Recompensa;
 
 import java.util.List;
-import java.util.UUID;
 
 // Aquí se definen las consultas a la tabla recompensa para filtros y queries de decisión
 @Repository
-public interface IRecompensaRepository extends JpaRepository<Recompensa, UUID> {
+public interface IRecompensaRepository extends JpaRepository<Recompensa, Integer> {
 
     // Filtro simple: trae recompensas filtradas por tipo
     List<Recompensa> findByTipo(String tipo);

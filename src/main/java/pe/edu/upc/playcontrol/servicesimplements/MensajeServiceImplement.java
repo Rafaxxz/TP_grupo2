@@ -11,7 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IMensajeService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla mensaje
@@ -40,32 +39,32 @@ public class MensajeServiceImplement implements IMensajeService {
     }
 
     @Override
-    public Optional<MensajeDTO> listId(UUID id) {
+    public Optional<MensajeDTO> listId(Integer id) {
         return mensajeRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         mensajeRepository.deleteById(id);
     }
 
     @Override
-    public List<MensajeDTO> listByRemitenteId(UUID remitenteId) {
+    public List<MensajeDTO> listByRemitenteId(Integer remitenteId) {
         return mensajeRepository.findByRemitente_IdUsuario(remitenteId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<MensajeDTO> listNoLeidosByDestinatarioId(UUID destinatarioId) {
+    public List<MensajeDTO> listNoLeidosByDestinatarioId(Integer destinatarioId) {
         return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, false).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<MensajeDTO> findConversacionBetweenUsers(UUID usuarioA, UUID usuarioB) {
+    public List<MensajeDTO> findConversacionBetweenUsers(Integer usuarioA, Integer usuarioB) {
         return mensajeRepository.findConversacionBetweenUsers(usuarioA, usuarioB).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Object resumenNoLeidosPorRemitente(UUID usuarioId) {
+    public Object resumenNoLeidosPorRemitente(Integer usuarioId) {
         return mensajeRepository.resumenNoLeidosPorRemitente(usuarioId);
     }
 

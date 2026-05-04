@@ -14,7 +14,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // Aquí se implementa la lógica de negocio para la tabla reto_usuario
@@ -46,32 +45,32 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
     }
 
     @Override
-    public Optional<RetoUsuarioDTO> listId(UUID id) {
+    public Optional<RetoUsuarioDTO> listId(Integer id) {
         return retoUsuarioRepository.findById(id).map(this::toDTO);
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Integer id) {
         retoUsuarioRepository.deleteById(id);
     }
 
     @Override
-    public List<RetoUsuarioDTO> listByUsuarioId(UUID usuarioId) {
+    public List<RetoUsuarioDTO> listByUsuarioId(Integer usuarioId) {
         return retoUsuarioRepository.findByUsuario_IdUsuario(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(UUID usuarioId, Boolean completado) {
+    public List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(Integer usuarioId, Boolean completado) {
         return retoUsuarioRepository.findByUsuario_IdUsuarioAndCompletado(usuarioId, completado).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
-    public Object dashboardProgresoUsuario(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+    public Object dashboardProgresoUsuario(Integer usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
         return retoUsuarioRepository.dashboardProgresoUsuario(usuarioId, fechaInicio, fechaFin);
     }
 
     @Override
-    public List<RetoUsuarioDTO> listCompletadosByFechaBetween(UUID usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+    public List<RetoUsuarioDTO> listCompletadosByFechaBetween(Integer usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
         return retoUsuarioRepository.findCompletadosByFechaBetween(usuarioId, fechaInicio, fechaFin).stream().map(this::toDTO).collect(Collectors.toList());
     }
 

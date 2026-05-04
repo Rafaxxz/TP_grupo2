@@ -6,10 +6,9 @@ import org.springframework.data.repository.query.Param;
 import pe.edu.upc.playcontrol.entities.Reto;
 
 import java.util.List;
-import java.util.UUID;
 
 // Aquí se definen las consultas a la tabla reto para filtros y queries de decisión
-public interface IRetoRepository extends JpaRepository<Reto, UUID> {
+public interface IRetoRepository extends JpaRepository<Reto, Integer> {
 
     // Filtro simple: trae retos según su tipo (ej: "semanal", "familiar")
     List<Reto> findByTipo(String tipo);
