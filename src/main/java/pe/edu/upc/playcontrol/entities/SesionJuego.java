@@ -1,15 +1,12 @@
 package pe.edu.upc.playcontrol.entities;
+
 import jakarta.persistence.*;
-import lombok.*;
+
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "sesion_juego")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class SesionJuego {
 
     @Id
@@ -36,4 +33,63 @@ public class SesionJuego {
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
+
+    public SesionJuego() {
+    }
+
+    public UUID getIdSesion() {
+        return idSesion;
+    }
+
+    public void setIdSesion(UUID idSesion) {
+        this.idSesion = idSesion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Juego getJuego() {
+        return juego;
+    }
+
+    public void setJuego(Juego juego) {
+        this.juego = juego;
+    }
+
+    public OffsetDateTime getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(OffsetDateTime inicio) {
+        this.inicio = inicio;
+    }
+
+    public OffsetDateTime getFin() {
+        return fin;
+    }
+
+    public void setFin(OffsetDateTime fin) {
+        this.fin = fin;
+    }
+
+    public Integer getDuracionMinutos() {
+        return duracionMinutos;
+    }
+
+    public void setDuracionMinutos(Integer duracionMinutos) {
+        this.duracionMinutos = duracionMinutos;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 }

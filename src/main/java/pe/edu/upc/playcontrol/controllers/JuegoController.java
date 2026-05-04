@@ -4,10 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.playcontrol.dtos.JuegoDTO;
 import pe.edu.upc.playcontrol.entities.Juego;
 import pe.edu.upc.playcontrol.servicesinterfaces.JuegoService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -65,5 +67,15 @@ public class JuegoController {
         error.put("error", status.getReasonPhrase());
         error.put("message", message);
         return new ResponseEntity<>(error, status);
+    }
+
+    @GetMapping("/plataforma")
+    public ResponseEntity<List<JuegoDTO>> buscarPorPlataforma(@RequestParam String plataforma) {
+        return ResponseEntity.ok(juegoService.buscarPorPlataforma(plataforma));
+    }
+
+    @GetMapping("/categoria/{idCategoria}")
+    public ResponseEntity<List<JuegoDTO>> buscarPorCategoria(@PathVariable Integer idCategoria) {
+        return ResponseEntity.ok(juegoService.buscarPorCategoria(idCategoria));
     }
 }
