@@ -4,96 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="ultimas modificaciones y correciones">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/AlertaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/AlertaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CanjeRecompensaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CanjeRecompensaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CategoriaJuegoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CategoriaJuegoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CitaEspecialistaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/CitaEspecialistaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/EspecialistaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/EspecialistaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/JuegoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/JuegoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LimiteTiempoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LimiteTiempoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LogroController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LogroController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LogroUsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/LogroUsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/MensajeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/MensajeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RecompensaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RecompensaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RetoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RetoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RetoUsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/RetoUsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/SesionJuegoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/SesionJuegoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/controllers/UsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/AlertaDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/AlertaDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/CategoriaJuegoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/CategoriaJuegoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/JuegoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/JuegoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/LimiteTiempoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/LimiteTiempoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/SesionJuegoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/dtos/SesionJuegoDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/Alerta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/Alerta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/Juego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/Juego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/LimiteTiempo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/LimiteTiempo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/SesionJuego.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/entities/SesionJuego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IAlertaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IAlertaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ICanjeRecompensaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ICanjeRecompensaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ICategoriaJuegoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ICategoriaJuegoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IContenidoEducativoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IContenidoEducativoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IEspecialistaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IEspecialistaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IJuegoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IJuegoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ILogroRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ILogroRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ILogroUsuarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/ILogroUsuarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IMensajeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IMensajeRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRecompensaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRecompensaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRetoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRetoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRetoUsuarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IRetoUsuarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IUsuarioRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/IUsuarioRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/LimiteTiempoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/LimiteTiempoRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/SesionJuegoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/repositories/SesionJuegoRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/AlertaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/AlertaServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/CanjeRecompensaServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/CanjeRecompensaServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/CategoriaJuegoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/CategoriaJuegoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/ContenidoEducativoServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/ContenidoEducativoServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/EspecialistaServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/EspecialistaServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/JuegoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/JuegoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LimiteTiempoServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LimiteTiempoServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LogroServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LogroServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LogroUsuarioServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/LogroUsuarioServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/MensajeServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/MensajeServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RecompensaServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RecompensaServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RetoServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RetoServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RetoUsuarioServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/RetoUsuarioServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/SesionJuegoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/SesionJuegoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/AlertaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/AlertaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/CategoriaJuegoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/CategoriaJuegoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ICanjeRecompensaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ICanjeRecompensaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ICitaEspecialistaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ICitaEspecialistaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IContenidoEducativoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IContenidoEducativoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IEspecialistaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IEspecialistaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ILogroService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ILogroService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ILogroUsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/ILogroUsuarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IMensajeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IMensajeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRecompensaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRecompensaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRetoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRetoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRetoUsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IRetoUsuarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/JuegoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/JuegoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/LimiteTiempoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/LimiteTiempoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/SesionJuegoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/SesionJuegoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/EspecialistaController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/EspecialistaController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/RolController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/RolController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/UsuarioController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/controllers/UsuarioController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/EspecialistaDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/EspecialistaDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/RolDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/RolDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/UsuarioDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/dtos/UsuarioDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/entities/Especialista.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/entities/Especialista.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/entities/Usuario.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/entities/Usuario.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IEspecialistaRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IEspecialistaRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IRolRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IRolRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IUsuarioRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/repositories/IUsuarioRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesimplements/EspecialistaServiceImplement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesimplements/EspecialistaServiceImplement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesinterfaces/IEspecialistaService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesinterfaces/IEspecialistaService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,9 +20,19 @@
       <entry key="_C:/Users/Rafael/IdeaProjects/TP_grupo2" value="3DF36nW0F9a8KKfLJSdQz6roa3z" />
     </persistenceIdMap>
   </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HttpClientOnboardingState"><![CDATA[{
+  "isOnboardingCommentShown": true
+}]]></component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -176,8 +100,22 @@
       <updated>1777602416672</updated>
       <workItem from="1777602417866" duration="3690000" />
       <workItem from="1777863811306" duration="4356000" />
-      <workItem from="1777911797038" duration="2423000" />
+      <workItem from="1777911797038" duration="2591000" />
+      <workItem from="1778027262371" duration="820000" />
+      <workItem from="1778102567364" duration="2243000" />
+      <workItem from="1778176854911" duration="285000" />
+      <workItem from="1778177951706" duration="606000" />
+      <workItem from="1778585969441" duration="1521000" />
     </task>
+    <task id="LOCAL-00001" summary="ultimas modificaciones y correciones">
+      <option name="closed" value="true" />
+      <created>1777917319303</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777917319303</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,6 +131,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ultimas modificaciones y correciones" />
+    <option name="LAST_COMMIT_MESSAGE" value="ultimas modificaciones y correciones" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

@@ -95,6 +95,40 @@ public class SesionJuegoController {
         }
     }
 
+    // Querys Rafael: ADMIN y PADRE pueden ver sesiones de un juego específico
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @GetMapping("/juego/{juegoId}")
+    public ResponseEntity<?> buscarPorJuego(@PathVariable Integer juegoId) {
+        try {
+            List<SesionJuegoDTO> result = service.buscarPorJuego(juegoId);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron sesiones para el juego con id: " + juegoId);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener sesiones del juego: " + e.getMessage());
+        }
+    }
+
+    // Querys Rafael: ADMIN y PADRE pueden ver sesiones de un usuario en un juego específico
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @GetMapping("/usuario/{usuarioId}/juego/{juegoId}")
+    public ResponseEntity<?> buscarPorUsuarioYJuego(@PathVariable Integer usuarioId, @PathVariable Integer juegoId) {
+        try {
+            List<SesionJuegoDTO> result = service.buscarPorUsuarioYJuego(usuarioId, juegoId);
+            if (result.isEmpty()) {
+                return buildErrorResponse(HttpStatus.NOT_FOUND,
+                        "No se encontraron sesiones para el usuario " + usuarioId + " en el juego " + juegoId);
+            }
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener sesiones del usuario por juego: " + e.getMessage());
+        }
+    }
+
     // Solo ADMIN puede consultar sesiones por fecha
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/fecha")

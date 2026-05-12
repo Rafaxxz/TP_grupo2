@@ -13,4 +13,6 @@ public interface SesionJuegoService {
     List<SesionJuego> historialPorUsuario(Integer usuarioId);
     List<SesionJuegoDTO> buscarPorUsuario(Integer usuarioId);
     List<SesionJuegoDTO> buscarPorFecha(LocalDate fecha);
+    List<SesionJuegoDTO> buscarPorJuego(Integer juegoId);
+    List<SesionJuegoDTO> buscarPorUsuarioYJuego(Integer usuarioId, Integer juegoId);
 }

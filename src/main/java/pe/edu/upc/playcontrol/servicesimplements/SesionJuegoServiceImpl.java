@@ -49,6 +49,18 @@ public class SesionJuegoServiceImpl implements SesionJuegoService {
                 .stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SesionJuegoDTO> buscarPorJuego(Integer juegoId) {
+        return sesionJuegoRepository.findByJuego_IdJuego(juegoId)
+                .stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SesionJuegoDTO> buscarPorUsuarioYJuego(Integer usuarioId, Integer juegoId) {
+        return sesionJuegoRepository.findByUsuario_IdUsuarioAndJuego_IdJuego(usuarioId, juegoId)
+                .stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     private SesionJuegoDTO toDTO(SesionJuego e) {
         SesionJuegoDTO dto = new SesionJuegoDTO();
         dto.setIdSesion(e.getIdSesion());
