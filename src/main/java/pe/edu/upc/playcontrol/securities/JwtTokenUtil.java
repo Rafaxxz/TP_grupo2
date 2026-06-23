@@ -3,9 +3,11 @@ package pe.edu.upc.playcontrol.securities;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenUtil {
+
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
 
     private static final long TOKEN_VALIDITY = 5 * 60 * 60 * 1000; // 5 horas
 
@@ -53,13 +58,11 @@ public class JwtTokenUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(
-                "roles",
-                userDetails.getAuthorities()
-                        .stream()
-                        .map(auth -> auth.getAuthority())
-                        .collect(Collectors.joining(","))
-        );
+        claims.put("roles", userDetails.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .collect(Collectors.joining(",")));
+        usuarioRepository.findByUsername(userDetails.getUsername())
+                .ifPresent(u -> claims.put("userId", u.getIdUsuario()));
         return createToken(claims, userDetails.getUsername());
     }
 
