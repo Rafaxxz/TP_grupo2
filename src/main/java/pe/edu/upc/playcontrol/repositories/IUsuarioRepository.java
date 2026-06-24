@@ -13,6 +13,8 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     Optional<Usuario> findByUsername(String username);
     Optional<Usuario> findByEmail(String email);
 
+    List<Usuario> findByPadreId(Integer padreId);
+
     @Query("SELECT u FROM Usuario u WHERE u.createdAt >= :fecha")
     List<Usuario> findLastUsers(@Param("fecha") OffsetDateTime fecha);
 

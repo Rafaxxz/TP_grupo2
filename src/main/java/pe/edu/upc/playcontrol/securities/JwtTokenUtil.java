@@ -52,6 +52,10 @@ public class JwtTokenUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
+        return generateToken(userDetails, null);
+    }
+
+    public String generateToken(UserDetails userDetails, Integer userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(
                 "roles",
@@ -60,6 +64,7 @@ public class JwtTokenUtil {
                         .map(auth -> auth.getAuthority())
                         .collect(Collectors.joining(","))
         );
+        if (userId != null) claims.put("userId", userId);
         return createToken(claims, userDetails.getUsername());
     }
 

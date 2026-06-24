@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pe.edu.upc.playcontrol.dtos.JwtRequestDTO;
 import pe.edu.upc.playcontrol.dtos.JwtResponseDTO;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.securities.JwtTokenUtil;
 import pe.edu.upc.playcontrol.servicesimplements.JwtUserDetailsService;
 
@@ -34,6 +35,9 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody JwtRequestDTO req) {
         try {
@@ -49,7 +53,10 @@ public class JwtAuthenticationController {
 
         try {
             final UserDetails userDetails = userDetailsService.loadUserByUsername(req.getUsername());
-            final String token = jwtTokenUtil.generateToken(userDetails);
+            Integer userId = usuarioRepository.findByUsername(req.getUsername())
+                    .map(u -> u.getIdUsuario())
+                    .orElse(null);
+            final String token = jwtTokenUtil.generateToken(userDetails, userId);
             return ResponseEntity.ok(new JwtResponseDTO(token));
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al generar el token: " + e.getMessage());

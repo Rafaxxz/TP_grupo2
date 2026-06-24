@@ -34,6 +34,9 @@ public class Usuario {
     @Column(name = "estado", nullable = false)
     private Boolean estado;
 
+    @Column(name = "padre_id")
+    private Integer padreId;
+
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 

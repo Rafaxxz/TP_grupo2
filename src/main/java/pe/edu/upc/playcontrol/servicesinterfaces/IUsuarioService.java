@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IUsuarioService {
     List<UsuarioDTO> getAll();
     Optional<UsuarioDTO> getById(Integer id);
+    Optional<UsuarioDTO> findByUsername(String username);
     UsuarioDTO save(UsuarioDTO dto);
     void delete(Integer id);
     List<UsuarioDTO> findLastUsers();

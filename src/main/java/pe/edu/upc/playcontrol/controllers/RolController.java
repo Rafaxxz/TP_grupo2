@@ -20,6 +20,7 @@ public class RolController {
     @Autowired
     private IRolService rolService;
 
+    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {

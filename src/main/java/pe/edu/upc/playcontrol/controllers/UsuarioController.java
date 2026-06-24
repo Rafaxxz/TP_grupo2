@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.playcontrol.dtos.UsuarioDTO;
 import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
@@ -18,6 +19,18 @@ public class UsuarioController {
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/me")
+    public ResponseEntity<?> getMe(Authentication auth) {
+        try {
+            return usuarioService.findByUsername(auth.getName())
+                    .<ResponseEntity<?>>map(ResponseEntity::ok)
+                    .orElse(buildErrorResponse(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener perfil: " + e.getMessage());
+        }
+    }
 
     // Solo ADMIN puede ver el listado completo de usuarios del sistema
     @PreAuthorize("hasAuthority('ADMIN')")

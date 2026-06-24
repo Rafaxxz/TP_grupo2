@@ -38,6 +38,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
     }
 
     @Override
+    public Optional<UsuarioDTO> findByUsername(String username) {
+        return usuarioRepository.findByUsername(username).map(this::toDTO);
+    }
+
+    @Override
     public UsuarioDTO save(UsuarioDTO dto) {
         Optional<Usuario> existingByUsername = usuarioRepository.findByUsername(dto.getUsername());
         if (existingByUsername.isPresent() && !existingByUsername.get().getIdUsuario().equals(dto.getIdUsuario())) {
@@ -88,6 +93,7 @@ public class UsuarioServiceImplement implements IUsuarioService {
         dto.setRolId(e.getIdRol());
         dto.setPuntosTotales(e.getPuntosTotales());
         dto.setEstado(e.getEstado());
+        dto.setPadreId(e.getPadreId());
         dto.setCreatedAt(e.getCreatedAt());
         return dto;
     }
@@ -102,6 +108,7 @@ public class UsuarioServiceImplement implements IUsuarioService {
         e.setIdRol(dto.getRolId());
         e.setPuntosTotales(dto.getPuntosTotales());
         e.setEstado(dto.getEstado());
+        e.setPadreId(dto.getPadreId());
         return e;
     }
 }
