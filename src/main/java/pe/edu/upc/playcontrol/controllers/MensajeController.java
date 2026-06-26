@@ -123,10 +123,6 @@ public class MensajeController {
     public ResponseEntity<?> listNoLeidosByDestinatarioId(@PathVariable Integer destinatarioId) {
         try {
             List<MensajeDTO> result = mensajeService.listNoLeidosByDestinatarioId(destinatarioId);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No hay mensajes no leídos para el usuario con id: " + destinatarioId);
-            }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
@@ -142,10 +138,6 @@ public class MensajeController {
             @RequestParam Integer usuarioB) {
         try {
             List<MensajeDTO> result = mensajeService.findConversacionBetweenUsers(usuarioA, usuarioB);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No se encontraron mensajes entre los usuarios indicados");
-            }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,

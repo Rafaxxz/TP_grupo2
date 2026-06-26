@@ -27,7 +27,7 @@ public class SesionJuego {
     @Column(name = "fin")
     private OffsetDateTime fin;
 
-    @Column(name = "duracion_minutos", insertable = false, updatable = false)
+    @Column(name = "duracion_minutos")
     private Integer duracionMinutos;
 
     @Column(name = "fecha", nullable = false)

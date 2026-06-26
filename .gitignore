@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Config local con credenciales — NO subir
+application-local.properties
+src/main/resources/application-local.properties

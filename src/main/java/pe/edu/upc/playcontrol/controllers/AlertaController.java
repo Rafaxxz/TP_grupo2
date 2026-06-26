@@ -11,6 +11,7 @@ import pe.edu.upc.playcontrol.servicesinterfaces.AlertaService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/alertas")
@@ -70,20 +71,30 @@ public class AlertaController {
         }
     }
 
-    // ADMIN y PADRE pueden ver las alertas generadas para un usuario
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    // HIJO puede ver sus propias alertas; PADRE y ADMIN pueden ver las de cualquiera
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<?> buscarPorUsuario(@PathVariable Integer usuarioId) {
         try {
             List<AlertaDTO> result = service.buscarPorUsuario(usuarioId);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No se encontraron alertas para el usuario con id: " + usuarioId);
-            }
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error al obtener alertas del usuario: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @PatchMapping("/{id}/leer")
+    public ResponseEntity<?> marcarLeida(@PathVariable Integer id) {
+        try {
+            Alerta alerta = service.buscarPorId(id);
+            if (alerta == null) return buildErrorResponse(HttpStatus.NOT_FOUND, "Alerta no encontrada");
+            alerta.setLeida(true);
+            service.guardar(alerta);
+            return ResponseEntity.ok(Map.of("message", "Alerta marcada como leída"));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al marcar alerta: " + e.getMessage());
         }
     }
 
