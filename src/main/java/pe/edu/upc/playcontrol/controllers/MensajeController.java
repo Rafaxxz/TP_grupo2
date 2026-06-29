@@ -125,7 +125,7 @@ public class MensajeController {
             List<MensajeDTO> result = mensajeService.listNoLeidosByDestinatarioId(destinatarioId);
             if (result.isEmpty()) {
                 return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No hay mensajes no leídos para el usuario con id: " + destinatarioId);
+                        "No hay mensajes  leídos para el usuario con id: " + destinatarioId);
             }
             return ResponseEntity.ok(result);
         } catch (Exception e) {

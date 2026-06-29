@@ -16,6 +16,6 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query("SELECT u FROM Usuario u WHERE u.createdAt >= :fecha")
     List<Usuario> findLastUsers(@Param("fecha") OffsetDateTime fecha);
 
-    @Query("SELECT u FROM Usuario u, Rol r WHERE u.idRol = r.idRol AND r.nombre = :nombre")
+    @Query(" SELECT u FROM Usuario u, Rol r WHERE u.idRol = r.idRol AND r.nombre = :nombre")
     List<Usuario> findByRolNombre(@Param("nombre") String nombre);
 }

@@ -55,7 +55,7 @@ public class MensajeServiceImplement implements IMensajeService {
 
     @Override
     public List<MensajeDTO> listNoLeidosByDestinatarioId(Integer destinatarioId) {
-        return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, false).stream().map(this::toDTO).collect(Collectors.toList());
+        return mensajeRepository.findByDestinatario_IdUsuarioAndLeido(destinatarioId, true).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
