@@ -35,5 +35,7 @@ public class UsuarioDTO {
     @NotNull(message = "El estado es obligatorio")
     private Boolean estado;
 
+    private Integer padreId;
+
     private OffsetDateTime createdAt;
 }

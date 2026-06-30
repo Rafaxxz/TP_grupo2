@@ -2,11 +2,14 @@ package pe.edu.upc.playcontrol.servicesimplements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pe.edu.upc.playcontrol.dtos.CanjeRecompensaDTO;
 import pe.edu.upc.playcontrol.entities.CanjeRecompensa;
 import pe.edu.upc.playcontrol.entities.Recompensa;
+import pe.edu.upc.playcontrol.entities.Usuario;
 import pe.edu.upc.playcontrol.repositories.ICanjeRecompensaRepository;
 import pe.edu.upc.playcontrol.repositories.IRecompensaRepository;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.servicesinterfaces.ICanjeRecompensaService;
 
 import java.util.List;
@@ -23,13 +26,35 @@ public class CanjeRecompensaServiceImplement implements ICanjeRecompensaService 
     @Autowired
     private IRecompensaRepository recompensaRepository;
 
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+
     @Override
     public List<CanjeRecompensaDTO> list() {
         return canjeRecompensaRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public CanjeRecompensaDTO insert(CanjeRecompensaDTO dto) {
+        Recompensa recompensa = dto.getRecompensaId() != null
+                ? recompensaRepository.findById(dto.getRecompensaId()).orElse(null) : null;
+        if (recompensa == null) throw new IllegalArgumentException("Recompensa no encontrada");
+
+        Usuario usuario = dto.getUsuarioId() != null
+                ? usuarioRepository.findById(dto.getUsuarioId()).orElse(null) : null;
+        if (usuario == null) throw new IllegalArgumentException("Usuario no encontrado");
+
+        int costo = recompensa.getCostoPuntos();
+        int puntosActuales = usuario.getPuntosTotales() != null ? usuario.getPuntosTotales() : 0;
+        if (puntosActuales < costo) {
+            throw new IllegalArgumentException("Puntos insuficientes. Tienes " + puntosActuales + " pts, necesitas " + costo + " pts.");
+        }
+
+        dto.setPuntosUsados(costo);
+        usuario.setPuntosTotales(puntosActuales - costo);
+        usuarioRepository.save(usuario);
+
         return toDTO(canjeRecompensaRepository.save(toEntity(dto)));
     }
 

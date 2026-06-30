@@ -67,8 +67,8 @@ public class LimiteTiempoController {
         }
     }
 
-    // ADMIN y PADRE pueden ver los límites de tiempo de un usuario
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    // ADMIN, PADRE e HIJO pueden ver los límites (el hijo ve los suyos propios)
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/usuario/{usuarioId}")
     public ResponseEntity<List<LimiteTiempoDTO>> buscarPorUsuario(@PathVariable Integer usuarioId) {
         return ResponseEntity.ok(service.buscarPorUsuario(usuarioId));

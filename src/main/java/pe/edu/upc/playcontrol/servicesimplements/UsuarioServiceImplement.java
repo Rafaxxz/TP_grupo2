@@ -12,6 +12,7 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Override
     public Optional<UsuarioDTO> getById(Integer id) {
         return usuarioRepository.findById(id).map(this::toDTO);
+    }
+
+    @Override
+    public Optional<UsuarioDTO> findByUsername(String username) {
+        return usuarioRepository.findByUsername(username).map(this::toDTO);
     }
 
     @Override
@@ -79,6 +85,13 @@ public class UsuarioServiceImplement implements IUsuarioService {
         return usuarioRepository.findByRolNombre(nombre).stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Map<String, Object>> usuariosRegistradosPorMes() {
+        return usuarioRepository.usuariosRegistradosPorMes().stream()
+                .map(f -> Map.of("mes", f[0], "total", f[1]))
+                .collect(Collectors.toList());
+    }
+
     private UsuarioDTO toDTO(Usuario e) {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setIdUsuario(e.getIdUsuario());
@@ -88,6 +101,7 @@ public class UsuarioServiceImplement implements IUsuarioService {
         dto.setRolId(e.getIdRol());
         dto.setPuntosTotales(e.getPuntosTotales());
         dto.setEstado(e.getEstado());
+        dto.setPadreId(e.getPadreId());
         dto.setCreatedAt(e.getCreatedAt());
         return dto;
     }
@@ -102,6 +116,7 @@ public class UsuarioServiceImplement implements IUsuarioService {
         e.setIdRol(dto.getRolId());
         e.setPuntosTotales(dto.getPuntosTotales());
         e.setEstado(dto.getEstado());
+        e.setPadreId(dto.getPadreId());
         return e;
     }
 }
