@@ -141,6 +141,13 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.usuariosRegistradosPorMes());
     }
 
+    // Solo ADMIN y PAPÁ pueden ver
+    @GetMapping("/tiempo-jugado-mes")
+    @PreAuthorize("hasAnyRole('ADMIN', 'PADRE')")
+    public ResponseEntity<?> tiempoJugadoPorHijoMesActual() {
+        return ResponseEntity.ok(usuarioService.tiempoJugadoPorHijoMesActual());
+    }
+
     private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
         Map<String, Object> error = new HashMap<>();
         error.put("status", status.value());

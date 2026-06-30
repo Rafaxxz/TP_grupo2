@@ -92,6 +92,14 @@ public class UsuarioServiceImplement implements IUsuarioService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Map<String, Object>> tiempoJugadoPorHijoMesActual() {
+        return usuarioRepository.tiempoJugadoPorHijoMesActual().stream()
+                .map(f -> Map.of("nombre", f[0], "totalMinutos", f[1]))
+                .collect(Collectors.toList());
+    }
+
+
     private UsuarioDTO toDTO(Usuario e) {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setIdUsuario(e.getIdUsuario());

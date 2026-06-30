@@ -27,4 +27,14 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
       ORDER BY mes
       """, nativeQuery = true)
     List<Object[]> usuariosRegistradosPorMes();
+
+    @Query(value = """
+      SELECT u.nombre AS nombre, SUM(s.duracion_minutos) AS total_minutos
+      FROM sesion_juego s
+      JOIN usuario u ON s.usuario_id = u.id_usuario
+      WHERE MONTH(s.fecha) = MONTH(CURRENT_DATE)
+      AND YEAR(s.fecha) = YEAR(CURRENT_DATE)
+      GROUP BY u.nombre
+      """, nativeQuery = true)
+    List<Object[]> tiempoJugadoPorHijoMesActual();
 }

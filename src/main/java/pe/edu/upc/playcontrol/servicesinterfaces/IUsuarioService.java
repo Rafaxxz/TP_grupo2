@@ -15,4 +15,5 @@ public interface IUsuarioService {
     List<UsuarioDTO> findLastUsers();
     List<UsuarioDTO> findByRolNombre(String nombre);
     List<Map<String, Object>> usuariosRegistradosPorMes();
+    List<Map<String, Object>> tiempoJugadoPorHijoMesActual();
 }
