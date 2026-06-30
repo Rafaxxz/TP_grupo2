@@ -20,4 +20,11 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("SELECT u FROM Usuario u, Rol r WHERE u.idRol = r.idRol AND r.nombre = :nombre")
     List<Usuario> findByRolNombre(@Param("nombre") String nombre);
+
+    @Query(value = """
+      SELECT MONTH(u.created_at) AS mes, COUNT(*) AS total FROM usuario u
+      WHERE YEAR(u.created_at) = YEAR(CURRENT_DATE) GROUP BY MONTH(u.created_at)
+      ORDER BY mes
+      """, nativeQuery = true)
+    List<Object[]> usuariosRegistradosPorMes();
 }

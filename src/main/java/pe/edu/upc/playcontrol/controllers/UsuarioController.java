@@ -117,7 +117,7 @@ public class UsuarioController {
         }
     }
 
-    // Solo ADMIN puede filtrar usuarios por rol
+    // Solo ADMIN cuenta los usuarios registrados en cada mes del año actual.
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/userByRol")
     public ResponseEntity<?> userByRol(@RequestParam String nombre) {
@@ -132,6 +132,13 @@ public class UsuarioController {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error al filtrar usuarios por rol: " + e.getMessage());
         }
+    }
+
+    // Solo ADMIN puede ver l
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/registrados-por-mes")
+    public ResponseEntity<?> usuariosRegistradosPorMes() {
+        return ResponseEntity.ok(usuarioService.usuariosRegistradosPorMes());
     }
 
     private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {

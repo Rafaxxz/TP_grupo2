@@ -12,6 +12,7 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IUsuarioService;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,6 +83,13 @@ public class UsuarioServiceImplement implements IUsuarioService {
     @Override
     public List<UsuarioDTO> findByRolNombre(String nombre) {
         return usuarioRepository.findByRolNombre(nombre).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Map<String, Object>> usuariosRegistradosPorMes() {
+        return usuarioRepository.usuariosRegistradosPorMes().stream()
+                .map(f -> Map.of("mes", f[0], "total", f[1]))
+                .collect(Collectors.toList());
     }
 
     private UsuarioDTO toDTO(Usuario e) {
