@@ -105,12 +105,7 @@ public class CanjeRecompensaController {
     @GetMapping("/por-usuario/{usuarioId}")
     public ResponseEntity<?> listByUsuarioId(@PathVariable Integer usuarioId) {
         try {
-            List<CanjeRecompensaDTO> result = canjeRecompensaService.listByUsuarioId(usuarioId);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No se encontraron canjes para el usuario con id: " + usuarioId);
-            }
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(canjeRecompensaService.listByUsuarioId(usuarioId));
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error al obtener los canjes del usuario: " + e.getMessage());

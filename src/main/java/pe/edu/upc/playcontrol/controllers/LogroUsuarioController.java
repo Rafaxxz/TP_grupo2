@@ -107,12 +107,7 @@ public class LogroUsuarioController {
     @GetMapping("/por-usuario/{usuarioId}")
     public ResponseEntity<?> listByUsuarioId(@PathVariable Integer usuarioId) {
         try {
-            List<LogroUsuarioDTO> result = logroUsuarioService.listByUsuarioId(usuarioId);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No se encontraron logros para el usuario con id: " + usuarioId);
-            }
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(logroUsuarioService.listByUsuarioId(usuarioId));
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error al obtener los logros del usuario: " + e.getMessage());

@@ -107,12 +107,7 @@ public class RetoUsuarioController {
     @GetMapping("/por-usuario/{usuarioId}")
     public ResponseEntity<?> listByUsuarioId(@PathVariable Integer usuarioId) {
         try {
-            List<RetoUsuarioDTO> result = retoUsuarioService.listByUsuarioId(usuarioId);
-            if (result.isEmpty()) {
-                return buildErrorResponse(HttpStatus.NOT_FOUND,
-                        "No se encontraron retos para el usuario con id: " + usuarioId);
-            }
-            return ResponseEntity.ok(result);
+            return ResponseEntity.ok(retoUsuarioService.listByUsuarioId(usuarioId));
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error al obtener los retos del usuario: " + e.getMessage());

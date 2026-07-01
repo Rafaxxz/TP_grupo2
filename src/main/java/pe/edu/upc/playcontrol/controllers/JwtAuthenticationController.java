@@ -53,10 +53,7 @@ public class JwtAuthenticationController {
 
         try {
             final UserDetails userDetails = userDetailsService.loadUserByUsername(req.getUsername());
-            Integer userId = usuarioRepository.findByUsername(req.getUsername())
-                    .map(u -> u.getIdUsuario())
-                    .orElse(null);
-            final String token = jwtTokenUtil.generateToken(userDetails, userId);
+            final String token = jwtTokenUtil.generateToken(userDetails);
             return ResponseEntity.ok(new JwtResponseDTO(token));
         } catch (Exception e) {
             return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al generar el token: " + e.getMessage());

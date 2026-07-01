@@ -13,6 +13,12 @@ public interface IMensajeRepository extends JpaRepository<Mensaje, Integer> {
     // Filtro simple: trae mensajes enviados por un remitente
     List<Mensaje> findByRemitente_IdUsuario(Integer remitenteId);
 
+    // Todos los mensajes en los que el usuario participa (enviados o recibidos)
+    @Query("SELECT m FROM Mensaje m WHERE " +
+           "m.remitente.idUsuario = :usuarioId OR m.destinatario.idUsuario = :usuarioId " +
+           "ORDER BY m.enviadoEn DESC")
+    List<Mensaje> findByUsuarioParticipante(@Param("usuarioId") Integer usuarioId);
+
     // Filtro simple: trae mensajes no leídos recibidos por un usuario
     List<Mensaje> findByDestinatario_IdUsuarioAndLeido(Integer destinatarioId, Boolean leido);
 

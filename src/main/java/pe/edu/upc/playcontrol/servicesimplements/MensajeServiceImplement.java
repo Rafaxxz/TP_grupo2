@@ -49,6 +49,11 @@ public class MensajeServiceImplement implements IMensajeService {
     }
 
     @Override
+    public List<MensajeDTO> listByUsuario(Integer usuarioId) {
+        return mensajeRepository.findByUsuarioParticipante(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
     public List<MensajeDTO> listByRemitenteId(Integer remitenteId) {
         return mensajeRepository.findByRemitente_IdUsuario(remitenteId).stream().map(this::toDTO).collect(Collectors.toList());
     }

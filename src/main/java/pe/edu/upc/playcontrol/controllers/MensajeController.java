@@ -101,6 +101,18 @@ public class MensajeController {
     }
 
     // ADMIN, PADRE e HIJO pueden ver mensajes enviados por un remitente
+    // ADMIN, PADRE e HIJO pueden ver los mensajes en los que participan (enviados o recibidos)
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<?> listByUsuario(@PathVariable Integer usuarioId) {
+        try {
+            return ResponseEntity.ok(mensajeService.listByUsuario(usuarioId));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al obtener los mensajes del usuario: " + e.getMessage());
+        }
+    }
+
     @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/por-remitente/{remitenteId}")
     public ResponseEntity<?> listByRemitenteId(@PathVariable Integer remitenteId) {

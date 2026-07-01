@@ -12,6 +12,9 @@ public interface IMensajeService {
     Optional<MensajeDTO> listId(Integer id);
     void delete(Integer id);
 
+    // Todos los mensajes en los que el usuario participa (enviados o recibidos)
+    List<MensajeDTO> listByUsuario(Integer usuarioId);
+
     // Filtro simple: mensajes enviados por un remitente
     List<MensajeDTO> listByRemitenteId(Integer remitenteId);
 

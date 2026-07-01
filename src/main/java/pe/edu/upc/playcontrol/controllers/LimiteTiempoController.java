@@ -81,6 +81,17 @@ public class LimiteTiempoController {
         return ResponseEntity.ok(service.obtenerBloqueados());
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizar(@PathVariable Integer id, @RequestBody LimiteTiempo limiteTiempo) {
+        try {
+            limiteTiempo.setIdLimite(id);
+            return ResponseEntity.ok(service.guardar(limiteTiempo));
+        } catch (Exception e) {
+            return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar límite: " + e.getMessage());
+        }
+    }
+
     private ResponseEntity<?> buildErrorResponse(HttpStatus status, String message) {
         Map<String, Object> error = new HashMap<>();
         error.put("status", status.value());
