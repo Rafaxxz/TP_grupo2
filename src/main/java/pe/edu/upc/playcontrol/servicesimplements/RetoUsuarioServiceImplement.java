@@ -1,0 +1,103 @@
+package pe.edu.upc.playcontrol.servicesimplements;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pe.edu.upc.playcontrol.dtos.RetoUsuarioDTO;
+import pe.edu.upc.playcontrol.entities.Reto;
+import pe.edu.upc.playcontrol.entities.RetoUsuario;
+import pe.edu.upc.playcontrol.entities.Usuario;
+import pe.edu.upc.playcontrol.repositories.IRetoRepository;
+import pe.edu.upc.playcontrol.repositories.IRetoUsuarioRepository;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
+import pe.edu.upc.playcontrol.servicesinterfaces.IRetoUsuarioService;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+// Aquí se implementa la lógica de negocio para la tabla reto_usuario
+@Service
+public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
+
+    @Autowired
+    private IRetoUsuarioRepository retoUsuarioRepository;
+
+    @Autowired
+    private IRetoRepository retoRepository;
+
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
+
+    @Override
+    public List<RetoUsuarioDTO> list() {
+        return retoUsuarioRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public RetoUsuarioDTO insert(RetoUsuarioDTO dto) {
+        return toDTO(retoUsuarioRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public RetoUsuarioDTO update(RetoUsuarioDTO dto) {
+        return toDTO(retoUsuarioRepository.save(toEntity(dto)));
+    }
+
+    @Override
+    public Optional<RetoUsuarioDTO> listId(Integer id) {
+        return retoUsuarioRepository.findById(id).map(this::toDTO);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        retoUsuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listByUsuarioId(Integer usuarioId) {
+        return retoUsuarioRepository.findByUsuario_IdUsuario(usuarioId).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listByUsuarioIdAndCompletado(Integer usuarioId, Boolean completado) {
+        return retoUsuarioRepository.findByUsuario_IdUsuarioAndCompletado(usuarioId, completado).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Object dashboardProgresoUsuario(Integer usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+        return retoUsuarioRepository.dashboardProgresoUsuario(usuarioId, fechaInicio, fechaFin);
+    }
+
+    @Override
+    public List<RetoUsuarioDTO> listCompletadosByFechaBetween(Integer usuarioId, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
+        return retoUsuarioRepository.findCompletadosByFechaBetween(usuarioId, fechaInicio, fechaFin).stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    private RetoUsuarioDTO toDTO(RetoUsuario e) {
+        RetoUsuarioDTO dto = new RetoUsuarioDTO();
+        dto.setId(e.getId());
+        dto.setRetoId(e.getReto() != null ? e.getReto().getIdReto() : null);
+        dto.setUsuarioId(e.getUsuario() != null ? e.getUsuario().getIdUsuario() : null);
+        dto.setAceptadoEn(e.getAceptadoEn());
+        dto.setCompletado(e.getCompletado());
+        dto.setFinalizadoEn(e.getFinalizadoEn());
+        return dto;
+    }
+
+    private RetoUsuario toEntity(RetoUsuarioDTO dto) {
+        RetoUsuario e = new RetoUsuario();
+        e.setId(dto.getId());
+        if (dto.getRetoId() != null) {
+            Reto reto = retoRepository.findById(dto.getRetoId()).orElse(null);
+            e.setReto(reto);
+        }
+        if (dto.getUsuarioId() != null) {
+            Usuario usuario = usuarioRepository.findById(dto.getUsuarioId()).orElse(null);
+            e.setUsuario(usuario);
+        }
+        e.setCompletado(dto.getCompletado());
+        e.setFinalizadoEn(dto.getFinalizadoEn());
+        return e;
+    }
+}

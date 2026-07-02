@@ -1,0 +1,48 @@
+package pe.edu.upc.playcontrol.entities;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.OffsetDateTime;
+
+@Entity
+@Table(name = "usuario")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+
+    @Column(name = "username", nullable = false, unique = true, length = 60)
+    private String username;
+
+    @Column(name = "email", nullable = false, unique = true, length = 254)
+    private String email;
+
+    @Column(name = "nombre", nullable = false, length = 120)
+    private String nombre;
+
+    @Column(name = "password_hash", nullable = false, columnDefinition = "TEXT")
+    private String passwordHash;
+
+    @Column(name = "id_rol")
+    private Integer idRol;
+
+    @Column(name = "puntos_totales")
+    private Integer puntosTotales;
+
+    @Column(name = "estado", nullable = false)
+    private Boolean estado;
+
+    @Column(name = "padre_id")
+    private Integer padreId;
+
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) createdAt = OffsetDateTime.now();
+        if (puntosTotales == null) puntosTotales = 0;
+    }
+}
