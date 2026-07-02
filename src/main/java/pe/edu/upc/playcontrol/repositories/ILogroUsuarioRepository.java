@@ -41,4 +41,15 @@ public interface ILogroUsuarioRepository extends JpaRepository<LogroUsuario, Int
     List<Object[]> findTimelineDesbloqueos(@Param("usuarioId") Integer usuarioId,
                                             @Param("fechaInicio") OffsetDateTime fechaInicio,
                                             @Param("fechaFin") OffsetDateTime fechaFin);
+
+    // Consulta cruzada: logros desbloqueados de un usuario (logro_usuario JOIN usuario JOIN logro)
+    @Query(value = """
+      SELECT u.username, l.nombre, l.puntos_otorgados, lu.desbloqueado_en
+      FROM logro_usuario lu
+      INNER JOIN usuario u ON lu.usuario_id = u.id_usuario
+      INNER JOIN logro l ON lu.logro_id = l.id_logro
+      WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :username, '%'))
+      ORDER BY lu.desbloqueado_en DESC
+      """, nativeQuery = true)
+    List<Object[]> buscarLogrosPorUsuario(@Param("username") String username);
 }

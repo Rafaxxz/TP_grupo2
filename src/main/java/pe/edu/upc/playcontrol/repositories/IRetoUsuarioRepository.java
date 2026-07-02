@@ -32,4 +32,15 @@ public interface IRetoUsuarioRepository extends JpaRepository<RetoUsuario, Integ
     List<RetoUsuario> findCompletadosByFechaBetween(@Param("usuarioId") Integer usuarioId,
                                                      @Param("fechaInicio") OffsetDateTime fechaInicio,
                                                      @Param("fechaFin") OffsetDateTime fechaFin);
+
+    // Consulta cruzada: retos aceptados por un usuario (reto_usuario JOIN usuario JOIN reto)
+    @Query(value = """
+      SELECT u.username, rt.titulo, ru.completado, ru.aceptado_en
+      FROM reto_usuario ru
+      INNER JOIN usuario u ON ru.usuario_id = u.id_usuario
+      INNER JOIN reto rt ON ru.reto_id = rt.id_reto
+      WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :username, '%'))
+      ORDER BY ru.aceptado_en DESC
+      """, nativeQuery = true)
+    List<Object[]> buscarRetosPorUsuario(@Param("username") String username);
 }

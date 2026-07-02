@@ -25,4 +25,15 @@ public interface SesionJuegoRepository extends JpaRepository<SesionJuego, Intege
       GROUP BY u.username ORDER BY 2 DESC
       """, nativeQuery = true)
     List<Object[]> sumarMinutosPorUsuario();
+
+    // Consulta cruzada: sesiones de un usuario (sesion JOIN usuario JOIN juego)
+    @Query(value = """
+      SELECT u.username, j.nombre, s.fecha, COALESCE(s.duracion_minutos, 0)
+      FROM sesion_juego s
+      INNER JOIN usuario u ON s.usuario_id = u.id_usuario
+      INNER JOIN juego j ON s.juego_id = j.id_juego
+      WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :username, '%'))
+      ORDER BY s.fecha DESC
+      """, nativeQuery = true)
+    List<Object[]> buscarSesionesPorUsuario(@Param("username") String username);
 }

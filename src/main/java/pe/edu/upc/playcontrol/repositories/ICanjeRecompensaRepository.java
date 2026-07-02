@@ -52,4 +52,15 @@ public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompens
            "COALESCE((SELECT SUM(cr2.puntosUsados) FROM CanjeRecompensa cr2 " +
            "WHERE cr2.usuarioId = :usuarioId), 0))")
     List<Object[]> historialCanjesVsDisponibles(@Param("usuarioId") Integer usuarioId);
+
+    // Consulta cruzada: canjes filtrados por nombre de recompensa (canje JOIN recompensa JOIN usuario)
+    @Query(value = """
+      SELECT u.username, r.nombre, c.puntos_usados, c.canjeado_en
+      FROM canje_recompensa c
+      INNER JOIN recompensa r ON c.recompensa_id = r.id_recompensa
+      INNER JOIN usuario u ON c.usuario_id = u.id_usuario
+      WHERE LOWER(r.nombre) LIKE LOWER(CONCAT('%', :recompensa, '%'))
+      ORDER BY c.canjeado_en DESC
+      """, nativeQuery = true)
+    List<Object[]> buscarCanjesPorRecompensa(@Param("recompensa") String recompensa);
 }

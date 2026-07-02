@@ -34,4 +34,13 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
       GROUP BY r.nombre ORDER BY r.nombre
       """, nativeQuery = true)
     List<Object[]> contarUsuariosPorRol();
+
+    // Consulta cruzada: usuarios filtrados por nombre de rol (usuario JOIN rol)
+    @Query(value = """
+      SELECT u.username, u.nombre, r.nombre
+      FROM usuario u INNER JOIN rol r ON u.id_rol = r.id_rol
+      WHERE LOWER(r.nombre) LIKE LOWER(CONCAT('%', :rol, '%'))
+      ORDER BY u.username
+      """, nativeQuery = true)
+    List<Object[]> buscarUsuariosPorRol(@Param("rol") String rol);
 }
