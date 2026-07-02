@@ -19,6 +19,14 @@ public interface ICanjeRecompensaRepository extends JpaRepository<CanjeRecompens
     @Query("SELECT COALESCE(SUM(cr.puntosUsados), 0) FROM CanjeRecompensa cr WHERE cr.usuarioId = :usuarioId")
     int totalPuntosGastadosPorUsuario(@Param("usuarioId") Integer usuarioId);
 
+    // Reporte: recompensas más canjeadas
+    @Query(value = """
+      SELECT r.nombre, COUNT(c.id_canje)
+      FROM recompensa r INNER JOIN canje_recompensa c ON c.recompensa_id = r.id_recompensa
+      GROUP BY r.nombre ORDER BY 2 DESC
+      """, nativeQuery = true)
+    List<Object[]> recompensasMasCanjeadas();
+
     // Query 1: BALANCE ACTUAL - puntos ganados vs gastados
     @Query("SELECT " +
            "COALESCE((SELECT SUM(l.puntosOtorgados) FROM LogroUsuario lu JOIN lu.logro l " +

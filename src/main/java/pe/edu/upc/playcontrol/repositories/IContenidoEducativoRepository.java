@@ -13,6 +13,12 @@ public interface IContenidoEducativoRepository extends JpaRepository<ContenidoEd
     // Filtro simple: trae contenidos filtrados por tipo (articulo, video, guia, podcast)
     List<ContenidoEducativo> findByTipo(String tipo);
 
+    // Reporte: cantidad de contenidos por tipo
+    @Query(value = """
+      SELECT tipo, COUNT(*) FROM contenido_educativo GROUP BY tipo ORDER BY 2 DESC
+      """, nativeQuery = true)
+    List<Object[]> contarContenidosPorTipo();
+
     // Query 1: Contenidos por tipo y ordenados por fecha de publicación (más recientes primero)
     @Query("SELECT ce FROM ContenidoEducativo ce WHERE ce.tipo = :tipo " +
            "ORDER BY ce.publicadoEn DESC")

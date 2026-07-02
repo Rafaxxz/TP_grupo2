@@ -27,4 +27,11 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
       ORDER BY mes
       """, nativeQuery = true)
     List<Object[]> usuariosRegistradosPorMes();
+
+    @Query(value = """
+      SELECT r.nombre, COUNT(u.id_usuario)
+      FROM rol r LEFT JOIN usuario u ON u.id_rol = r.id_rol
+      GROUP BY r.nombre ORDER BY r.nombre
+      """, nativeQuery = true)
+    List<Object[]> contarUsuariosPorRol();
 }

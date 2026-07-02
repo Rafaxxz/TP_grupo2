@@ -20,6 +20,14 @@ public interface ILogroUsuarioRepository extends JpaRepository<LogroUsuario, Int
     @Query("SELECT COUNT(lu) FROM LogroUsuario lu WHERE lu.usuarioId = :usuarioId")
     long contarLogrosPorUsuario(@Param("usuarioId") Integer usuarioId);
 
+    // Reporte: logros más desbloqueados
+    @Query(value = """
+      SELECT l.nombre, COUNT(lu.id)
+      FROM logro l INNER JOIN logro_usuario lu ON lu.logro_id = l.id_logro
+      GROUP BY l.nombre ORDER BY 2 DESC
+      """, nativeQuery = true)
+    List<Object[]> logrosMasDesbloqueados();
+
     // Query 1: Dashboard de progreso - consolidado de logros desbloqueados con puntos
     @Query("SELECT COUNT(lu) as totalDesbloqueos, COALESCE(SUM(l.puntosOtorgados), 0) as puntosTotales " +
            "FROM LogroUsuario lu JOIN lu.logro l WHERE lu.usuarioId = :usuarioId")

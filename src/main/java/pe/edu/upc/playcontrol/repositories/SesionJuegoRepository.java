@@ -18,4 +18,11 @@ public interface SesionJuegoRepository extends JpaRepository<SesionJuego, Intege
 
     @Query("SELECT COALESCE(SUM(s.duracionMinutos), 0) FROM SesionJuego s WHERE s.usuario.idUsuario = :uid AND s.fecha = :fecha")
     Integer sumMinutosByUsuarioAndFecha(@Param("uid") Integer uid, @Param("fecha") LocalDate fecha);
+
+    @Query(value = """
+      SELECT u.username, COALESCE(SUM(s.duracion_minutos), 0)
+      FROM usuario u INNER JOIN sesion_juego s ON s.usuario_id = u.id_usuario
+      GROUP BY u.username ORDER BY 2 DESC
+      """, nativeQuery = true)
+    List<Object[]> sumarMinutosPorUsuario();
 }
