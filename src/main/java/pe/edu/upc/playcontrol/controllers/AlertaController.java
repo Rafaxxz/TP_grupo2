@@ -23,7 +23,8 @@ public class AlertaController {
         this.service = service;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    // El PADRE también crea alertas (p. ej. aviso de bloqueo hacia su hijo)
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
     @PostMapping
     public ResponseEntity<?> guardar(@RequestBody Alerta alerta) {
         if (alerta.getUsuario() == null) {
