@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="" />
+=======
+    <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="ultimas modificaciones y correciones" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +40,11 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+<<<<<<< Updated upstream
     "git-widget-placeholder": "fabrizzio-salvador",
+=======
+    "git-widget-placeholder": "main",
+>>>>>>> Stashed changes
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
