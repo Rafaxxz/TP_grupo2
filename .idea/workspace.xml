@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="ultimas modificaciones y correciones">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -12,6 +13,13 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesimplements/UsuarioServiceImplement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pe/edu/upc/playcontrol/servicesinterfaces/IUsuarioService.java" afterDir="false" />
     </list>
+=======
+<<<<<<< Updated upstream
+    <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="" />
+=======
+    <list default="true" id="5f5c70ff-ce36-46d0-a688-8fc3f74a71c8" name="Changes" comment="ultimas modificaciones y correciones" />
+>>>>>>> Stashed changes
+>>>>>>> fabrizzio-salvador
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +28,7 @@
   <component name="CopilotPersistence">
     <persistenceIdMap>
       <entry key="_C:/Users/FABRIZZIO/Query_Backend/TP_grupo2" value="3D6VHIDkp33Yh1lyUEQ1fnU1XUc" />
+<<<<<<< HEAD
       <entry key="_C:/Users/Rafael/IdeaProjects/TP_grupo2" value="3DF36nW0F9a8KKfLJSdQz6roa3z" />
     </persistenceIdMap>
   </component>
@@ -51,6 +60,17 @@
   &quot;associatedIndex&quot;: 4,
   &quot;fromUser&quot;: false
 }</component>
+=======
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4,
+  "fromUser": false
+}]]></component>
+>>>>>>> fabrizzio-salvador
   <component name="ProjectId" id="3D6VHIDkp33Yh1lyUEQ1fnU1XUc" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -59,19 +79,32 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+<<<<<<< HEAD
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.MCP Project settings loaded": "true",
+=======
+>>>>>>> fabrizzio-salvador
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+<<<<<<< HEAD
     "Spring Boot.PlayControlApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "alex-huillca",
+=======
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+<<<<<<< Updated upstream
+    "git-widget-placeholder": "fabrizzio-salvador",
+=======
+    "git-widget-placeholder": "main",
+>>>>>>> Stashed changes
+>>>>>>> fabrizzio-salvador
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
@@ -86,6 +119,20 @@
   }
 }]]></component>
   <component name="RunManager">
+<<<<<<< HEAD
+=======
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="TP_grupo2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="TP_grupo2" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+>>>>>>> fabrizzio-salvador
     <configuration name="PlayControlApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="playcontrol" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="pe.edu.upc.playcontrol.PlayControlApplication" />
@@ -102,6 +149,7 @@
       <option name="presentableId" value="Default" />
       <updated>1777602416672</updated>
       <workItem from="1777602417866" duration="3690000" />
+<<<<<<< HEAD
       <workItem from="1777863811306" duration="4356000" />
       <workItem from="1777911797038" duration="2591000" />
       <workItem from="1778027262371" duration="820000" />
@@ -119,6 +167,9 @@
       <updated>1777917319303</updated>
     </task>
     <option name="localTasksCounter" value="2" />
+=======
+    </task>
+>>>>>>> fabrizzio-salvador
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,10 +186,13 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ultimas modificaciones y correciones" />
     <option name="LAST_COMMIT_MESSAGE" value="ultimas modificaciones y correciones" />
   </component>
+=======
+>>>>>>> fabrizzio-salvador
   <component name="github-copilot-workspace">
     <instructionFileLocations>
       <option value=".github/instructions" />

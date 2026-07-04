@@ -1,6 +1,7 @@
 package pe.edu.upc.playcontrol.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+<<<<<<< HEAD
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pe.edu.upc.playcontrol.entities.Especialista;
@@ -24,4 +25,13 @@ public interface IEspecialistaRepository extends JpaRepository<Especialista, Int
       ORDER BY u.nombre
       """, nativeQuery = true)
     List<Object[]> buscarEspecialistasPorNombre(@Param("texto") String texto);
+=======
+import pe.edu.upc.playcontrol.entities.Especialista;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface IEspecialistaRepository extends JpaRepository<Especialista, UUID> {
+    List<Especialista> findByVerificateTrue();
+>>>>>>> fabrizzio-salvador
 }
