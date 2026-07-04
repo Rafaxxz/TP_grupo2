@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import pe.edu.upc.playcontrol.entities.Usuario;
-<<<<<<< HEAD
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -44,16 +43,4 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
       ORDER BY u.username
       """, nativeQuery = true)
     List<Object[]> buscarUsuariosPorRol(@Param("rol") String rol);
-=======
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.UUID;
-
-public interface IUsuarioRepository extends JpaRepository<Usuario, UUID> {
-    @Query("select u from Usuario u where u.createdAt >= :fecha")
-    List<Usuario> findLastUsers(@Param("fecha") OffsetDateTime fecha);
-
-    @Query("select lr from Usuario lr join lr.rol r where r.nombre = :nombre")
-    List<Usuario> findByRolNombre(@Param("nombre") String nombre);
->>>>>>> fabrizzio-salvador
 }

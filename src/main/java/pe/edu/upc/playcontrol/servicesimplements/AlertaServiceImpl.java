@@ -43,6 +43,11 @@ public class AlertaServiceImpl implements AlertaService {
                 .stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public void registrarAlerta(Long idHijo, String límiteDeTiempoExcedido, String s) {
+
+    }
+
     private AlertaDTO toDTO(Alerta e) {
         AlertaDTO dto = new AlertaDTO();
         dto.setIdAlerta(e.getIdAlerta());

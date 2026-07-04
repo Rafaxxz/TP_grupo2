@@ -1,111 +1,141 @@
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\config\OpenApiConfig.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\AlertaController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\CanjeRecompensaController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\CategoriaJuegoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\CitaEspecialistaController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\ContenidoEducativoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\EspecialistaController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\JuegoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\JwtAuthenticationController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\LimiteTiempoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\LogroController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\LogroUsuarioController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\MensajeController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\RecompensaController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\RetoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\RetoUsuarioController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\RolController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\SesionJuegoController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\controllers\UsuarioController.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\CanjeRecompensaDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\CategoriaJuegoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\CitaEspecialistaDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\ContenidoEducativoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\EspecialistaDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\JuegoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\JwtRequestDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\JwtResponseDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\LimiteTiempoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\LogroDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\LogroUsuarioDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\MensajeDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\RecompensaDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\RetoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\RetoUsuarioDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\RolDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\SesionJuegoDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\dtos\UsuarioDTO.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Alerta.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\CanjeRecompensa.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\CategoriaJuego.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\CitaEspecialista.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\ContenidoEducativo.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Especialista.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Juego.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\LimiteTiempo.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Logro.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\LogroUsuario.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Mensaje.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Recompensa.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Reto.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\RetoUsuario.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Rol.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\SesionJuego.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\entities\Usuario.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\PlayControlApplication.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\AlertaRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\CategoriaJuegoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\ICanjeRecompensaRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\ICitaEspecialistaRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IContenidoEducativoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IEspecialistaRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\ILogroRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\ILogroUsuarioRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IMensajeRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IRecompensaRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IRetoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IRetoUsuarioRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IRolRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\IUsuarioRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\JuegoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\LimiteTiempoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\repositories\SesionJuegoRepository.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\securities\JwtAuthenticationEntryPoint.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\securities\JwtRequestFilter.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\securities\JwtTokenUtil.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\securities\WebSecurityConfig.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\AlertaServiceImpl.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CanjeRecompensaServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CategoriaJuegoServiceImpl.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CitaEspecialistaServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\ContenidoEducativoServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\EspecialistaServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\JuegoServiceImpl.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\JwtUserDetailsService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LimiteTiempoServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LogroServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LogroUsuarioServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\MensajeServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RecompensaServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RetoServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RetoUsuarioServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RolServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\SesionJuegoServiceImpl.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesimplements\UsuarioServiceImplement.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\AlertaService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\CategoriaJuegoService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ICanjeRecompensaService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ICitaEspecialistaService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IContenidoEducativoService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IEspecialistaService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ILogroService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ILogroUsuarioService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IMensajeService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRecompensaService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRetoService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRetoUsuarioService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRolService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IUsuarioService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\JuegoService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\LimiteTiempoService.java
-C:\Users\FABRIZZIO\AvanceTP\TP_grupo2\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\SesionJuegoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\ChatbotController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\AlertaServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RecompensaServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\SesionJuegoServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\RolDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Mensaje.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\FamiliaServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\LimiteTiempoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\CanjeRecompensaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\SesionJuegoRequest.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\ICitaEspecialistaRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IMensajeService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\MensajeController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\ConteoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\SesionJuegoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\CanjeRecompensaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IUsuarioRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\RetoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\PlayControlApplication.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\UsuarioController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Especialista.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\ChatRespuestaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IEspecialistaRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\securities\JwtRequestFilter.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LogroUsuarioServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\websocket\GameSessionWebSocketController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Rol.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\ILogroUsuarioRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\UsuarioServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Juego.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CanjeRecompensaServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\GeminiRateLimitException.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\ILogroRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\securities\WebSecurityConfig.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RolServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\ChatHistorialDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRecompensaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\FacebookOAuthController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\RetoUsuario.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\RecompensaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LogroServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\GoogleOAuthController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRolService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\SesionJuegoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\SesionJuegoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\CitaEspecialistaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\NotificacionLimiteDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CitaEspecialistaServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Logro.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\CategoriaJuegoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ICanjeRecompensaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\websocket\JwtHandshakeInterceptor.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Usuario.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\MensajeServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\JuegoServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\EspecialistaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\AlertaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\RetoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\ContenidoEducativoServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\JwtAuthenticationController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IContenidoEducativoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ICitaEspecialistaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\LimiteTiempoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IAlertaRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\RetoUsuarioController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IChatHistorialRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\EspecialistaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\RetoUsuarioDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRetoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\CitaEspecialista.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\SesionJuego.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IJuegoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\LogroUsuarioController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\ChatHistorial.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\GeminiClient.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\config\WebSocketConfig.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\securities\JwtTokenUtil.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\RecompensaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\JuegoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\JuegoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IRecompensaRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\config\OpenApiConfig.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\CitaEspecialistaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IRetoUsuarioService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\CanjeRecompensa.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\securities\JwtAuthenticationEntryPoint.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\NotificacionPadreDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\CategoriaJuego.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\ConsultaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\ChatMensajeDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\ICanjeRecompensaRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\ChatbotServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\CategoriaJuegoServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IUsuarioService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\config\GlobalExceptionHandler.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IContenidoEducativoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\FamiliaController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\JwtRequestDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IFamiliaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\ContenidoEducativoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Alerta.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\JuegoEventosServiceImpl.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\SesionJuegoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IRolRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\ActividadController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\JwtResponseDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\LimiteTiempoDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\ContenidoEducativo.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\CategoriaJuegoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IRetoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\LimiteTiempoServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\JuegoService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\SesionJuegoUpdateDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ILogroService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\CategoriaJuegoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IChatbotService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\AlertaDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\ICategoriaJuegoRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\LimiteTiempoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\RolController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Recompensa.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\LogroUsuario.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\JwtUserDetailsService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\services\LimiteTiempoValidationService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RetoServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IMensajeRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\Reto.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\UsuarioDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\IEspecialistaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\ReporteController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\LogroUsuarioDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\ContenidoEducativoController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\repositories\IRetoUsuarioRepository.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\AlertaService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\controllers\LogroController.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\EspecialistaServiceImplement.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\MensajeDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\dtos\LogroDTO.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesinterfaces\ILogroUsuarioService.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\entities\LimiteTiempo.java
+C:\Users\Rafael\Downloads\TP_grupo2 (1)\TP_grupo2-main\src\main\java\pe\edu\upc\playcontrol\servicesimplements\RetoUsuarioServiceImplement.java

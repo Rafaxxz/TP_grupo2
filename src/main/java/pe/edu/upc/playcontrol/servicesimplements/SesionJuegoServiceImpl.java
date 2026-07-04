@@ -61,6 +61,11 @@ public class SesionJuegoServiceImpl implements SesionJuegoService {
                 .stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public void actualizarSesion(Long idHijo, Long idJuego, String estado, Integer minutosJugados) {
+
+    }
+
     private SesionJuegoDTO toDTO(SesionJuego e) {
         SesionJuegoDTO dto = new SesionJuegoDTO();
         dto.setUsuarioId(e.getUsuario() != null ? e.getUsuario().getIdUsuario() : null);

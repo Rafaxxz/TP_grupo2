@@ -15,4 +15,6 @@ public interface SesionJuegoService {
     List<SesionJuegoDTO> buscarPorFecha(LocalDate fecha);
     List<SesionJuegoDTO> buscarPorJuego(Integer juegoId);
     List<SesionJuegoDTO> buscarPorUsuarioYJuego(Integer usuarioId, Integer juegoId);
+
+    void actualizarSesion(Long idHijo, Long idJuego, String estado, Integer minutosJugados);
 }

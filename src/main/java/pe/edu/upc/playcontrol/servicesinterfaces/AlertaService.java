@@ -11,4 +11,6 @@ public interface AlertaService {
     Alerta buscarPorId(Integer id);
     List<AlertaDTO> buscarPorUsuario(Integer usuarioId);
     List<AlertaDTO> obtenerNoLeidas();
+
+    void registrarAlerta(Long idHijo, String límiteDeTiempoExcedido, String s);
 }

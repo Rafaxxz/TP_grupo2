@@ -5,26 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-<<<<<<< HEAD
-=======
-import java.util.UUID;
-
->>>>>>> fabrizzio-salvador
 @Entity
 @Table(name = "especialista")
 @Getter @Setter @NoArgsConstructor
 public class Especialista {
 
     @Id
-<<<<<<< HEAD
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_especialista")
     private Integer idEspecialista;
-=======
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id_especialista", updatable = false, nullable = false)
-    private UUID idEspecialista;
->>>>>>> fabrizzio-salvador
 
     @OneToOne
     @JoinColumn(name = "usuario_id", nullable = false, unique = true)

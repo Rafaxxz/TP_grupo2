@@ -47,4 +47,8 @@ public class LimiteTiempo {
     public void setNotificar(Boolean notificar) { this.notificar = notificar; }
     public OffsetDateTime getActualizadoEn() { return actualizadoEn; }
     public void setActualizadoEn(OffsetDateTime actualizadoEn) { this.actualizadoEn = actualizadoEn; }
+
+    public int getMinutos() {
+        return minutosMaximos;
+    }
 }

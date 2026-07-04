@@ -11,10 +11,6 @@ import pe.edu.upc.playcontrol.servicesinterfaces.IEspecialistaService;
 
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
-=======
-import java.util.UUID;
->>>>>>> fabrizzio-salvador
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +28,7 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
     }
 
     @Override
-<<<<<<< HEAD
     public Optional<EspecialistaDTO> getById(Integer id) {
-=======
-    public Optional<EspecialistaDTO> getById(UUID id) {
->>>>>>> fabrizzio-salvador
         return especialistaRepository.findById(id).map(this::toDTO);
     }
 
@@ -46,22 +38,13 @@ public class EspecialistaServiceImplement implements IEspecialistaService {
     }
 
     @Override
-<<<<<<< HEAD
     public void delete(Integer id) {
-=======
-    public void delete(UUID id) {
->>>>>>> fabrizzio-salvador
         especialistaRepository.deleteById(id);
     }
 
     @Override
-<<<<<<< HEAD
     public List<EspecialistaDTO> findByVerificadoTrue() {
         return especialistaRepository.findByVerificadoTrue().stream().map(this::toDTO).collect(Collectors.toList());
-=======
-    public List<Especialista> findByVerificateTrue() {
-        return especialistaRepository.findByVerificateTrue();
->>>>>>> fabrizzio-salvador
     }
 
     private EspecialistaDTO toDTO(Especialista e) {

@@ -44,7 +44,7 @@ public class JwtTokenUtil {
         return resolver.apply(getAllClaims(token));
     }
 
-    private Claims getAllClaims(String token) {
+    Claims getAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
