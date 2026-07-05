@@ -18,8 +18,9 @@ public class LimiteTiempoValidationService {
      * Obtiene el límite de tiempo activo para un hijo (el más reciente).
      */
     public LimiteTiempo obtenerLimiteActivo(Integer idHijo) {
+        // Usa el limite diario configurado; el bloqueo manual del padre es un mecanismo aparte
         return limiteTiempoRepository
-                .findFirstByUsuario_IdUsuarioAndBloqueoActivoTrueOrderByActualizadoEnDesc(idHijo)
+                .findFirstByUsuario_IdUsuarioAndTipoOrderByActualizadoEnDesc(idHijo, "diario")
                 .orElse(null);
     }
 

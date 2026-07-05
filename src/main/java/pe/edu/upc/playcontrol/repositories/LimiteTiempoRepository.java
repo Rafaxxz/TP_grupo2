@@ -12,4 +12,7 @@ public interface LimiteTiempoRepository extends JpaRepository<LimiteTiempo, Inte
 
     // Para WebSocket: obtener el límite activo de un hijo (el más reciente)
     Optional<LimiteTiempo> findFirstByUsuario_IdUsuarioAndBloqueoActivoTrueOrderByActualizadoEnDesc(Integer usuarioId);
+
+    // Para WebSocket: límite diario configurado del hijo (independiente del bloqueo manual)
+    Optional<LimiteTiempo> findFirstByUsuario_IdUsuarioAndTipoOrderByActualizadoEnDesc(Integer usuarioId, String tipo);
 }

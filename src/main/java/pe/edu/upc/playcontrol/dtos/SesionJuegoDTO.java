@@ -8,12 +8,19 @@ import java.time.OffsetDateTime;
 @Data
 public class SesionJuegoDTO {
 
+    private Integer idSesion;
 
     @NotNull(message = "El usuarioId es obligatorio")
     private Integer usuarioId;
 
+    private Integer juegoId;
+
     @NotNull(message = "El inicio de la sesión es obligatorio")
     private OffsetDateTime inicio;
 
+    private OffsetDateTime fin;
 
+    private Integer duracionMinutos;
+
+    private LocalDate fecha;
 }

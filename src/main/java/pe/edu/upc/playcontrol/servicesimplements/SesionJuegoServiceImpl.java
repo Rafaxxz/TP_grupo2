@@ -68,9 +68,13 @@ public class SesionJuegoServiceImpl implements SesionJuegoService {
 
     private SesionJuegoDTO toDTO(SesionJuego e) {
         SesionJuegoDTO dto = new SesionJuegoDTO();
+        dto.setIdSesion(e.getIdSesion());
         dto.setUsuarioId(e.getUsuario() != null ? e.getUsuario().getIdUsuario() : null);
+        dto.setJuegoId(e.getJuego() != null ? e.getJuego().getIdJuego() : null);
         dto.setInicio(e.getInicio());
-
+        dto.setFin(e.getFin());
+        dto.setDuracionMinutos(e.getDuracionMinutos());
+        dto.setFecha(e.getFecha());
         return dto;
     }
 }
