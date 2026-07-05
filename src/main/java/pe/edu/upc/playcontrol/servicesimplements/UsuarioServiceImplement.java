@@ -112,7 +112,13 @@ public class UsuarioServiceImplement implements IUsuarioService {
         e.setUsername(dto.getUsername());
         e.setEmail(dto.getEmail());
         e.setNombre(dto.getNombre());
-        e.setPasswordHash(passwordEncoder.encode(dto.getPasswordHash()));
+        // Solo se encodea si llega una contraseña nueva; al editar sin cambiarla se conserva la actual
+        if (dto.getPasswordHash() != null && !dto.getPasswordHash().isBlank()) {
+            e.setPasswordHash(passwordEncoder.encode(dto.getPasswordHash()));
+        } else if (dto.getIdUsuario() != null) {
+            usuarioRepository.findById(dto.getIdUsuario())
+                    .ifPresent(actual -> e.setPasswordHash(actual.getPasswordHash()));
+        }
         e.setIdRol(dto.getRolId());
         e.setPuntosTotales(dto.getPuntosTotales());
         e.setEstado(dto.getEstado());

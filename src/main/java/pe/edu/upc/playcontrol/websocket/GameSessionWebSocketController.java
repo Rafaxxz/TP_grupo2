@@ -10,7 +10,9 @@ import pe.edu.upc.playcontrol.dtos.NotificacionPadreDTO;
 import pe.edu.upc.playcontrol.dtos.SesionJuegoUpdateDTO;
 import pe.edu.upc.playcontrol.entities.Alerta;
 import pe.edu.upc.playcontrol.entities.LimiteTiempo;
+import pe.edu.upc.playcontrol.entities.Usuario;
 import pe.edu.upc.playcontrol.repositories.IAlertaRepository;
+import pe.edu.upc.playcontrol.repositories.IUsuarioRepository;
 import pe.edu.upc.playcontrol.repositories.LimiteTiempoRepository;
 import pe.edu.upc.playcontrol.services.LimiteTiempoValidationService;
 
@@ -35,6 +37,9 @@ public class GameSessionWebSocketController {
 
     @Autowired
     private IAlertaRepository alertaRepository;
+
+    @Autowired
+    private IUsuarioRepository usuarioRepository;
 
     /**
      * Endpoint: /app/sesion/actualizar
@@ -102,14 +107,21 @@ public class GameSessionWebSocketController {
 
         messagingTemplate.convertAndSend("/topic/limite/" + idHijo, corte);
 
-        // 2. Registrar alerta en BD
-        Alerta alerta = new Alerta();
-        // Asumo que Alerta tiene estos campos. Ajusta según tu esquema.
-        // alerta.setUsuario(...);
-        // alerta.setTipo("LIMITE_TIEMPO");
-        // alerta.setContenido("El límite de tiempo fue alcanzado para el juego: " + idJuego);
-        // alerta.setFechaCreacion(OffsetDateTime.now());
-        // alertaRepository.save(alerta);
+        // 2. Registrar alerta persistente para el PADRE del hijo (US18)
+        usuarioRepository.findById(idHijo).ifPresent(hijo -> {
+            if (hijo.getPadreId() != null) {
+                usuarioRepository.findById(hijo.getPadreId()).ifPresent(padre -> {
+                    Alerta alerta = new Alerta();
+                    alerta.setUsuario(padre);
+                    alerta.setTipo("padre_exceso");
+                    alerta.setMensaje("Tu hijo " + hijo.getNombre() + " excedió su límite de tiempo y el juego fue cortado.");
+                    alerta.setNivel("high");
+                    alerta.setLeida(false);
+                    alerta.setEmitidaEn(OffsetDateTime.now());
+                    alertaRepository.save(alerta);
+                });
+            }
+        });
 
         // 3. Notificar al padre
         NotificacionPadreDTO notificacionPadre = new NotificacionPadreDTO();

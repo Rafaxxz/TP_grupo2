@@ -26,7 +26,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/sesiones")
-@CrossOrigin
 public class SesionJuegoController {
 
     private final SesionJuegoService service;

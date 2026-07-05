@@ -98,6 +98,12 @@ public class RetoUsuarioServiceImplement implements IRetoUsuarioService {
         }
         e.setCompletado(dto.getCompletado());
         e.setFinalizadoEn(dto.getFinalizadoEn());
+        // Conservar la fecha de aceptacion: si no llega en el DTO, mantener la existente
+        if (dto.getAceptadoEn() != null) {
+            e.setAceptadoEn(dto.getAceptadoEn());
+        } else if (dto.getId() != null) {
+            retoUsuarioRepository.findById(dto.getId()).ifPresent(actual -> e.setAceptadoEn(actual.getAceptadoEn()));
+        }
         return e;
     }
 }

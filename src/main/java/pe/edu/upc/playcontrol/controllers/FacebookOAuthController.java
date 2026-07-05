@@ -15,7 +15,6 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
 public class FacebookOAuthController {
 
     @Autowired private IUsuarioRepository usuarioRepository;

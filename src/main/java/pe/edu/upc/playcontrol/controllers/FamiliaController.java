@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/familia")
-@CrossOrigin
 public class FamiliaController {
 
     @Autowired

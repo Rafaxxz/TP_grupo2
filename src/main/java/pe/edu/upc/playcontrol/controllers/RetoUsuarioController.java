@@ -103,7 +103,7 @@ public class RetoUsuarioController {
     }
 
     // ADMIN y PADRE pueden ver todos los retos aceptados por un usuario
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
     @GetMapping("/por-usuario/{usuarioId}")
     public ResponseEntity<?> listByUsuarioId(@PathVariable Integer usuarioId) {
         try {
