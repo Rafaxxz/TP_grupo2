@@ -1,6 +1,6 @@
 package pe.edu.upc.playcontrol.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,12 @@ public class ActividadController {
     private final Map<Integer, Map<String, String>> comandoPendiente  = new ConcurrentHashMap<>();
     private final Map<Integer, Boolean>             estadoBloqueado   = new ConcurrentHashMap<>();
     private final List<SseEmitter>                  emitters          = new CopyOnWriteArrayList<>();
+
+    @Value("${app.public-url}")
+    private String publicUrl;
+
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
 
     // ── Agente reporta ventana activa cada 10 s ───────────────────────────────
 
@@ -53,15 +59,12 @@ public class ActividadController {
 
     @PostMapping("/comando/{hijoId}")
     public void enviarComando(@PathVariable Integer hijoId,
-                              @RequestBody Map<String, String> cmd,
-                              HttpServletRequest req) {
+                              @RequestBody Map<String, String> cmd) {
         String tipo = cmd.getOrDefault("tipo", "");
 
         if ("BLOQUEAR".equals(tipo)) {
             estadoBloqueado.put(hijoId, true);
-            String url = "http://" + req.getServerName() + ":" + req.getServerPort()
-                       + "/api/actividad"; // placeholder — el agente usa la URL del frontend
-            cmd.put("url", "http://" + req.getServerName() + ":4200/bloqueado");
+            cmd.put("url", frontendUrl + "/bloqueado");
         }
         if ("DESBLOQUEAR".equals(tipo)) {
             estadoBloqueado.put(hijoId, false);
@@ -96,13 +99,11 @@ public class ActividadController {
     // ── Descarga el instalador .bat personalizado ──────────────────────────────
 
     @GetMapping("/instalar/{hijoId}")
-    public ResponseEntity<byte[]> descargar(@PathVariable Integer hijoId, HttpServletRequest req) {
-        String host = req.getServerName();
-        int    port = req.getServerPort();
+    public ResponseEntity<byte[]> descargar(@PathVariable Integer hijoId) {
         return ResponseEntity.ok()
                 .header("Content-Disposition", "attachment; filename=\"instalar-playcontrol.bat\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(buildBat(hijoId, host, port).getBytes(StandardCharsets.UTF_8));
+                .body(buildBat(hijoId).getBytes(StandardCharsets.UTF_8));
     }
 
     // ── helpers ───────────────────────────────────────────────────────────────
@@ -114,9 +115,14 @@ public class ActividadController {
         });
     }
 
-    private String buildBat(int hijoId, String host, int port) {
-        String agentUrl  = "http://" + host + ":" + port + "/agent.js";
-        String agentArgs = "--server " + host + " --port " + port + " --hijo " + hijoId;
+    private String buildBat(int hijoId) {
+        java.net.URI uri = java.net.URI.create(publicUrl);
+        String proto = uri.getScheme();
+        String host  = uri.getHost();
+        int    port  = uri.getPort() != -1 ? uri.getPort() : ("https".equals(proto) ? 443 : 80);
+
+        String agentUrl  = publicUrl + "/agent.js";
+        String agentArgs = "--proto " + proto + " --server " + host + " --port " + port + " --hijo " + hijoId;
 
         return "@echo off\r\n"
              + "chcp 65001 >nul\r\n"

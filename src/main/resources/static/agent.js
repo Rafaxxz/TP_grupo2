@@ -1,15 +1,18 @@
 // PlayControl Desktop Agent — zero npm dependencies
-// Uso: node agent.js --server localhost --port 8080 --hijo 3
+// Uso: node agent.js --proto https --server tuservidor.onrender.com --port 443 --hijo 3
 const http = require('http');
+const https = require('https');
 const { execSync } = require('child_process');
 
 const argv = process.argv.slice(2);
 const args = {};
 for (let i = 0; i < argv.length; i += 2) args[argv[i].replace('--', '')] = argv[i + 1];
 
+const PROTO = args.proto || 'http';
 const HOST = args.server || 'localhost';
-const PORT = parseInt(args.port || '8080');
+const PORT = parseInt(args.port || (PROTO === 'https' ? '443' : '8080'));
 const HIJO = parseInt(args.hijo  || '0');
+const transport = PROTO === 'https' ? https : http;
 
 if (!HIJO) { console.error('[PlayControl] Falta --hijo <id>'); process.exit(1); }
 
@@ -40,7 +43,7 @@ function ventanaActiva() {
 
 function reportar(ventana) {
   const body = JSON.stringify({ hijoId: HIJO, ventana });
-  const req  = http.request({
+  const req  = transport.request({
     hostname: HOST, port: PORT, path: '/api/actividad',
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) }
@@ -85,7 +88,7 @@ function mostrarMensaje(msg) {
 }
 
 function verificarComandos() {
-  const req = http.request(
+  const req = transport.request(
     { hostname: HOST, port: PORT, path: `/api/actividad/comando/${HIJO}`, method: 'GET' },
     (res) => {
       let data = '';
@@ -95,7 +98,7 @@ function verificarComandos() {
         try {
           const cmd = JSON.parse(data);
           if (!cmd?.tipo) return;
-          if (cmd.tipo === 'BLOQUEAR')  ejecutarBloqueo(cmd.url || `http://${HOST}:4200/bloqueado`);
+          if (cmd.tipo === 'BLOQUEAR')  ejecutarBloqueo(cmd.url || `${PROTO}://${HOST}/bloqueado`);
           if (cmd.tipo === 'MENSAJE')   mostrarMensaje(cmd.mensaje || '');
           if (cmd.tipo === 'DESBLOQUEAR') console.log(`  [${hora()}] 🟢 Desbloqueo recibido`);
         } catch {}
@@ -108,7 +111,7 @@ function verificarComandos() {
 
 // ── Loop principal ───────────────────────────────────────────────────────────
 
-console.log(`\n  PlayControl Agent — hijo #${HIJO}  →  ${HOST}:${PORT}`);
+console.log(`\n  PlayControl Agent — hijo #${HIJO}  →  ${PROTO}://${HOST}:${PORT}`);
 console.log(`  Reportando ventana cada 10s, comandos cada 5s. Ctrl+C para detener.\n`);
 
 reportar(ventanaActiva());

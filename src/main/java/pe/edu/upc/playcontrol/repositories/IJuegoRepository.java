@@ -6,10 +6,12 @@ import org.springframework.data.repository.query.Param;
 import pe.edu.upc.playcontrol.entities.Juego;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IJuegoRepository extends JpaRepository<Juego, Integer> {
     List<Juego> findByPlataformaIgnoreCase(String plataforma);
     List<Juego> findByCategoriaJuego_IdCategoria(Integer idCategoria);
+    Optional<Juego> findByNombreIgnoreCase(String nombre);
 
     @Query(value = """
       SELECT c.nombre, COUNT(j.id_juego)

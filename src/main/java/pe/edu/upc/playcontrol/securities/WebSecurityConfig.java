@@ -87,6 +87,10 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/roles").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        // El agente de escritorio (sin login) y el SSE del panel del padre
+                        // (EventSource no puede enviar el header Authorization) necesitan
+                        // acceso público a este path.
+                        .requestMatchers("/api/actividad/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )

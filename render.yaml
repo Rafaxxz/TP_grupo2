@@ -22,3 +22,7 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
+      - key: APP_PUBLIC_URL
+        value: https://playcontrol-backend.onrender.com
+      - key: APP_FRONTEND_URL
+        value: https://playcontrol-upc.web.app
