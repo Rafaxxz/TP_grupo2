@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/consultas")
-@PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class ConsultaController {
 
     @Autowired private IUsuarioRepository usuarioRepo;

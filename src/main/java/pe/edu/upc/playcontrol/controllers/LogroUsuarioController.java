@@ -34,8 +34,8 @@ public class LogroUsuarioController {
         }
     }
 
-    // ADMIN, PADRE e HIJO pueden registrar el desbloqueo de un logro
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    // Solo ADMIN gestiona logros-usuario manualmente (pantalla "Logros por usuario")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/nuevo")
     public ResponseEntity<?> insert(@RequestBody LogroUsuarioDTO dto) {
         try {
@@ -48,8 +48,8 @@ public class LogroUsuarioController {
         }
     }
 
-    // ADMIN y PADRE pueden consultar el detalle de un logro-usuario
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE')")
+    // Solo ADMIN gestiona logros-usuario manualmente (pantalla "Logros por usuario")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<?> listId(@PathVariable Integer id) {
         try {
@@ -65,8 +65,8 @@ public class LogroUsuarioController {
         }
     }
 
-    // ADMIN, PADRE e HIJO pueden actualizar el estado de un logro-usuario
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'PADRE', 'HIJO')")
+    // Solo ADMIN gestiona logros-usuario manualmente (pantalla "Logros por usuario")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/actualiza")
     public ResponseEntity<?> update(@RequestBody LogroUsuarioDTO dto) {
         try {
