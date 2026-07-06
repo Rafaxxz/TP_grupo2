@@ -89,8 +89,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         // El agente de escritorio (sin login) y el SSE del panel del padre
                         // (EventSource no puede enviar el header Authorization) necesitan
-                        // acceso público a este path.
-                        .requestMatchers("/api/actividad/**").permitAll()
+                        // acceso público a este path. agent.js es el script estático que
+                        // el instalador descarga, también sin sesión.
+                        .requestMatchers("/api/actividad/**", "/agent.js").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
